@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
+import { fetchMember } from "../util/http";
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +51,10 @@ const StyledForm = styled.form`
 `;
 
 const MemberPage = () => {
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["memberData"],
+    queryFn: fetchMember,
+  });
   const [isEdit, setIsEdit] = useState(false);
 
   const memberData = {
@@ -85,36 +91,36 @@ const MemberPage = () => {
         會員資料
       </h1>
       <hr width="80%" />
-      <StyledForm action="">
-        <label htmlFor="userId">UID</label>
-        <input type="text" placeholder={memberData.id} disabled />
-        <label htmlFor="account">帳號/Email</label>
-        {isEdit ? (
-          <input id="account" type="email" />
-        ) : (
+      {isError && <h1>An Error occurred.</h1>}
+      {isPending && <h1>Loading...</h1>}
+      {!isPending && !isError && (
+        <StyledForm action="">
+          <label htmlFor="userId">UID</label>
+          <input type="text" placeholder={memberData.id} disabled />
+          <label htmlFor="account">帳號/Email</label>
           <input type="email" placeholder={memberData.account} disabled />
-        )}
-        <label htmlFor="password">密碼</label>
-        {isEdit ? (
-          <input id="password" type="text" />
-        ) : (
-          <input type="text" placeholder="*********" disabled />
-        )}
-        <div>
-          {!isEdit && <button onClick={editHandler}>修改資料</button>}
-          {isEdit && <button onClick={saveHandler}>儲存</button>}
-          {isEdit && (
-            <button
-              style={{
-                backgroundColor: "#6d2134",
-              }}
-              onClick={deleteHandler}
-            >
-              刪除帳號
-            </button>
+          <label htmlFor="password">密碼</label>
+          {isEdit ? (
+            <input id="password" type="text" />
+          ) : (
+            <input type="text" placeholder={data} disabled />
           )}
-        </div>
-      </StyledForm>
+          <div>
+            {!isEdit && <button onClick={editHandler}>修改密碼</button>}
+            {isEdit && <button onClick={saveHandler}>儲存</button>}
+            {isEdit && (
+              <button
+                style={{
+                  backgroundColor: "#6d2134",
+                }}
+                onClick={deleteHandler}
+              >
+                刪除帳號
+              </button>
+            )}
+          </div>
+        </StyledForm>
+      )}
     </Container>
   );
 };
