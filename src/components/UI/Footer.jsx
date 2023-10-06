@@ -83,7 +83,7 @@ const StyledFooter = styled.footer`
   button .icon svg {
     position: absolute;
     top: 10px;
-    left: 23px;
+    left: 16px;
     transform: translate(-50%);
   }
 `;
@@ -141,19 +141,19 @@ const Footer = () => {
         <div className="icon">
           <svg height="50" width="50">
             <line
-              x1="0"
-              y1="30"
-              x2="26"
-              y2="9"
+              x1="-10"
+              y1="25"
+              x2="16"
+              y2="4"
               style={{ stroke: "#e2e4dd", strokeWidth: "5" }}
             />
           </svg>
           <svg height="50" width="50">
             <line
-              x1="50"
-              y1="30"
-              x2="24"
-              y2="9"
+              x1="40"
+              y1="25"
+              x2="14"
+              y2="4"
               style={{ stroke: "#e2e4dd", strokeWidth: "5" }}
             />
           </svg>

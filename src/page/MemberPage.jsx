@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 import { fetchMember } from "../util/http";
+import Modal from "../components/UI/Modal";
 
 const Container = styled.div`
   display: flex;
@@ -50,12 +51,36 @@ const StyledForm = styled.form`
   }
 `;
 
+const GeneralButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #e2e4dd;
+  background-color: #314543;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 10px;
+`;
+
+const AlertButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #e2e4dd;
+  background-color: #6d2134;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+`;
+
 const MemberPage = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["memberData"],
     queryFn: fetchMember,
   });
   const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   const memberData = {
     id: "#1234",
@@ -75,8 +100,15 @@ const MemberPage = () => {
 
   const deleteHandler = (e) => {
     e.preventDefault();
-    window.alert("確定要刪除帳號嗎？注意：此動作不可回復");
-    setIsEdit(false);
+    setIsDelete(true);
+  };
+
+  const handleStartDelete = () => {
+    // mutate({ id: params.id });
+  };
+
+  const handleStopDelete = () => {
+    setIsDelete(false);
   };
 
   let content;
@@ -107,6 +139,7 @@ const MemberPage = () => {
           {isEdit && <button onClick={saveHandler}>儲存</button>}
           {isEdit && (
             <button
+              type="button"
               style={{
                 backgroundColor: "#6d2134",
               }}
@@ -132,6 +165,16 @@ const MemberPage = () => {
         會員資料
       </h1>
       <hr width="80%" />
+      {isDelete && (
+        <Modal>
+          <h2>確定要刪除嗎?</h2>
+          <p>確定要刪除此帳號?此動作無法回復</p>
+          <div>
+            <GeneralButton onClick={handleStopDelete}>取消</GeneralButton>
+            <AlertButton onClick={handleStartDelete}>刪除</AlertButton>
+          </div>
+        </Modal>
+      )}
       {content}
     </Container>
   );

@@ -1,8 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./page/Root";
 import HomePage from "./page/HomePage";
 import MemberPage from "./page/MemberPage";
+import { queryClient } from "./util/http";
 
 const router = createBrowserRouter([
   {
@@ -14,11 +15,11 @@ const router = createBrowserRouter([
         path: "member",
         children: [{ index: true, element: <MemberPage /> }],
       },
+      { path: "register" },
+      { path: "login" },
     ],
   },
 ]);
-
-const queryClient = new QueryClient();
 
 function App() {
   return (
