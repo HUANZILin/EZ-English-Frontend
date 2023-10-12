@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./page/Root";
 import HomePage from "./page/HomePage";
 import MemberPage from "./page/MemberPage";
+import LoginPage from "./page/LoginPage";
+import RegisterPage from "./page/RegisterPage";
 import { queryClient } from "./util/http";
 
 const router = createBrowserRouter([
@@ -15,8 +17,12 @@ const router = createBrowserRouter([
         path: "member",
         children: [{ index: true, element: <MemberPage /> }],
       },
-      { path: "register" },
-      { path: "login" },
+      { path: "register",
+      children: [{index: true, element: <RegisterPage />}]
+      },
+      { path: "login",
+        children: [{index: true, element: <LoginPage />}]
+      },
     ],
   },
 ]);
