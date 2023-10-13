@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: flex;
@@ -99,10 +100,10 @@ const LoginPage = () => {
 
         <div class="formButtom">
         <button id="submit" type="submit">
-            <a href="./index.html">登入</a>
+            <a>登入</a>
         </button>
-        <a class="register" href="#">註冊</a>
-        <a class="register" href="#">忘記密碼？</a>
+        <a class="register" href="#"><Link to="../register">註冊</Link></a>
+        <a class="register" href="#"><Link to="../forgetpassword">忘記密碼？</Link></a>
         </div>
         </StyledForm>
     </Container>

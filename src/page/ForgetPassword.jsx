@@ -65,12 +65,12 @@ const StyledForm = styled.form`
       }
 `;
 
-const RegisterPage = () => {
+const ForgetPassword = () => {
     return(
         <Container>
             <h1 style={{color: "#e2e4dd",
             letterSpacing: "1rem",
-            textAlign: "center"}}>會員註冊</h1>
+            textAlign: "center"}}>忘記密碼</h1>
             <div style={{margin: "0 auto",
             marginTop: "2rem",
             height: "0.1rem",
@@ -80,23 +80,21 @@ const RegisterPage = () => {
             <StyledForm>
             <div class="formTop">
           <div class="label">
-            <label for="email" id="email">帳號/Email</label>
-            <label for="password" id="password">密碼</label>
-            <label for="rePassword" id="rePassword">確認密碼</label>
+            <label for="email">帳號/Email</label>
           </div>
           <div class="input">
-            <input type="text" required />
-            <input type="password" required />
-            <input type="password" required />
+            <input id="email" type="email" name="email" required />
           </div>
         </div>
 
         <div class="formButtom">
-          <button type="submit">送出</button>
+          <button id="submit" type="submit">
+          <a href="#">寄出驗證信</a></button>
         </div>
             </StyledForm>
         </Container>
+
     );
 };
 
-export default RegisterPage;
+export default ForgetPassword;
