@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { fetchMember } from "../util/http";
 import Modal from "../components/UI/Modal";
 import Container from "../components/UI/Container";
+import ErrorBlock from "../components/UI/ErrorBlock";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
 
 const StyledForm = styled.form`
   display: flex;
@@ -109,11 +111,21 @@ const MemberPage = () => {
   let content;
 
   if (isPending) {
-    content = <h1>Loading...</h1>;
+    content = (
+      <>
+        <h1>Loading...</h1>
+        <LoadingIndicator />
+      </>
+    );
   }
 
   if (isError) {
-    content = <h1>An Error occurred.</h1>;
+    content = (
+      <ErrorBlock
+        title={"發生錯誤"}
+        message={"取得資料時發生錯誤，請確認網路連線或於片刻後重整頁面。"}
+      />
+    );
   }
 
   if (data) {
