@@ -20,12 +20,11 @@ const router = createBrowserRouter([
         path: "member",
         children: [{ index: true, element: <MemberPage /> }],
       },
-      { path: "register" },
-      { path: "login" },
       {
-        path: "forgetpassword",
-        children: [{ index: true, element: <ForgetPassword /> }],
+        path: "register",
+        children: [{ index: true, element: <RegisterPage /> }],
       },
+      { path: "login", children: [{ index: true, element: <LoginPage /> }] },
       {
         path: "vocabulary",
         children: [{ index: true }, { path: "card", element: <CardPage /> }],
