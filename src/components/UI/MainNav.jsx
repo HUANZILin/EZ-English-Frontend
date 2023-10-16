@@ -85,11 +85,11 @@ const MainNav = () => {
       </div>
       <div className="card_list">
         <a href="#" id="card">
-          單字卡
+          單字列表
         </a>
         <div className="list">
           <a href="#" style={{ marginTop: "20px" }}>
-            單字列表
+            單字卡
           </a>
           <hr style={{ color: "#58805e" }} />
           <a href="#">收藏單字</a>

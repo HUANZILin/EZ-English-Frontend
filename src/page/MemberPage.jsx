@@ -3,12 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { fetchMember } from "../util/http";
 import Modal from "../components/UI/Modal";
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-`;
+import Container from "../components/UI/Container";
 
 const StyledForm = styled.form`
   display: flex;
@@ -159,10 +154,10 @@ const MemberPage = () => {
         style={{
           paddingTop: "100px",
           textAlign: "center",
-          letterSpacing: "1rem",
+          letterSpacing: "2rem",
         }}
       >
-        會員資料
+        &thinsp;會員資料
       </h1>
       <hr width="80%" />
       {isDelete && (
