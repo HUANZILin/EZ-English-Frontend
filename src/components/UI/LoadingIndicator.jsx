@@ -1,23 +1,23 @@
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-  display: inline-block;
+  align-self: center;
   position: relative;
   width: 80px;
   height: 80px;
-  margin: 1rem 0;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
 
   div {
     box-sizing: border-box;
-    display: block;
     position: absolute;
     width: 64px;
     height: 64px;
     margin: 8px;
-    border: 8px solid #6d2134;
+    border: 8px solid #e2e4dd;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #6d2134 transparent transparent transparent;
+    border-color: #e2e4dd transparent transparent transparent;
   }
   div:nth-child(1) {
     animation-delay: -0.45s;

@@ -72,7 +72,7 @@ const AlertButton = styled.button`
 `;
 
 const MemberPage = () => {
-  const { data, isPending, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["memberData"],
     queryFn: fetchMember,
   });
@@ -110,10 +110,14 @@ const MemberPage = () => {
 
   let content;
 
-  if (isPending) {
+  if (isLoading) {
     content = (
       <>
-        <h1>Loading...</h1>
+        <h2
+          style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+        >
+          Loading...
+        </h2>
         <LoadingIndicator />
       </>
     );
