@@ -1,8 +1,11 @@
+import { useState } from "react";
+
 import { Card, Carousel } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
+import Modal from "../components/UI/Modal";
 
 const StyledButton = styled.button`
   background-color: #e2e4dd;
@@ -11,8 +14,29 @@ const StyledButton = styled.button`
   font-weight: bold;
   letter-spacing: 2px;
   width: fit-content;
-  position: relative;
-  left: 5px;
+`;
+
+const GeneralButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #e2e4dd;
+  background-color: #314543;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 10px;
+`;
+
+const AlertButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #e2e4dd;
+  background-color: #6d2134;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
 `;
 
 const StyledDiv = styled.div`
@@ -77,6 +101,21 @@ const CardPage = () => {
     },
   ];
 
+  const [isDelete, setIsDelete] = useState(false);
+
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    setIsDelete(true);
+  };
+
+  const handleStartDelete = () => {
+    // mutate({ id: params.id });
+  };
+
+  const handleStopDelete = () => {
+    setIsDelete(false);
+  };
+
   return (
     <Container>
       <h1
@@ -88,7 +127,11 @@ const CardPage = () => {
       >
         &thinsp;單字卡
       </h1>
-      <StyledButton>新增單字卡</StyledButton>
+      <div
+        style={{ display: "flex", justifyContent: "end", paddingRight: "10%" }}
+      >
+        <StyledButton>新增單字卡</StyledButton>
+      </div>
       <hr width="80%" />
       <StyledDiv>
         <Carousel
@@ -135,6 +178,7 @@ const CardPage = () => {
                     </button>
                     <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
+                      onClick={deleteHandler}
                     >
                       刪除單字卡
                     </button>
@@ -145,6 +189,16 @@ const CardPage = () => {
           })}
         </Carousel>
       </StyledDiv>
+      {isDelete && (
+        <Modal>
+          <h2>確定要刪除嗎?</h2>
+          <p>確定要刪除此單字卡?此動作無法回復</p>
+          <div>
+            <GeneralButton onClick={handleStopDelete}>取消</GeneralButton>
+            <AlertButton onClick={handleStartDelete}>刪除</AlertButton>
+          </div>
+        </Modal>
+      )}
     </Container>
   );
 };
