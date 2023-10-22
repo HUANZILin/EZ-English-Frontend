@@ -7,6 +7,7 @@ import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import ForgetPassword from "./page/ForgetPassword";
 import CardPage from "./page/CardPage";
+import PracticePage from "./page/PracticePage";
 import { queryClient } from "./util/http";
 
 const router = createBrowserRouter([
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: "vocabulary",
-        children: [{ index: true }, { path: "card", element: <CardPage /> }],
+        children: [
+          { index: true },
+          { path: "card", element: <CardPage /> },
+          { path: "practice", element: <PracticePage /> },
+        ],
       },
     ],
   },

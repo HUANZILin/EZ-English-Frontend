@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
@@ -79,18 +80,18 @@ const MainNav = () => {
   return (
     <Nav>
       <div className="logo">
-        <a href="#" id="logo">
+        <NavLink to={"/"} id="logo">
           LOGO
-        </a>
+        </NavLink>
       </div>
       <div className="card_list">
         <a href="#" id="card">
           單字列表
         </a>
         <div className="list">
-          <a href="#" style={{ marginTop: "20px" }}>
+          <NavLink to={"vocabulary/card"} style={{ marginTop: "20px" }}>
             單字卡
-          </a>
+          </NavLink>
           <hr style={{ color: "#58805e" }} />
           <a href="#">收藏單字</a>
           <hr style={{ color: "#58805e" }} />

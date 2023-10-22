@@ -1,20 +1,32 @@
 import { Col, Row } from "antd";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledHomePic = styled.div`
-  background-image: url("https://github.com/HUANZILin/EZ-English-Frontend/blob/main/src/assets/%E9%A6%96%E9%A0%81%E5%A4%A7%E5%9C%96.jpg");
+  background-image: url("src/assets/首頁大圖.jpg");
+  background-size: cover;
+  background-position: center;
   width: 100%;
-  height: 50%;
+  height: 500px;
 `;
 
-const StyledSection = styled.button`
+const StyledSection = styled(Link)`
+  display: inline-block;
   width: 100%;
-  font-size: xx-large;
-  letter-spacing: 2px;
-  align-content: center;
-  border: none;
-  border-radius: 0%;
-  padding: 60px;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: 10px;
+  text-align: center;
+  padding: 60px 0px;
+  background-color: ${(props) => props.backgroundColor};
+  color: ${(props) => (props.color ? props.color : "#e2e4dd")};
+
+  p {
+    font-size: 24px;
+    letter-spacing: 5px;
+    margin: -5px;
+    font-weight: 400;
+  }
 `;
 
 const HomePage = () => {
@@ -25,18 +37,38 @@ const HomePage = () => {
       </Row>
       <Row>
         <Col span={14}>
-          <StyledSection>單字卡</StyledSection>
+          <StyledSection
+            to={"vocabulary/card"}
+            backgroundColor={"#e2e4dd"}
+            color={"#314543"}
+          >
+            單字卡
+            <br />
+            <p>Vocabulary Card</p>
+          </StyledSection>
         </Col>
         <Col span={10}>
-          <StyledSection>影片推薦</StyledSection>
+          <StyledSection backgroundColor={"#af7a1f"}>
+            影片推薦
+            <br />
+            <p>Recommended Videos</p>
+          </StyledSection>
         </Col>
       </Row>
       <Row>
         <Col span={10}>
-          <StyledSection>AI對話</StyledSection>
+          <StyledSection backgroundColor={"#314543"}>
+            AI對話
+            <br />
+            <p>AI Conversation</p>
+          </StyledSection>
         </Col>
         <Col span={14}>
-          <StyledSection>學習分析</StyledSection>
+          <StyledSection backgroundColor={"#58805e"}>
+            學習分析
+            <br />
+            <p>Learning-Data Analysis</p>
+          </StyledSection>
         </Col>
       </Row>
     </>
