@@ -11,6 +11,7 @@ import CardPage from "./page/CardPage";
 import DefaultPracticePage from "./page/DefaultPracticePage";
 import CollectionPracticePage from "./page/CollectionPracticePage";
 import { queryClient } from "./util/http";
+import VocabularyListPage from "./page/VocabularyListPage";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
       {
         path: "vocabulary",
         children: [
+          { path: "list", element: <VocabularyListPage /> },
           { path: "card", element: <CardPage /> },
           {
             path: "practice",

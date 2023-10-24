@@ -85,9 +85,9 @@ const MainNav = () => {
         </NavLink>
       </div>
       <div className="card_list">
-        <a href="#" id="card">
+      <NavLink to={"vocabulary/list"}><a href="#" id="card">
           單字列表
-        </a>
+        </a></NavLink>
         <div className="list">
           <NavLink to={"vocabulary/card"} style={{ marginTop: "20px" }}>
             單字卡

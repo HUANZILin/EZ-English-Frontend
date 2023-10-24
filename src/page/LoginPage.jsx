@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Title from "../components/Title";
 
 const Container = styled.div`
     display: flex;
@@ -70,15 +71,7 @@ const StyledForm = styled.form`
 const LoginPage = () => {
     return(
     <Container>
-        <h1 style={{color: "#e2e4dd",
-        letterSpacing: "1rem",
-        textAlign: "center"}}>會員登入</h1>
-        <div style={{margin: "0 auto",
-        marginTop: "2rem",
-        height: "0.1rem",
-        width: "50vw",
-        backgroundColor: "#e2e4dd",
-        alignItems: "center"}}></div>
+        <Title title="會員登入"/>
         <StyledForm>
         <div class="formTop">
           <div class="label">
