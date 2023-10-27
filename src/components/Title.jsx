@@ -10,7 +10,7 @@ const Title = (props) => {
             marginTop: "0.2rem",
             height: "0.1rem",
             width: "50vw",
-            backgroundColor: "#e2e4dd",
+            backgroundcolor: "#e2e4dd",
             alignItems: "center"}}></div>
         </Container>
     );

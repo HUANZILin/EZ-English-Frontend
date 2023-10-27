@@ -44,10 +44,17 @@ const DUMMY_WORD = [
     },
     {
         id : "T2",
-        Vocabulary : "Banana",
+        Vocabulary : "Bee",
         PartOfSpeech : "n.",
         Correct : "44%",
         LatestPractice : "2023.04.18"
+    },
+    {
+        id : "T3",
+        Vocabulary : "Banana",
+        PartOfSpeech : "n.",
+        Correct : "48%",
+        LatestPractice : "2023.07.18"
     }
 ]
 
@@ -57,13 +64,30 @@ const VocabularyListPage = () => {
 
     const NowSearchWord = (searchWord) => {
         setOnPlaying(DUMMY_WORD.filter(word => word.Vocabulary.toLowerCase().includes(searchWord)));
-    }
+    };
+
+    const NowSorting = (isSorting) => {
+        if(isSorting){
+            const sortedWords = [...onPlaying].sort((a, b) => {
+                const nameA = a.Vocabulary.toLowerCase();
+                const nameB = b.Vocabulary.toLowerCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            setOnPlaying(sortedWords);
+        }
+    };
     
     
     return(
         <Container>
             <Title title="單字列表"/>
-            <FuncBar isSearching={NowSearchWord}/>
+            <FuncBar isSearching={NowSearchWord} isSorting={NowSorting}/>
             <Smalltit>
             <h2>單字(詞性)</h2>
             <h2 style={{paddingLeft : "8rem"}}>正確率</h2>
