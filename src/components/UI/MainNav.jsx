@@ -85,22 +85,29 @@ const MainNav = () => {
         </NavLink>
       </div>
       <div className="card_list">
-      <NavLink to={"vocabulary/list"}>
-          單字列表
-        </NavLink>
+        <NavLink to={"vocabulary/list"}>單字列表</NavLink>
         <div className="list">
           <NavLink to={"vocabulary/card"} style={{ marginTop: "20px" }}>
             單字卡
           </NavLink>
-          <hr style={{ color: "#58805e" }} />
+          <hr />
           <a href="#">收藏單字</a>
-          <hr style={{ color: "#58805e" }} />
+          <hr />
           <a href="#">單字練習</a>
         </div>
       </div>
       <a href="#">影片推薦</a>
       <a href="#">AI對話</a>
-      <a href="#">學習分析</a>
+      <div className="card_list">
+        <a href="#">學習分析</a>
+        <div className="list">
+          <NavLink to={"./"} style={{ marginTop: "20px" }}>
+            練習紀錄
+          </NavLink>
+          <hr />
+          <a href="#">分析圖表</a>
+        </div>
+      </div>
       <a href="#" id="member" style={{ right: "140px" }}>
         會員資料
       </a>

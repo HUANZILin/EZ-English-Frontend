@@ -1,4 +1,4 @@
-import { Dropdown, Space } from "antd";
+import { Dropdown, Space, message } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 
 import { Link, Outlet } from "react-router-dom";
@@ -13,7 +13,7 @@ const StyledDropdown = styled(Dropdown)`
 const Practice = () => {
   const items = [
     {
-      key: "1",
+      key: "隨機",
       label: (
         <Link to={"./"} style={{ fontSize: "16px", color: "#314543" }}>
           隨機模式
@@ -21,7 +21,7 @@ const Practice = () => {
       ),
     },
     {
-      key: "2",
+      key: "收藏",
       label: (
         <Link to={"collection"} style={{ fontSize: "16px", color: "#314543" }}>
           收藏模式
@@ -29,6 +29,10 @@ const Practice = () => {
       ),
     },
   ];
+
+  const onClick = ({ key }) => {
+    message.info(`切換至 ${key}模式`);
+  };
 
   return (
     <>
@@ -48,7 +52,7 @@ const Practice = () => {
           paddingRight: "10%",
         }}
       >
-        <StyledDropdown menu={{ items }} trigger={["click"]}>
+        <StyledDropdown menu={{ items, onClick }} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()} style={{ fontSize: "20px" }}>
             <Space>
               選擇練習模式

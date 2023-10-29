@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { Card, Carousel } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
@@ -35,11 +35,8 @@ const StyledDiv = styled.div`
   align-self: center;
   margin: 10px 0px 50px 0px;
 
-  .ant-carousel .slick-prev,
   .ant-carousel .slick-next,
-  .ant-carousel .slick-prev:hover,
   .ant-carousel .slick-next:hover,
-  .ant-carousel .slick-prev:focus,
   .ant-carousel .slick-next:focus {
     font-size: 36px;
     color: #e2e4dd !important;
@@ -99,10 +96,6 @@ const DefaultPracticePage = () => {
     setIsDelete(true);
   };
 
-  const handleStartDelete = () => {
-    // mutate({ id: params.id });
-  };
-
   const handleStopDelete = () => {
     setIsDelete(false);
   };
@@ -110,11 +103,7 @@ const DefaultPracticePage = () => {
   return (
     <Container>
       <StyledDiv>
-        <Carousel
-          arrows
-          prevArrow={<LeftOutlined />}
-          nextArrow={<RightOutlined />}
-        >
+        <Carousel arrows nextArrow={<RightOutlined />}>
           {dummyVoc.map((voc) => {
             return (
               <div key={voc.id}>
@@ -153,10 +142,15 @@ const DefaultPracticePage = () => {
                       收藏單字
                     </button>
                     <button
+                      style={{ backgroundColor: "#af7a1f", color: "#e2e4dd" }}
+                    >
+                      熟悉程度
+                    </button>
+                    <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={deleteHandler}
                     >
-                      刪除單字卡
+                      查看解釋
                     </button>
                   </div>
                 </StyledCard>
@@ -170,8 +164,7 @@ const DefaultPracticePage = () => {
           <h2>確定要刪除嗎?</h2>
           <p>確定要刪除此單字卡?此動作無法回復</p>
           <div>
-            <GeneralButton onClick={handleStopDelete}>取消</GeneralButton>
-            <AlertButton onClick={handleStartDelete}>刪除</AlertButton>
+            <GeneralButton onClick={handleStopDelete}>返回</GeneralButton>
           </div>
         </Modal>
       )}
