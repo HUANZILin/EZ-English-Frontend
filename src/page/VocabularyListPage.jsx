@@ -32,28 +32,28 @@ const DUMMY_WORD = [
         id : "T0",
         Vocabulary : "Apple",
         PartOfSpeech : "n.",
-        Correct : "67%",
+        Correct : "67",
         LatestPractice : "2023.04.19"
     },
     {
         id : "T1",
         Vocabulary : "Work",
         PartOfSpeech : "v.",
-        Correct : "80%",
+        Correct : "80",
         LatestPractice : "2023.05.19"
     },
     {
         id : "T2",
         Vocabulary : "Bee",
         PartOfSpeech : "n.",
-        Correct : "44%",
+        Correct : "44",
         LatestPractice : "2023.04.18"
     },
     {
         id : "T3",
         Vocabulary : "Banana",
         PartOfSpeech : "n.",
-        Correct : "48%",
+        Correct : "48",
         LatestPractice : "2023.07.18"
     }
 ]

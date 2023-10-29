@@ -7,11 +7,9 @@ const Title = (props) => {
             letterSpacing: "1rem",
             textAlign: "center"}}>{props.title}</h1>
             <div style={{margin: "0 auto",
-            marginTop: "0.2rem",
-            height: "0.1rem",
+            height: "0.2rem",
             width: "50vw",
-            backgroundcolor: "#e2e4dd",
-            alignItems: "center"}}></div>
+            backgroundColor: "#e2e4dd",}}></div>
         </Container>
     );
 };
