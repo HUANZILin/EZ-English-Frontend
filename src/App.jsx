@@ -12,6 +12,7 @@ import DefaultPracticePage from "./page/DefaultPracticePage";
 import CollectionPracticePage from "./page/CollectionPracticePage";
 import { queryClient } from "./util/http";
 import VocabularyListPage from "./page/VocabularyListPage";
+import PracticeRecordPage from "./page/PracticeRecordPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,13 @@ const router = createBrowserRouter([
               { path: "collection", element: <CollectionPracticePage /> },
             ],
           },
+        ],
+      },
+      {
+        path: "analysis",
+        children: [
+          { index: true },
+          { path: "record", element: <PracticeRecordPage /> },
         ],
       },
     ],

@@ -93,24 +93,22 @@ const MainNav = () => {
           <hr />
           <a href="#">收藏單字</a>
           <hr />
-          <a href="#">單字練習</a>
+          <NavLink to={"vocabulary/practice"}>單字練習</NavLink>
         </div>
       </div>
       <a href="#">影片推薦</a>
       <a href="#">AI對話</a>
       <div className="card_list">
-        <a href="#">學習分析</a>
+        <NavLink to={"analysis"}>學習分析</NavLink>
         <div className="list">
-          <NavLink to={"./"} style={{ marginTop: "20px" }}>
+          <NavLink to={"analysis/record"} style={{ marginTop: "20px" }}>
             練習紀錄
           </NavLink>
-          <hr />
-          <a href="#">分析圖表</a>
         </div>
       </div>
-      <a href="#" id="member" style={{ right: "140px" }}>
+      <NavLink to={"member"} id="member" style={{ right: "140px" }}>
         會員資料
-      </a>
+      </NavLink>
       <a href="#" id="member">
         登出
       </a>
