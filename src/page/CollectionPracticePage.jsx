@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Card, Carousel } from "antd";
+import { Card, Carousel, Segmented } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
@@ -17,17 +17,6 @@ const GeneralButton = styled.button`
   font-weight: bold;
   text-decoration: none;
   margin-right: 10px;
-`;
-
-const AlertButton = styled.button`
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  color: #e2e4dd;
-  background-color: #6d2134;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
 `;
 
 const StyledDiv = styled.div`
@@ -57,6 +46,24 @@ const StyledCard = styled(Card)`
 
   button {
     font-size: medium;
+  }
+`;
+
+const StyledSegmented = styled(Segmented)`
+  background-color: #314543;
+  font-size: medium;
+
+  .ant-segmented-item {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e2e4dd;
+  }
+
+  .ant-segmented-item-selected {
+    color: #314543;
+    font-weight: bold;
   }
 `;
 
@@ -97,10 +104,6 @@ const CollectionPracticePage = () => {
   const deleteHandler = (e) => {
     e.preventDefault();
     setIsDelete(true);
-  };
-
-  const handleStartDelete = () => {
-    // mutate({ id: params.id });
   };
 
   const handleStopDelete = () => {
@@ -150,13 +153,17 @@ const CollectionPracticePage = () => {
                     <button
                       style={{ backgroundColor: "#58805e", color: "#e2e4dd" }}
                     >
-                      收藏單字
+                      取消收藏
                     </button>
+                    <StyledSegmented
+                      block
+                      options={["陌生", "不確定", "熟悉"]}
+                    />
                     <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={deleteHandler}
                     >
-                      刪除單字卡
+                      查看解釋
                     </button>
                   </div>
                 </StyledCard>
@@ -167,11 +174,10 @@ const CollectionPracticePage = () => {
       </StyledDiv>
       {isDelete && (
         <Modal>
-          <h2>確定要刪除嗎?</h2>
-          <p>確定要刪除此單字卡?此動作無法回復</p>
+          <h2>單字釋義</h2>
+          <p>Detail expression</p>
           <div>
-            <GeneralButton onClick={handleStopDelete}>取消</GeneralButton>
-            <AlertButton onClick={handleStartDelete}>刪除</AlertButton>
+            <GeneralButton onClick={handleStopDelete}>返回</GeneralButton>
           </div>
         </Modal>
       )}

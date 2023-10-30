@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { Card, Carousel } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Card, Carousel, Segmented } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
@@ -19,17 +19,6 @@ const GeneralButton = styled.button`
   margin-right: 10px;
 `;
 
-const AlertButton = styled.button`
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  color: #e2e4dd;
-  background-color: #6d2134;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
-`;
-
 const StyledDiv = styled.div`
   width: 40%;
   align-self: center;
@@ -37,7 +26,10 @@ const StyledDiv = styled.div`
 
   .ant-carousel .slick-next,
   .ant-carousel .slick-next:hover,
-  .ant-carousel .slick-next:focus {
+  .ant-carousel .slick-next:focus,
+  .ant-carousel .slick-prev,
+  .ant-carousel .slick-prev:hover,
+  .ant-carousel .slick-prev:focus {
     font-size: 36px;
     color: #e2e4dd !important;
   }
@@ -54,6 +46,24 @@ const StyledCard = styled(Card)`
 
   button {
     font-size: medium;
+  }
+`;
+
+const StyledSegmented = styled(Segmented)`
+  background-color: #314543;
+  font-size: medium;
+
+  .ant-segmented-item {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e2e4dd;
+  }
+
+  .ant-segmented-item-selected {
+    color: #314543;
+    font-weight: bold;
   }
 `;
 
@@ -103,7 +113,11 @@ const DefaultPracticePage = () => {
   return (
     <Container>
       <StyledDiv>
-        <Carousel arrows nextArrow={<RightOutlined />}>
+        <Carousel
+          arrows
+          prevArrow={<LeftOutlined />}
+          nextArrow={<RightOutlined />}
+        >
           {dummyVoc.map((voc) => {
             return (
               <div key={voc.id}>
@@ -141,11 +155,10 @@ const DefaultPracticePage = () => {
                     >
                       收藏單字
                     </button>
-                    <button
-                      style={{ backgroundColor: "#af7a1f", color: "#e2e4dd" }}
-                    >
-                      熟悉程度
-                    </button>
+                    <StyledSegmented
+                      block
+                      options={["陌生", "不確定", "熟悉"]}
+                    />
                     <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={deleteHandler}
@@ -161,8 +174,8 @@ const DefaultPracticePage = () => {
       </StyledDiv>
       {isDelete && (
         <Modal>
-          <h2>確定要刪除嗎?</h2>
-          <p>確定要刪除此單字卡?此動作無法回復</p>
+          <h2>單字釋義</h2>
+          <p>Detail expression</p>
           <div>
             <GeneralButton onClick={handleStopDelete}>返回</GeneralButton>
           </div>
