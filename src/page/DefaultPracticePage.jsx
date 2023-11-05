@@ -28,6 +28,7 @@ const StyledDiv = styled.div`
 const StyledCard = styled(Card)`
   background-color: #e2e4dd;
   margin: 40px 25px;
+  padding-bottom: 24px;
   text-align: center;
 
   h2 {
