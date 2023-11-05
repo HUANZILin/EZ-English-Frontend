@@ -1,23 +1,13 @@
-import { useState } from "react";
-
-import { Card, Carousel, Segmented } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Card, Carousel, Segmented, Collapse } from "antd";
+import {
+  CaretDownFilled,
+  LeftOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
-import Modal from "../components/UI/Modal";
-
-const GeneralButton = styled.button`
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  color: #e2e4dd;
-  background-color: #314543;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
-  margin-right: 10px;
-`;
+import CollectButton from "../components/UI/Collection/CollectButton";
 
 const StyledDiv = styled.div`
   width: 40%;
@@ -43,10 +33,6 @@ const StyledCard = styled(Card)`
   h2 {
     color: #314543;
   }
-
-  button {
-    font-size: medium;
-  }
 `;
 
 const StyledSegmented = styled(Segmented)`
@@ -54,7 +40,7 @@ const StyledSegmented = styled(Segmented)`
   font-size: medium;
 
   .ant-segmented-item {
-    width: 80px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,8 +48,7 @@ const StyledSegmented = styled(Segmented)`
   }
 
   .ant-segmented-item-selected {
-    color: #314543;
-    font-weight: bold;
+    background-color: #58805e;
   }
 `;
 
@@ -99,17 +84,6 @@ const DefaultPracticePage = () => {
     },
   ];
 
-  const [isDelete, setIsDelete] = useState(false);
-
-  const deleteHandler = (e) => {
-    e.preventDefault();
-    setIsDelete(true);
-  };
-
-  const handleStopDelete = () => {
-    setIsDelete(false);
-  };
-
   return (
     <Container>
       <StyledDiv>
@@ -122,19 +96,6 @@ const DefaultPracticePage = () => {
             return (
               <div key={voc.id}>
                 <StyledCard
-                  cover={
-                    <div
-                      style={{
-                        height: "300px",
-                        backgroundImage:
-                          "url(" +
-                          "https://th.bing.com/th/id/OIP.6yHdb5-e5s7VQKjdsBjBNgHaHd?pid=ImgDet&rs=1" +
-                          ")",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
-                    ></div>
-                  }
                   title={
                     <h2 style={{ color: "#af7a1f", fontSize: "xx-large" }}>
                       {voc.title}
@@ -142,29 +103,42 @@ const DefaultPracticePage = () => {
                   }
                   bordered={false}
                 >
-                  <h2>
-                    {voc.translation}({voc.part})
-                  </h2>
-                  <h2>{voc.explanation}</h2>
+                  <Collapse
+                    items={[
+                      {
+                        key: voc.id,
+                        label: (
+                          <div style={{ paddingBottom: "17px" }}>
+                            <h2 style={{ marginBottom: "-5px" }}>查看解釋</h2>
+                            <CaretDownFilled style={{ color: "#314543" }} />
+                          </div>
+                        ),
+                        children: (
+                          <>
+                            <h2>
+                              {voc.translation}({voc.part})
+                            </h2>
+                            <p>{voc.explanation}</p>
+                          </>
+                        ),
+                        showArrow: false,
+                      },
+                    ]}
+                    bordered={false}
+                  />
                   <hr style={{ backgroundColor: "#314543", margin: "32px" }} />
                   <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      padding: "0px 32px",
+                    }}
                   >
-                    <button
-                      style={{ backgroundColor: "#58805e", color: "#e2e4dd" }}
-                    >
-                      收藏單字
-                    </button>
+                    <CollectButton initState={false} />
                     <StyledSegmented
                       block
                       options={["陌生", "不確定", "熟悉"]}
                     />
-                    <button
-                      style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
-                      onClick={deleteHandler}
-                    >
-                      查看解釋
-                    </button>
                   </div>
                 </StyledCard>
               </div>
@@ -172,15 +146,6 @@ const DefaultPracticePage = () => {
           })}
         </Carousel>
       </StyledDiv>
-      {isDelete && (
-        <Modal>
-          <h2>單字釋義</h2>
-          <p>Detail expression</p>
-          <div>
-            <GeneralButton onClick={handleStopDelete}>返回</GeneralButton>
-          </div>
-        </Modal>
-      )}
     </Container>
   );
 };

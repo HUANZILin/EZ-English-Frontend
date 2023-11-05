@@ -30,7 +30,7 @@ const Nav = styled.nav`
   }
 
   .logo #logo {
-    font-size: 16px;
+    font-size: 54px;
     color: #e2e4dd;
     font-weight: bold;
   }
@@ -81,7 +81,7 @@ const MainNav = () => {
     <Nav>
       <div className="logo">
         <NavLink to={"/"} id="logo">
-          LOGO
+          EZ
         </NavLink>
       </div>
       <div className="card_list">

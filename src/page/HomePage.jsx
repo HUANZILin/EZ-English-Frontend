@@ -27,6 +27,10 @@ const StyledSection = styled(Link)`
     margin: -5px;
     font-weight: 400;
   }
+
+  &:hover {
+    color: #efc06f;
+  }
 `;
 
 const HomePage = () => {

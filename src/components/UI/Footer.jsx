@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledFooter = styled.footer`
   width: 100%;
   display: flex;
-  align-items: center;
   background-color: #e2e4dd;
   position: relative;
 
@@ -13,10 +12,11 @@ const StyledFooter = styled.footer`
     border-radius: 100%;
     background-color: #58805e;
     color: #e2e4dd;
-    font-size: 20px;
+    font-size: 90px;
     font-weight: bold;
     display: flex;
     align-items: center;
+    align-self: center;
     justify-content: center;
     margin: 0px 50px;
   }
@@ -41,11 +41,12 @@ const StyledFooter = styled.footer`
     list-style: none;
     font-size: 20px;
     margin-left: -30px;
-    line-height: 30px;
+    line-height: 2.5rem;
   }
 
   .block ul li a {
     text-decoration: none;
+    font-weight: 500;
     color: #314543;
     transition: 0.5s;
   }
@@ -92,19 +93,19 @@ const Footer = () => {
   return (
     <StyledFooter>
       <div className="logo">
-        <h3>LOGO</h3>
+        <h3>EZ</h3>
       </div>
       <div className="block">
         <h2>聯絡我們</h2>
         <ul>
           <li>
-            <a href="#">Blabla</a>
+            <a href="#">關於 About</a>
           </li>
           <li>
-            <a href="#">Blabla</a>
+            <a href="#">聯絡 Contact Us</a>
           </li>
           <li>
-            <a href="#">Blabla</a>
+            <a href="#">職涯 Careers</a>
           </li>
         </ul>
       </div>
@@ -112,13 +113,10 @@ const Footer = () => {
         <h2>常見問題</h2>
         <ul>
           <li>
-            <a href="#">Blabla</a>
+            <a href="#">問題中心 QA</a>
           </li>
           <li>
-            <a href="#">Blabla</a>
-          </li>
-          <li>
-            <a href="#">Blabla</a>
+            <a href="#">回報 Report</a>
           </li>
         </ul>
       </div>
@@ -126,13 +124,10 @@ const Footer = () => {
         <h2>使用教學</h2>
         <ul>
           <li>
-            <a href="#">Blabla</a>
+            <a href="#">基本操作 Basic</a>
           </li>
           <li>
-            <a href="#">Blabla</a>
-          </li>
-          <li>
-            <a href="#">Blabla</a>
+            <a href="#">社群 Community</a>
           </li>
         </ul>
       </div>

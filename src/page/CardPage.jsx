@@ -58,6 +58,7 @@ const StyledDiv = styled.div`
 const StyledCard = styled(Card)`
   background-color: #e2e4dd;
   margin: 40px 25px;
+  padding: 0px 0px 32px 0px;
   text-align: center;
 
   h2 {
@@ -143,21 +144,27 @@ const CardPage = () => {
             return (
               <div key={voc.id}>
                 <StyledCard
-                  cover={
-                    <div
-                      style={{
-                        height: "300px",
-                        backgroundImage:
-                          "url(" +
-                          "https://th.bing.com/th/id/OIP.6yHdb5-e5s7VQKjdsBjBNgHaHd?pid=ImgDet&rs=1" +
-                          ")",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                      }}
-                    ></div>
-                  }
+                  // cover={
+                  //   <div
+                  //     style={{
+                  //       height: "300px",
+                  //       backgroundImage:
+                  //         "url(" +
+                  //         "https://th.bing.com/th/id/OIP.6yHdb5-e5s7VQKjdsBjBNgHaHd?pid=ImgDet&rs=1" +
+                  //         ")",
+                  //       backgroundSize: "cover",
+                  //       backgroundPosition: "center",
+                  //     }}
+                  //   ></div>
+                  // }
                   title={
-                    <h2 style={{ color: "#af7a1f", fontSize: "xx-large" }}>
+                    <h2
+                      style={{
+                        color: "#af7a1f",
+                        fontSize: "xx-large",
+                        padding: "10px 0px",
+                      }}
+                    >
                       {voc.title}
                     </h2>
                   }
@@ -169,7 +176,11 @@ const CardPage = () => {
                   <h2>{voc.explanation}</h2>
                   <hr style={{ backgroundColor: "#314543", margin: "32px" }} />
                   <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      padding: "0px 32px",
+                    }}
                   >
                     <button
                       style={{ backgroundColor: "#58805e", color: "#e2e4dd" }}
@@ -180,7 +191,7 @@ const CardPage = () => {
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={deleteHandler}
                     >
-                      刪除單字卡
+                      刪除卡片
                     </button>
                   </div>
                 </StyledCard>

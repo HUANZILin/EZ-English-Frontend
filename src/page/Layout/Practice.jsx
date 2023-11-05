@@ -5,9 +5,26 @@ import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledDropdown = styled(Dropdown)`
-  &.ant-dropdown-submenu-popup {
+  cursor: pointer;
+
+  /* .ant-dropdown-submenu-popup {
     background-color: #e2e4dd;
   }
+
+  li.ant-dropdown-menu-item-selected {
+    background-color: #efc06f;
+    color: #af7a1f;
+  }
+
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-item-selected,
+  .ant-dropdown-menu-item-only-child {
+    background-color: #58805e;
+  }
+
+  .ant-dropdown-menu-title-content {
+    background-color: #58805e;
+  } */
 `;
 
 const Practice = () => {
@@ -52,7 +69,14 @@ const Practice = () => {
           paddingRight: "10%",
         }}
       >
-        <StyledDropdown menu={{ items, onClick }} trigger={["click"]}>
+        <StyledDropdown
+          menu={{
+            items,
+            onClick,
+            selectable: true,
+          }}
+          trigger={["click"]}
+        >
           <a onClick={(e) => e.preventDefault()} style={{ fontSize: "20px" }}>
             <Space>
               選擇練習模式
