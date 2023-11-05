@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import Container from "../components/UI/Container";
 import Modal from "../components/UI/Modal";
+import CollectButton from "../components/UI/Collection/CollectButton";
 
 const StyledButton = styled.button`
   background-color: #e2e4dd;
@@ -58,7 +59,7 @@ const StyledDiv = styled.div`
 const StyledCard = styled(Card)`
   background-color: #e2e4dd;
   margin: 40px 25px;
-  padding: 0px 0px 32px 0px;
+  padding-bottom: 24px;
   text-align: center;
 
   h2 {
@@ -182,11 +183,7 @@ const CardPage = () => {
                       padding: "0px 32px",
                     }}
                   >
-                    <button
-                      style={{ backgroundColor: "#58805e", color: "#e2e4dd" }}
-                    >
-                      收藏單字
-                    </button>
+                    <CollectButton initState={false} />
                     <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={deleteHandler}
