@@ -52,7 +52,7 @@ const HomePage = () => {
           </StyledSection>
         </Col>
         <Col span={10}>
-          <StyledSection backgroundColor={"#af7a1f"}>
+          <StyledSection to={"video"} backgroundColor={"#af7a1f"}>
             影片推薦
             <br />
             <p>Recommended Videos</p>
@@ -68,7 +68,7 @@ const HomePage = () => {
           </StyledSection>
         </Col>
         <Col span={14}>
-          <StyledSection backgroundColor={"#58805e"}>
+          <StyledSection to={"analysis"} backgroundColor={"#58805e"}>
             學習分析
             <br />
             <p>Learning-Data Analysis</p>

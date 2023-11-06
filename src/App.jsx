@@ -13,6 +13,7 @@ import CollectionPracticePage from "./page/CollectionPracticePage";
 import { queryClient } from "./util/http";
 import VocabularyListPage from "./page/VocabularyListPage";
 import PracticeRecordPage from "./page/PracticeRecordPage";
+import VideoPage from "./page/VideoPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: "video", element: <VideoPage /> },
       {
         path: "analysis",
         children: [

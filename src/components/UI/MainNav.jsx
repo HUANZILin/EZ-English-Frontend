@@ -96,7 +96,7 @@ const MainNav = () => {
           <NavLink to={"vocabulary/practice"}>單字練習</NavLink>
         </div>
       </div>
-      <a href="#">影片推薦</a>
+      <NavLink to={"video"}>影片推薦</NavLink>
       <a href="#">AI對話</a>
       <div className="card_list">
         <NavLink to={"analysis"}>學習分析</NavLink>
