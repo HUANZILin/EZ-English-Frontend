@@ -34,7 +34,7 @@ const BarDiv = styled.div`
 `;
 
 const VocabularyCard = (props) => {
-  const [isCollected, setIsCollected] = useState(false);
+  const [isCollected, setIsCollected] = useState(props.nowIsCollected);
 
   const clickHandler = (event) => {
     event.preventDefault();

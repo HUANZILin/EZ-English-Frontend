@@ -91,7 +91,7 @@ const MainNav = () => {
             單字卡
           </NavLink>
           <hr />
-          <a href="#">收藏單字</a>
+          <NavLink to={"vocabulary/collection"}>收藏單字</NavLink>
           <hr />
           <NavLink to={"vocabulary/practice"}>單字練習</NavLink>
         </div>
