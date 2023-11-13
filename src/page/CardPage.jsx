@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import Container from "../components/UI/Container";
 import Modal from "../components/UI/Modal";
+import { NewCardModal } from "../components/UI/NewCardModal";
 import CollectButton from "../components/UI/Collection/CollectButton";
 
 const StyledButton = styled.button`
@@ -72,7 +73,7 @@ const StyledCard = styled(Card)`
 `;
 
 const CardPage = () => {
-  const dummyVoc = [
+  const [dummyVoc, setDummyVoc] = useState([
     {
       id: 1,
       title: "Apple",
@@ -101,17 +102,21 @@ const CardPage = () => {
       part: "noun.",
       explanation: "A kind of fruit.",
     },
-  ];
-
+  ]);
   const [isDelete, setIsDelete] = useState(false);
+  const [deleteVoc, setDeleteVoc] = useState();
+  const [isCreate, setIsCreate] = useState(false);
 
-  const deleteHandler = (e) => {
+  const createHandler = (e) => {
     e.preventDefault();
-    setIsDelete(true);
+    setIsCreate(true);
   };
 
   const handleStartDelete = () => {
     // mutate({ id: params.id });
+    const newDummyVoc = dummyVoc.filter((element) => element.id !== deleteVoc);
+    setDummyVoc(newDummyVoc);
+    setIsDelete(false);
   };
 
   const handleStopDelete = () => {
@@ -132,7 +137,7 @@ const CardPage = () => {
       <div
         style={{ display: "flex", justifyContent: "end", paddingRight: "10%" }}
       >
-        <StyledButton>新增單字卡</StyledButton>
+        <StyledButton onClick={createHandler}>新增單字卡</StyledButton>
       </div>
       <hr width="80%" />
       <StyledDiv>
@@ -186,7 +191,10 @@ const CardPage = () => {
                     <CollectButton initState={false} />
                     <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
-                      onClick={deleteHandler}
+                      onClick={() => {
+                        setIsDelete(true);
+                        setDeleteVoc(voc.id);
+                      }}
                     >
                       刪除卡片
                     </button>
@@ -197,6 +205,14 @@ const CardPage = () => {
           })}
         </Carousel>
       </StyledDiv>
+      {isCreate && (
+        <NewCardModal
+          handleStopCreate={() => {
+            setIsCreate(false);
+          }}
+          handleCreateCard={setDummyVoc}
+        />
+      )}
       {isDelete && (
         <Modal>
           <h2>確定要刪除嗎?</h2>
