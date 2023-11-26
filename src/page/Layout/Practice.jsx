@@ -28,6 +28,7 @@ const StyledDropdown = styled(Dropdown)`
 `;
 
 const Practice = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const items = [
     {
       key: "隨機",
@@ -48,11 +49,15 @@ const Practice = () => {
   ];
 
   const onClick = ({ key }) => {
-    message.info(`切換至 ${key}模式`);
+    messageApi.open({
+      type: "success",
+      content: `切換至 ${key}模式`,
+    });
   };
 
   return (
     <>
+      {contextHolder}
       <h1
         style={{
           paddingTop: "100px",

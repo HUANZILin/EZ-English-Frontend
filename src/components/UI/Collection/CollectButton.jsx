@@ -22,10 +22,10 @@ const CollectButton = (props) => {
     event.preventDefault();
     if (isCollected) {
       setIsCollected(false);
-      messageApi.info("已取消收藏");
+      messageApi.open({ type: "warning", content: "已取消收藏" });
     } else {
       setIsCollected(true);
-      messageApi.info("已加入收藏");
+      messageApi.open({ type: "success", content: "已加入收藏" });
     }
   };
 
