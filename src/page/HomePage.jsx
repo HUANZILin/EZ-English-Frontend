@@ -29,7 +29,7 @@ const StyledSection = styled(Link)`
   }
 
   &:hover {
-    color: #efc06f;
+    color: #7b8072;
   }
 `;
 

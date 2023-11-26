@@ -7,11 +7,11 @@ import styled from "styled-components";
 const StyledDropdown = styled(Dropdown)`
   cursor: pointer;
 
-  /* .ant-dropdown-submenu-popup {
-    background-color: #e2e4dd;
-  }
+  /* .ant-dropdown-menu-submenu .ant-dropdown-menu {
+    background-color: #e2e4dd !important;
+  } */
 
-  li.ant-dropdown-menu-item-selected {
+  /* li.ant-dropdown-menu-item-selected {
     background-color: #efc06f;
     color: #af7a1f;
   }
@@ -24,7 +24,7 @@ const StyledDropdown = styled(Dropdown)`
 
   .ant-dropdown-menu-title-content {
     background-color: #58805e;
-  } */
+  }  */
 `;
 
 const Practice = () => {

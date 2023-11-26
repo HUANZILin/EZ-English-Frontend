@@ -30,6 +30,10 @@ const LoadButton = styled(Button)`
   padding: 5px 20px;
   margin: 2rem;
   border: none;
+
+  &:hover {
+    color: #7b8072 !important;
+  }
 `;
 
 const PracticeRecordPage = () => {

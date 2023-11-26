@@ -15,6 +15,7 @@ import VocabularyListPage from "./page/VocabularyListPage";
 import PracticeRecordPage from "./page/PracticeRecordPage";
 import VideoPage from "./page/VideoPage";
 import CollectionWord from "./page/CollectionWord";
+import AnalysisPage from "./page/AnalysisPage";
 
 const router = createBrowserRouter([
   {
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
       {
         path: "analysis",
         children: [
-          { index: true },
+          { index: true, element: <AnalysisPage /> },
           { path: "record", element: <PracticeRecordPage /> },
         ],
       },
