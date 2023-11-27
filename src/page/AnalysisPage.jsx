@@ -51,7 +51,7 @@ const AmountSection = styled.div`
 `;
 
 const SmallDiagram = styled.div`
-  width: 500px;
+  width: 100%;
   height: 320px;
   border-radius: 20px;
   background-color: #e2e4dd;
@@ -62,12 +62,13 @@ const SmallDiagram = styled.div`
 `;
 
 const BigDiagram = styled.div`
-  width: 100%;
+  width: 80%;
   height: 400px;
   border-radius: 20px;
   background-color: #e2e4dd;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: auto;
   padding: 20px;
   height: 300px;
@@ -118,13 +119,13 @@ const AnalysisPage = () => {
   };
 
   const data1 = {
-    labels: ["時事", "娛樂", "美食"],
+    labels: ["隨機", "收藏"],
     datasets: [
       {
         label: "點閱數",
-        data: [30, 10, 20],
+        data: [30, 10],
         borderWidth: "0",
-        backgroundColor: ["#314543", "#58805e", "#af7a1f"],
+        backgroundColor: ["#314543", "#58805e"],
         hoverOffset: 4,
       },
     ],
@@ -146,13 +147,13 @@ const AnalysisPage = () => {
   };
 
   const data2 = {
-    labels: ["時事", "娛樂", "美食"],
+    labels: ["隨機", "收藏"],
     datasets: [
       {
         label: "點閱數",
-        data: [20, 10, 30],
+        data: [20, 10],
         borderWidth: "0",
-        backgroundColor: ["#314543", "#58805e", "#af7a1f"],
+        backgroundColor: ["#314543", "#58805e"],
         hoverOffset: 4,
       },
     ],
@@ -204,7 +205,7 @@ const AnalysisPage = () => {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
       {
-        label: "影片量",
+        label: "正確率",
         data: [5, 3, 4, 3, 1, 2, 4],
         fill: false,
         borderColor: "#314543",
@@ -229,13 +230,13 @@ const AnalysisPage = () => {
       <ChartContainer>
         <TopicSection>
           <div>
-            <h2>主題偏好(單字)</h2>
+            <h2>本週模式偏好</h2>
             <SmallDiagram>
               <Doughnut ref={chart1Ref} options={options1} data={data1} />
             </SmallDiagram>
           </div>
           <div>
-            <h2>主題偏好(影片)</h2>
+            <h2>本月模式偏好</h2>
             <SmallDiagram>
               <Doughnut ref={chart2Ref} options={options2} data={data2} />
             </SmallDiagram>
@@ -243,13 +244,13 @@ const AnalysisPage = () => {
         </TopicSection>
         <AmountSection>
           <div>
-            <h2>每週學習量(單字)</h2>
+            <h2>每週學習量(不分模式)</h2>
             <BigDiagram>
               <Line ref={chart3Ref} options={options3} data={data3} />
             </BigDiagram>
           </div>
           <div>
-            <h2>每週學習量(影片)</h2>
+            <h2>每週正確率(不分模式)</h2>
             <BigDiagram>
               <Line ref={chart4Ref} options={options4} data={data4} />
             </BigDiagram>
