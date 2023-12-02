@@ -16,6 +16,7 @@ import PracticeRecordPage from "./page/PracticeRecordPage";
 import VideoPage from "./page/VideoPage";
 import CollectionWord from "./page/CollectionWord";
 import AnalysisPage from "./page/AnalysisPage";
+import AICommunication from "./page/AICommunication";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
         ],
       },
       { path: "video", element: <VideoPage /> },
+      { path: "AICommunication", element: <AICommunication /> },
       {
         path: "analysis",
         children: [

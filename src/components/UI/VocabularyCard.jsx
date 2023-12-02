@@ -5,11 +5,9 @@ import InCollection from "./Collection/InCollect.png";
 import { useState } from "react";
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-around;
+display: grid;
+grid-template-columns: 1fr 3fr 3fr 6fr 5fr;
   align-items: center;
-  text-align: center;
-  flex-direction: row;
   background-color: #e2e4dd;
   border-radius: 1rem;
   color: #314543;
@@ -24,6 +22,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-left: 1rem;
   padding: 0;
 `;
 
