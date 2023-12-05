@@ -56,7 +56,7 @@ const Practice = () => {
   };
 
   return (
-    <>
+    <div style={{ paddingTop: "3rem" }}>
       {contextHolder}
       <h1
         style={{
@@ -92,7 +92,7 @@ const Practice = () => {
       </div>
       <hr width="80%" />
       <Outlet />
-    </>
+    </div>
   );
 };
 

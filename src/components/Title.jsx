@@ -1,17 +1,18 @@
-import Container from "./UI/Container";
-
 const Title = (props) => {
-    return(
-        <Container>
-            <h1 style={{color: "#e2e4dd",
-            letterSpacing: "1rem",
-            textAlign: "center"}}>{props.title}</h1>
-            <div style={{margin: "0 auto",
-            height: "0.2rem",
-            width: "50vw",
-            backgroundColor: "#e2e4dd",}}></div>
-        </Container>
-    );
+  return (
+    <>
+      <h1
+        style={{
+          paddingTop: "100px",
+          textAlign: "center",
+          letterSpacing: "2rem",
+        }}
+      >
+        &thinsp;{props.title}
+      </h1>
+      <hr width="80%" />
+    </>
+  );
 };
 
 export default Title;

@@ -10,7 +10,7 @@ const Container = styled.div`
   align-items: center;
   text-align: center;
   flex-direction: column;
-  padding-top: 5rem;
+  padding: 3rem 0rem;
 `;
 
 const ChatBlock = styled.div`
