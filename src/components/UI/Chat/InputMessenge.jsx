@@ -53,6 +53,7 @@ const InputMessenge = (props) => {
   const submitHandler = (e) => {
     e.preventDefault();
     clearTimeout(noResponse);
+    setNowTexting("");
 
     N += 1;
     J += 1;
@@ -79,8 +80,9 @@ const InputMessenge = (props) => {
       <TheInput
         type="text"
         placeholder="請輸入訊息"
+        value={nowTexting}
         onChange={inputChangeHandler}
-      ></TheInput>
+      />
       <Button type="button" onClick={submitHandler}>
         <StyledEnterOutlined />
       </Button>

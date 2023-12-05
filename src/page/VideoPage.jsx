@@ -7,7 +7,7 @@ import Container from "../components/UI/Container";
 const StyledDiv = styled.div`
   width: 50%;
   align-self: center;
-  margin: 10px 0px 50px 0px;
+  margin: 2rem 0px 50px 0px;
 
   .ant-carousel .slick-prev,
   .ant-carousel .slick-next,

@@ -19,6 +19,8 @@ const ChatBlock = styled.div`
   flex-direction: column;
   margin-top: 4rem;
   margin-bottom: 1rem;
+  padding: 1rem 0rem;
+  border: 1rem solid #e2e4dd;
   border-radius: 1rem;
   height: 80vh;
   width: 60vw;
@@ -37,11 +39,6 @@ const DUMMY_Messenge = [
     Speaker: "AI",
     Messenge:
       "請隨意輸入您想跟我聊的內容，我會及時糾正您的文法並回覆！Feel free to input any content you'd like to chat with me about. I'll promptly correct your grammar and provide a response!",
-  },
-  {
-    ID: "B01",
-    Speaker: "User",
-    Messenge: "I am asking for something to eat, any advice?",
   },
 ];
 

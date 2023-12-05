@@ -12,7 +12,7 @@ import CollectButton from "../components/UI/Collection/CollectButton";
 const StyledDiv = styled.div`
   width: 40%;
   align-self: center;
-  margin: 10px 0px 50px 0px;
+  margin-bottom: 50px;
 
   .ant-carousel .slick-next,
   .ant-carousel .slick-next:hover,

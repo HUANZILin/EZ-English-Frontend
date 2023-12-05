@@ -12,6 +12,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-top: 2rem;
 
   label {
     font-size: 1.5rem;
