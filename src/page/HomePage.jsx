@@ -61,7 +61,7 @@ const HomePage = () => {
       </Row>
       <Row>
         <Col span={10}>
-          <StyledSection backgroundColor={"#314543"}>
+          <StyledSection to={"AICommunication"} backgroundColor={"#314543"}>
             AI對話
             <br />
             <p>AI Conversation</p>
