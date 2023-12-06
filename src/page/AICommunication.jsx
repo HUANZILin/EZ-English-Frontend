@@ -1,8 +1,9 @@
+import { useState } from "react";
+
 import styled from "styled-components";
 import Title from "../components/Title";
-import Messenges from "../components/UI/Chat/Messenges";
-import InputMessenge from "../components/UI/Chat/InputMessenge";
-import { useState } from "react";
+import Messages from "../components/UI/Chat/Messages";
+import InputMessage from "../components/UI/Chat/InputMessage";
 
 const Container = styled.div`
   display: flex;
@@ -27,26 +28,24 @@ const ChatBlock = styled.div`
   overflow-y: scroll;
 `;
 
-const DUMMY_Messenge = [
+const DUMMY_Message = [
   {
-    ID: "A01",
-    Speaker: "AI",
-    Messenge:
+    Speaker: "AI bot",
+    Message:
       "歡迎進入AI對話學習，我是你的學習小助手！Welcome here, I am your AI learning Helper!",
   },
   {
-    ID: "A02",
-    Speaker: "AI",
-    Messenge:
+    Speaker: "AI bot",
+    Message:
       "請隨意輸入您想跟我聊的內容，我會及時糾正您的文法並回覆！Feel free to input any content you'd like to chat with me about. I'll promptly correct your grammar and provide a response!",
   },
 ];
 
 const AICommunication = () => {
-  const [MessengesData, setMessengesData] = useState(DUMMY_Messenge);
+  const [MessagesData, setMessagesData] = useState(DUMMY_Message);
 
   const addNewText = (enteredText) => {
-    setMessengesData((prevData) => {
+    setMessagesData((prevData) => {
       return [...prevData, enteredText];
     });
   };
@@ -55,15 +54,15 @@ const AICommunication = () => {
     <Container>
       <Title title="AI對話" />
       <ChatBlock>
-        {MessengesData.map((context) => (
-          <Messenges
-            key={context.ID}
-            text={context.Messenge}
+        {MessagesData.map((context, index) => (
+          <Messages
+            key={index}
+            text={context.Message}
             speak={context.Speaker}
           />
         ))}
       </ChatBlock>
-      <InputMessenge newText={addNewText}></InputMessenge>
+      <InputMessage newText={addNewText}></InputMessage>
     </Container>
   );
 };

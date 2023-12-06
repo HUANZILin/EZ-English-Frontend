@@ -10,19 +10,21 @@ const AIBox = styled.div`
   margin-right: ${(props) => (props.speaking == "User" ? "2rem" : "10rem")};
   padding: 1rem;
 `;
-const Messenge = styled.h2`
+const Message = styled.h2`
   font-size: 1.4rem;
   margin: 1rem;
   text-align: left;
   color: #e2e4dd;
 `;
 
-const Messenges = (props) => {
+const Messages = (props) => {
+  const { speak, text } = props;
+
   return (
-    <AIBox speaking={props.speak}>
-      <Messenge>{props.text}</Messenge>
+    <AIBox speaking={speak}>
+      <Message>{text}</Message>
     </AIBox>
   );
 };
 
-export default Messenges;
+export default Messages;
