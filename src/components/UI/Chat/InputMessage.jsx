@@ -62,10 +62,13 @@ const InputMessage = (props) => {
             model: "gpt-3.5-turbo",
             messages: [
               {
-                role: "user",
+                role: "system",
                 content:
-                  nowTexting +
-                  " Please answer me in both Traditional Chinese and English, each up to 50 words.",
+                  "You will receive a statement, and your task is to reply in both Traditional-Chinese and English, with a total reply of up to 50 words.",
+              },
+              {
+                role: "user",
+                content: nowTexting,
               },
             ],
           },

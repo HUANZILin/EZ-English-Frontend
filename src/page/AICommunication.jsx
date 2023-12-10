@@ -61,6 +61,7 @@ const AICommunication = () => {
             speak={context.Speaker}
           />
         ))}
+        {console.log(MessagesData)}
       </ChatBlock>
       <InputMessage newText={addNewText}></InputMessage>
     </Container>
