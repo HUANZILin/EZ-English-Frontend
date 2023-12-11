@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import styled from "styled-components";
 import Messages from "../components/UI/Chat/Messages";
@@ -36,12 +36,13 @@ const DUMMY_Message = [
   {
     Speaker: "AI bot",
     Message:
-      "請隨意輸入您想跟我聊的內容，我會及時糾正您的文法並回覆！Feel free to enter what you want to talk to me about, and I will correct your grammar and reply in time!",
+      "請隨意輸入您想校對的語句，我會及時糾正您的文法並回覆！Feel free to enter what you want to talk to me about, and I will correct your grammar and reply in time!",
   },
 ];
 
 const AICommunicationGrammar = () => {
   const [MessagesData, setMessagesData] = useState(DUMMY_Message);
+  const chatBlockRef = useRef(null);
 
   const addNewText = (enteredText) => {
     setMessagesData((prevData) => {
@@ -49,9 +50,13 @@ const AICommunicationGrammar = () => {
     });
   };
 
+  useEffect(() => {
+    chatBlockRef.current.scrollTop = chatBlockRef.current.scrollHeight;
+  }, [MessagesData]);
+
   return (
     <Container>
-      <ChatBlock>
+      <ChatBlock ref={chatBlockRef}>
         {MessagesData.map((context, index) => (
           <Messages
             key={index}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import styled from "styled-components";
 import Messages from "../components/UI/Chat/Messages";
@@ -42,6 +42,7 @@ const DUMMY_Message = [
 
 const AICommunication = () => {
   const [MessagesData, setMessagesData] = useState(DUMMY_Message);
+  const chatBlockRef = useRef(null);
 
   const addNewText = (enteredText) => {
     setMessagesData((prevData) => {
@@ -49,9 +50,13 @@ const AICommunication = () => {
     });
   };
 
+  useEffect(() => {
+    chatBlockRef.current.scrollTop = chatBlockRef.current.scrollHeight;
+  }, [MessagesData]);
+
   return (
     <Container>
-      <ChatBlock>
+      <ChatBlock ref={chatBlockRef}>
         {MessagesData.map((context, index) => (
           <Messages
             key={index}

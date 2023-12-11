@@ -64,7 +64,7 @@ const InputMessage = (props) => {
               {
                 role: "system",
                 content:
-                  "You will receive a statement, and your task is to reply in both Traditional-Chinese and English, each reply is up to 50 words.",
+                  "You will receive a statement, and your task is to reply with both English and Traditional Chinese translation, each reply is up to 50 words.",
               },
               {
                 role: "user",
@@ -99,6 +99,11 @@ const InputMessage = (props) => {
         placeholder="請輸入訊息"
         value={nowTexting}
         onChange={(e) => setNowTexting(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            submitHandler();
+          }
+        }}
       />
       <Button type="button" onClick={submitHandler}>
         <StyledEnterOutlined />

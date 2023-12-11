@@ -1,11 +1,15 @@
-import { Card, Carousel } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Card, Carousel, Alert } from "antd";
+import {
+  LeftOutlined,
+  RightOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
 
 const StyledDiv = styled.div`
-  width: 50%;
+  width: 55%;
   align-self: center;
   margin: 2rem 0px 50px 0px;
 
@@ -76,6 +80,21 @@ const VideoPage = () => {
       </h1>
       <hr width="80%" />
       <StyledDiv>
+        <Alert
+          message={
+            <h3 style={{ margin: "0", paddingLeft: "12px" }}>關於推薦機制</h3>
+          }
+          description={
+            <p style={{ margin: "0", paddingLeft: "12px", fontSize: "1rem" }}>
+              影片推薦根據使用者最新的<strong>AI對話紀錄</strong>
+              進行關鍵字擷取，並推薦最相關的TED演講影片，希望讓使用者透過感興趣的話題快樂學英文:)
+            </p>
+          }
+          type="success"
+          icon={<InfoCircleOutlined />}
+          showIcon
+          closeIcon
+        />
         <Carousel
           arrows
           prevArrow={<LeftOutlined />}
@@ -86,8 +105,8 @@ const VideoPage = () => {
               <div key={video.id}>
                 <StyledCard title={<h2>{video.title}</h2>} bordered={false}>
                   <iframe
-                    width="560"
-                    height="315"
+                    width="620"
+                    height="360"
                     src={video.path}
                     title="YouTube video player"
                     frameborder="0"

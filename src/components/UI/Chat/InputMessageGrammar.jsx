@@ -64,7 +64,7 @@ const InputMessageGrammar = (props) => {
               {
                 role: "system",
                 content:
-                  "You will be provided with two statements, and your task is to correct them to standard English and repeat, also translate it into Traditional Chinese. ",
+                  "You will be provided with some statements, and your task is to correct them to standard English and repeat, also translate it into Traditional Chinese. ",
               },
               {
                 role: "user",
@@ -99,6 +99,11 @@ const InputMessageGrammar = (props) => {
         placeholder="請輸入訊息"
         value={nowTexting}
         onChange={(e) => setNowTexting(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            submitHandler();
+          }
+        }}
       />
       <Button type="button" onClick={submitHandler}>
         <StyledEnterOutlined />
