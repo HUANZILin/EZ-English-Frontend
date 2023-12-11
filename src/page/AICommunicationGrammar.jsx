@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import styled from "styled-components";
 import Messages from "../components/UI/Chat/Messages";
-import InputMessage from "../components/UI/Chat/InputMessage";
+import InputMessageGrammar from "../components/UI/Chat/InputMessageGrammar";
 
 const Container = styled.div`
   display: flex;
@@ -31,16 +31,16 @@ const DUMMY_Message = [
   {
     Speaker: "AI bot",
     Message:
-      "歡迎進入AI對話-一般對話模式，我是你的學習小助手！Welcome here, I am your AI learning Helper!",
+      "歡迎進入AI對話-文法糾錯模式，我是你的學習小助手！Welcome here, I am your AI learning Helper!",
   },
   {
     Speaker: "AI bot",
     Message:
-      "請隨意輸入您想跟我聊的內容，我會同時用中英文與你對話喔~Feel free to enter what you want to chat with me, and I will talk to you in both Chinese and English~",
+      "請隨意輸入您想跟我聊的內容，我會及時糾正您的文法並回覆！Feel free to enter what you want to talk to me about, and I will correct your grammar and reply in time!",
   },
 ];
 
-const AICommunication = () => {
+const AICommunicationGrammar = () => {
   const [MessagesData, setMessagesData] = useState(DUMMY_Message);
 
   const addNewText = (enteredText) => {
@@ -61,9 +61,9 @@ const AICommunication = () => {
         ))}
         {console.log(MessagesData)}
       </ChatBlock>
-      <InputMessage newText={addNewText}></InputMessage>
+      <InputMessageGrammar newText={addNewText}></InputMessageGrammar>
     </Container>
   );
 };
 
-export default AICommunication;
+export default AICommunicationGrammar;

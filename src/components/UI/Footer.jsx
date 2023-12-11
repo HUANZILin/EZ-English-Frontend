@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { UpOutlined } from "@ant-design/icons";
+
 const StyledFooter = styled.footer`
   width: 100%;
   display: flex;
@@ -65,27 +67,18 @@ const StyledFooter = styled.footer`
 
   button {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 50px;
     right: 50px;
     bottom: 50px;
+    color: #e2e4dd;
     background-color: #58805e;
     border: none;
     border-radius: 100%;
     cursor: pointer;
-  }
-
-  button .icon {
-    position: relative;
-    width: 50px;
-    height: 50px;
-  }
-
-  button .icon svg {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    transform: translate(-50%);
   }
 `;
 
@@ -133,26 +126,7 @@ const Footer = () => {
       </div>
       <p>@2023 copyright</p>
       <button>
-        <div className="icon">
-          <svg height="50" width="50">
-            <line
-              x1="-10"
-              y1="25"
-              x2="16"
-              y2="4"
-              style={{ stroke: "#e2e4dd", strokeWidth: "5" }}
-            />
-          </svg>
-          <svg height="50" width="50">
-            <line
-              x1="40"
-              y1="25"
-              x2="14"
-              y2="4"
-              style={{ stroke: "#e2e4dd", strokeWidth: "5" }}
-            />
-          </svg>
-        </div>
+        <UpOutlined style={{ fontSize: "3.5rem" }} />
       </button>
     </StyledFooter>
   );

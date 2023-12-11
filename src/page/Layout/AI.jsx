@@ -29,24 +29,24 @@ const StyledDropdown = styled(Dropdown)`
   }  */
 `;
 
-const Practice = () => {
+const AI = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [model, setModel] = useState("隨機");
+  const [model, setModel] = useState("一般對話");
 
   const items = [
     {
-      key: "隨機",
+      key: "一般對話",
       label: (
         <Link to={"./"} style={{ fontSize: "16px", color: "#314543" }}>
-          隨機模式
+          一般對話模式
         </Link>
       ),
     },
     {
-      key: "收藏",
+      key: "文法糾錯",
       label: (
-        <Link to={"collection"} style={{ fontSize: "16px", color: "#314543" }}>
-          收藏模式
+        <Link to={"grammar"} style={{ fontSize: "16px", color: "#314543" }}>
+          文法糾錯模式
         </Link>
       ),
     },
@@ -70,7 +70,7 @@ const Practice = () => {
           letterSpacing: "1rem",
         }}
       >
-        {`單字練習-${model}模式`}
+        {`AI對話-${model}模式`}
       </h1>
       <div
         style={{
@@ -101,4 +101,4 @@ const Practice = () => {
   );
 };
 
-export default Practice;
+export default AI;

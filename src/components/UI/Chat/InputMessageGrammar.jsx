@@ -39,7 +39,7 @@ const StyledEnterOutlined = styled(EnterOutlined)`
   }
 `;
 
-const InputMessage = (props) => {
+const InputMessageGrammar = (props) => {
   const [nowTexting, setNowTexting] = useState("");
 
   const appendMessage = (sender, content) => {
@@ -64,7 +64,7 @@ const InputMessage = (props) => {
               {
                 role: "system",
                 content:
-                  "You will receive a statement, and your task is to reply in both Traditional-Chinese and English, each reply is up to 50 words.",
+                  "You will be provided with two statements, and your task is to correct them to standard English and repeat, also translate it into Traditional Chinese. ",
               },
               {
                 role: "user",
@@ -107,4 +107,4 @@ const InputMessage = (props) => {
   );
 };
 
-export default InputMessage;
+export default InputMessageGrammar;
