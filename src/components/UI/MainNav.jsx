@@ -109,9 +109,9 @@ const MainNav = () => {
       <NavLink to={"member"} id="member" style={{ right: "140px" }}>
         會員資料
       </NavLink>
-      <a href="#" id="member">
+      <NavLink to={"/"} id="member">
         登出
-      </a>
+      </NavLink>
     </Nav>
   );
 };
