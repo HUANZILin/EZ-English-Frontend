@@ -37,7 +37,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledSegmented = styled(Segmented)`
-  background-color: #314543;
+  background-color: #e2e4dd;
   font-size: medium;
 
   .ant-segmented-item {
@@ -46,11 +46,25 @@ const StyledSegmented = styled(Segmented)`
     justify-content: center;
     align-items: center;
     color: #e2e4dd;
+    background-color: #314543;
+    margin: 0rem 0.2rem;
   }
 
   .ant-segmented-item-selected {
+    color: #e2e4dd;
     background-color: #58805e;
   }
+`;
+
+const StyledButton = styled.button`
+  width: 35%;
+  color: #e2e4dd;
+  font-weight: bold;
+  background-color: #314543;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  margin-bottom: 40px;
 `;
 
 const CollectionPracticePage = () => {
@@ -139,6 +153,9 @@ const CollectionPracticePage = () => {
                     <StyledSegmented
                       block
                       options={["陌生", "不確定", "熟悉"]}
+                      onChange={(e) => {
+                        console.log({ id: voc.id, degree: e });
+                      }}
                     />
                   </div>
                 </StyledCard>
@@ -147,6 +164,7 @@ const CollectionPracticePage = () => {
           })}
         </Carousel>
       </StyledDiv>
+      <StyledButton>完成作答，送出</StyledButton>
     </Container>
   );
 };
