@@ -2,6 +2,7 @@ import Title from "../components/Title";
 import styled from "styled-components";
 import FuncBar from "../components/FuncBar";
 import VocabularyCard from "../components/UI/VocabularyCard";
+import { useEffect } from "react";
 import { useState } from "react";
 
 const Container = styled.div`
@@ -61,6 +62,19 @@ const DUMMY_WORD = [
 const VocabularyListPage = () => {
   const [onPlaying, setOnPlaying] = useState(DUMMY_WORD);
 
+  useEffect(() => {
+        const url = 'https://jybluega.com/ez-backend/wordList';
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
+        async function fetchData(){
+          const response = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}` }});
+          const resData =await response.json();
+          setOnPlaying(resData.data.wordsData);
+        }
+
+        fetchData();
+    },[])
+
   const NowSearchWord = (searchWord) => {
     setOnPlaying(
       DUMMY_WORD.filter((word) =>
@@ -98,11 +112,11 @@ const VocabularyListPage = () => {
       <Card>
         {onPlaying.map((word) => (
           <VocabularyCard
-            key={word.id}
-            word={word.Vocabulary}
-            pos={word.PartOfSpeech}
-            corr={word.Correct}
-            lp={word.LatestPractice}
+            key={word.w_id}
+            word={word.w_word}
+            pos={word.w_part_of_speech}
+            // corr={word.Correct}
+            lp={word.created_at}
           />
         ))}
       </Card>
