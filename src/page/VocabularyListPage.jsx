@@ -49,8 +49,8 @@ const VocabularyListPage = () => {
   const NowSorting = (isSorting) => {
     if (isSorting) {
       const sortedWords = [...onPlaying].sort((a, b) => {
-        const nameA = a.Vocabulary.toLowerCase();
-        const nameB = b.Vocabulary.toLowerCase();
+        const nameA = a.w_word.toLowerCase();
+        const nameB = b.w_word.toLowerCase();
         if (nameA < nameB) {
           return -1;
         }
@@ -73,15 +73,17 @@ const VocabularyListPage = () => {
         <h2>最後測驗時間</h2>
       </Smalltit>
       <Card>
-        {onPlaying.map((word) => (
+        {onPlaying.length == 0 ? <h3 style={{color : "yellow"}}>沒有搜尋到單字，請重新搜尋</h3> : onPlaying.map((word) => (
           <VocabularyCard
             key={word.w_id}
             word={word.w_word}
             pos={word.w_part_of_speech}
             // corr={word.Correct}
             lp={word.created_at}
+            collected={word.collect}
           />
         ))}
+        
       </Card>
     </Container>
   );
