@@ -1,8 +1,32 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
-const [wordData,setWordData] = useState([]);
+export const WordData = createContext({
+    wordList : [],
+    
+});
 
-export const WordData = createContext();
+export default function WordDataProvider({children}){
+    const [wordData,setWordData] = useState([]);
+
+    useEffect(() => {
+        const url = 'https://jybluega.com/ez-backend/wordList';
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
+        async function fetchData(){
+          const response = await fetch(url, {
+            headers: { Authorization: `Bearer ${token}` }});
+          const resData =await response.json();
+          setWordData(resData.data.wordsData);
+        }
+
+        fetchData();
+    },[])
+
+    return(
+        <WordData.Provider value={ wordData }>
+            {children}
+        </WordData.Provider>
+    )
+}
 // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
 
 // useEffect(() => {

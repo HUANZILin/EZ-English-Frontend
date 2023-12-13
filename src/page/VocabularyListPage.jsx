@@ -2,8 +2,8 @@ import Title from "../components/Title";
 import styled from "styled-components";
 import FuncBar from "../components/FuncBar";
 import VocabularyCard from "../components/UI/VocabularyCard";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect,useState,useContext } from "react";
+import { WordData } from "../store/WordDataContext";
 
 const Container = styled.div`
   display: flex;
@@ -28,57 +28,20 @@ const Smalltit = styled.div`
   width: 60rem;
 `;
 
-const DUMMY_WORD = [
-  {
-    id: "T0",
-    Vocabulary: "Apple",
-    PartOfSpeech: "n.",
-    Correct: "67",
-    LatestPractice: "2023.04.19",
-  },
-  {
-    id: "T1",
-    Vocabulary: "Work",
-    PartOfSpeech: "v.",
-    Correct: "80",
-    LatestPractice: "2023.05.19",
-  },
-  {
-    id: "T2",
-    Vocabulary: "Bee",
-    PartOfSpeech: "n.",
-    Correct: "44",
-    LatestPractice: "2023.04.18",
-  },
-  {
-    id: "T3",
-    Vocabulary: "Banana",
-    PartOfSpeech: "n.",
-    Correct: "48",
-    LatestPractice: "2023.07.18",
-  },
-];
 
 const VocabularyListPage = () => {
-  const [onPlaying, setOnPlaying] = useState(DUMMY_WORD);
 
-  useEffect(() => {
-        const url = 'https://jybluega.com/ez-backend/wordList';
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
-        async function fetchData(){
-          const response = await fetch(url, {
-            headers: { Authorization: `Bearer ${token}` }});
-          const resData =await response.json();
-          setOnPlaying(resData.data.wordsData);
-        }
-
-        fetchData();
-    },[])
+  const wordCtx = useContext(WordData);
+  const [onPlaying, setOnPlaying] = useState([]);
+  
+  useEffect(()=>{
+    setOnPlaying(wordCtx);
+  },[wordCtx])
 
   const NowSearchWord = (searchWord) => {
     setOnPlaying(
-      DUMMY_WORD.filter((word) =>
-        word.Vocabulary.toLowerCase().includes(searchWord)
+      wordCtx.filter((word) =>
+        word.w_word.toLowerCase().includes(searchWord)
       )
     );
   };
