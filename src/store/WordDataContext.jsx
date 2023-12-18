@@ -6,7 +6,6 @@ export const WordData = createContext({
 
 export default function WordDataProvider({children}){
     const [wordData,setWordData] = useState([]);
-    const [nowLoading, setNowLoading] = useState(true);
 
     useEffect(() => {
         const url = 'https://jybluega.com/ez-backend/wordList';
@@ -19,7 +18,6 @@ export default function WordDataProvider({children}){
         }
         try{
             fetchData();
-            setNowLoading(false);
         }catch(error){
             console.log("The error occuered! :",error.message);
         }

@@ -33,8 +33,12 @@ const BarDiv = styled.div`
 `;
 
 const VocabularyCard = (props) => {
+  const url = 'https://jybluega.com/ez-backend/collection';
+  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
  
   const [isCollected, setIsCollected] = useState(props.collected);
+  const [formData, setFormData] = useState(new FormData());
+  formData.set("w_id", props.theID);
   
   useEffect(() => {
     if(typeof(isCollected) == "string"){
@@ -43,12 +47,74 @@ const VocabularyCard = (props) => {
     }
   },[isCollected])
 
-  const clickHandler = (event) => {
+  const handlePostRequest = async () => {
+    try {
+      const response = await fetch(url,  {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('POST request successful:', data);
+    } catch (error) {
+      console.error('Error during POST request:', error);
+    }
+  };
+
+  const handleDeleteRequest = async (CIDData) => {
+    try {
+      const response = await fetch(`https://jybluega.com/ez-backend/collection/${CIDData.c_id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('DELETE request successful:', data);
+    } catch (error) {
+      console.error('Error during DELETE request:', error);
+    }
+  };
+
+  const getWordData = async () => {
+      const url = `https://jybluega.com/ez-backend/wordList/${props.theID}`;
+      try {
+        const response = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+    
+        const resData = await response.json();
+        console.log(resData.data.wordData);
+        return resData.data.wordData[0];
+      } catch (error) {
+        console.log("The error occurred! :", error.message);
+        return null;
+      }
+      
+  };
+
+
+  const clickHandler = async(event) => {
     event.preventDefault();
+    
     if (isCollected) {
       setIsCollected(false);
+      const CIDData = await getWordData();
+      console.log(CIDData);
+      if (CIDData !== null) {
+        await handleDeleteRequest(CIDData);
+      }
     } else {
       setIsCollected(true);
+      handlePostRequest();
     }
   };
 

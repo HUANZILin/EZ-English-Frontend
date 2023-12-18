@@ -81,6 +81,7 @@ const VocabularyListPage = () => {
             corr={word.average_score}
             lp={word.latest_datetime}
             collected={word.collect}
+            theID={word.w_id}
           />
         ))}
         

@@ -47,13 +47,13 @@ const CollectionWord = () => {
   return (
     <Container>
       <Title title="收藏單字" />
-      <Smalltit>
+      {theCollectedList.length == 0 ? "" :<Smalltit>
         <h2>單字(詞性)</h2>
         <h2 style={{ paddingLeft: "8rem" }}>正確率</h2>
         <h2>最後測驗時間</h2>
-      </Smalltit>
+      </Smalltit>}
       <Card>
-        {theCollectedList.map((word) => (
+        {theCollectedList.length == 0 ? <h3 style={{color : "yellow"}}>Oops！你沒有收藏的單字</h3> : theCollectedList.map((word) => (
           <VocabularyCard
             nowIsCollected={word.collect}
             key={word.w_id}
@@ -61,6 +61,7 @@ const CollectionWord = () => {
             pos={word.w_part_of_speech}
             lp={word.latest_datetime}
             collected={word.collect}
+            theID={word.w_id}
           />
         ))}
       </Card>
