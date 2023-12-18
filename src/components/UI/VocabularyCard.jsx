@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { Progress } from "antd";
 import OffCollection from "./Collection/OffCollect.png";
 import InCollection from "./Collection/InCollect.png";
-import { useState,useContext } from "react";
-import { WordData } from "../../store/WordDataContext";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
 display: grid;
@@ -36,6 +35,13 @@ const BarDiv = styled.div`
 const VocabularyCard = (props) => {
  
   const [isCollected, setIsCollected] = useState(props.collected);
+  
+  useEffect(() => {
+    if(typeof(isCollected) == "string"){
+      const booleanValue = isCollected.toLowerCase() === "true";
+      setIsCollected(booleanValue);
+    }
+  },[isCollected])
 
   const clickHandler = (event) => {
     event.preventDefault();
@@ -50,8 +56,9 @@ const VocabularyCard = (props) => {
     <Container>
       <Button onClick={clickHandler}>
         <img
-          src={`${isCollected ? InCollection : OffCollection}`}
+          src= {isCollected ? InCollection : OffCollection}
           style={{ width: "30px", height: "30px" }}
+          alt="Collection Status"
         />
       </Button>
       <h2 style={{ fontSize: "2rem", color: "#af7a1f" }}>{props.word}</h2>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Title from "../components/Title";
 import VocabularyCard from "../components/UI/VocabularyCard";
+import { useState,useEffect } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -25,26 +26,24 @@ const Card = styled.div`
   width: 60rem;
 `;
 
-const DUMMY_WORD = [
-  {
-    isCollected: true,
-    id: "T0",
-    Vocabulary: "Apple",
-    PartOfSpeech: "n.",
-    Correct: "67",
-    LatestPractice: "2023.04.19",
-  },
-  {
-    isCollected: true,
-    id: "T1",
-    Vocabulary: "Work",
-    PartOfSpeech: "v.",
-    Correct: "80",
-    LatestPractice: "2023.05.19",
-  },
-];
-
 const CollectionWord = () => {
+  const [theCollectedList,setTheCollectedList] = useState([]);
+  useEffect(() => {
+    const url = 'https://jybluega.com/ez-backend/collection';
+    const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
+    async function fetchData(){
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` }});
+      const resData =await response.json();
+      setTheCollectedList(resData.data.wordsData);
+    }
+    try{
+        fetchData();
+    }catch(error){
+        console.log("The error occuered! :",error.message);
+    }
+    
+},[])
   return (
     <Container>
       <Title title="收藏單字" />
@@ -54,14 +53,14 @@ const CollectionWord = () => {
         <h2>最後測驗時間</h2>
       </Smalltit>
       <Card>
-        {DUMMY_WORD.map((word) => (
+        {theCollectedList.map((word) => (
           <VocabularyCard
-            nowIsCollected={word.isCollected}
-            key={word.id}
-            word={word.Vocabulary}
-            pos={word.PartOfSpeech}
-            corr={word.Correct}
-            lp={word.LatestPractice}
+            nowIsCollected={word.collect}
+            key={word.w_id}
+            word={word.w_word}
+            pos={word.w_part_of_speech}
+            lp={word.latest_datetime}
+            collected={word.collect}
           />
         ))}
       </Card>

@@ -1,14 +1,12 @@
 import { createContext, useState, useEffect } from "react";
 
 export const WordData = createContext({
-    wordList : [],
-    collecting : () => {}
+    wordList : []
 });
 
 export default function WordDataProvider({children}){
     const [wordData,setWordData] = useState([]);
     const [nowLoading, setNowLoading] = useState(true);
-    const [error ,setError] = useState();
 
     useEffect(() => {
         const url = 'https://jybluega.com/ez-backend/wordList';
@@ -18,22 +16,19 @@ export default function WordDataProvider({children}){
             headers: { Authorization: `Bearer ${token}` }});
           const resData =await response.json();
           setWordData(resData.data.wordsData);
-          setNowLoading(false);
         }
         try{
             fetchData();
+            setNowLoading(false);
         }catch(error){
             console.log("The error occuered! :",error.message);
         }
         
     },[])
 
-    const nowCollecting = () => {
-        
-    }
 
     return(
-        <WordData.Provider value={wordData}>
+        <WordData.Provider value={ wordData }>
             {children}
         </WordData.Provider>
     )
