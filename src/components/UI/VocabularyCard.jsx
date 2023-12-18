@@ -37,8 +37,6 @@ const VocabularyCard = (props) => {
   const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
  
   const [isCollected, setIsCollected] = useState(props.collected);
-  const [formData, setFormData] = useState(new FormData());
-  formData.set("w_id", props.theID);
   
   useEffect(() => {
     if(typeof(isCollected) == "string"){
@@ -48,6 +46,8 @@ const VocabularyCard = (props) => {
   },[isCollected])
 
   const handlePostRequest = async () => {
+    const formData = new FormData();
+    formData.set("w_id", props.theID);
     try {
       const response = await fetch(url,  {
         headers: { Authorization: `Bearer ${token}` },
@@ -66,9 +66,10 @@ const VocabularyCard = (props) => {
     }
   };
 
-  const handleDeleteRequest = async (CIDData) => {
+  const handleDeleteRequest = async () => {
     try {
-      const response = await fetch(`https://jybluega.com/ez-backend/collection/${CIDData.c_id}`, {
+      const c_id = await getWordData();
+      const response = await fetch(`https://jybluega.com/ez-backend/collection/${c_id}`, {
         headers: { Authorization: `Bearer ${token}` },
         method: 'DELETE',
       });
@@ -92,8 +93,7 @@ const VocabularyCard = (props) => {
         });
     
         const resData = await response.json();
-        console.log(resData.data.wordData);
-        return resData.data.wordData[0];
+        return resData.data.wordData[0].c_id;
       } catch (error) {
         console.log("The error occurred! :", error.message);
         return null;
@@ -104,17 +104,12 @@ const VocabularyCard = (props) => {
 
   const clickHandler = async(event) => {
     event.preventDefault();
-    
     if (isCollected) {
       setIsCollected(false);
-      const CIDData = await getWordData();
-      console.log(CIDData);
-      if (CIDData !== null) {
-        await handleDeleteRequest(CIDData);
-      }
+      await handleDeleteRequest();
     } else {
       setIsCollected(true);
-      handlePostRequest();
+      await handlePostRequest();
     }
   };
 
