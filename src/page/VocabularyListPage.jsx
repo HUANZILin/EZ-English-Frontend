@@ -4,6 +4,8 @@ import FuncBar from "../components/FuncBar";
 import VocabularyCard from "../components/UI/VocabularyCard";
 import { useEffect,useState,useContext } from "react";
 import { WordData } from "../store/WordDataContext";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 const Container = styled.div`
   display: flex;
@@ -33,9 +35,13 @@ const VocabularyListPage = () => {
 
   const wordCtx = useContext(WordData);
   const [onPlaying, setOnPlaying] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(()=>{
     setOnPlaying(wordCtx);
+    if(wordCtx.length > 0){
+      setIsLoading(false);
+    }
   },[wordCtx])
 
   const NowSearchWord = (searchWord) => {
@@ -62,6 +68,14 @@ const VocabularyListPage = () => {
       setOnPlaying(sortedWords);
     }
   };
+  if(isLoading){
+    return(
+    <Container>
+      <Title title="單字列表" />
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+    </Container>
+    )
+  }
 
   return (
     <Container>

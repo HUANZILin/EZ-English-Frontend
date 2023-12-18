@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Title from "../components/Title";
 import VocabularyCard from "../components/UI/VocabularyCard";
 import { useState,useEffect } from "react";
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +30,7 @@ const Card = styled.div`
 
 const CollectionWord = () => {
   const [theCollectedList,setTheCollectedList] = useState([]);
+  const [nowLoading,setNowLoading] = useState(true);
   useEffect(() => {
     const url = 'https://jybluega.com/ez-backend/collection';
     const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
@@ -36,6 +39,7 @@ const CollectionWord = () => {
         headers: { Authorization: `Bearer ${token}` }});
       const resData =await response.json();
       setTheCollectedList(resData.data.wordsData);
+      setNowLoading(false);
     }
     try{
         fetchData();
@@ -44,6 +48,16 @@ const CollectionWord = () => {
     }
     
 },[])
+
+if(nowLoading){
+  return(
+    <Container>
+      <Title title="收藏單字" />
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+    </Container>
+  )
+}
+
   return (
     <Container>
       <Title title="收藏單字" />

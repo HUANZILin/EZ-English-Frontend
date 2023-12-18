@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState,useContext} from "react";
 
 import { Card, Carousel } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined,LoadingOutlined } from "@ant-design/icons";
+import { Spin } from 'antd';
 import styled from "styled-components";
+import { WordData } from "../store/WordDataContext";
 
 import Container from "../components/UI/Container";
 import Modal from "../components/UI/Modal";
@@ -72,40 +74,83 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const Dummy_List = [
+  {
+    id: 1,
+    title: "Apple",
+    translation: "蘋果",
+    part: "noun.",
+    explanation: "A kind of fruit.",
+  },
+  {
+    id: 2,
+    title: "Banana",
+    translation: "香蕉",
+    part: "noun.",
+    explanation: "A kind of fruit.",
+  },
+  {
+    id: 3,
+    title: "Orange",
+    translation: "橘子",
+    part: "noun.",
+    explanation: "A kind of fruit.",
+  },
+  {
+    id: 4,
+    title: "Pear",
+    translation: "梨子",
+    part: "noun.",
+    explanation: "A kind of fruit.",
+  },
+];
+
 const CardPage = () => {
-  const [dummyVoc, setDummyVoc] = useState([
-    {
-      id: 1,
-      title: "Apple",
-      translation: "蘋果",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 2,
-      title: "Banana",
-      translation: "香蕉",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 3,
-      title: "Orange",
-      translation: "橘子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 4,
-      title: "Pear",
-      translation: "梨子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-  ]);
+  const wordCtx = useContext(WordData);
+//   const getCollectionData = async () => {
+//     const url = `https://jybluega.com/ez-backend/collection`;
+//     const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
+//     try {
+//       const response = await fetch(url, {
+//         headers: { Authorization: `Bearer ${token}` },
+//       });
+  
+//       const resData = await response.json();
+//       return resData.data.wordsData;
+//     } catch (error) {
+//       console.log("The error occurred! :", error.message);
+//       return null;
+//     }
+    
+// };
+
+const getRandomObjects = (list, count) => {
+  const copiedList = list.slice();
+  const randomObjects = [];
+
+  for (let i = 0; i < count && copiedList.length > 0; i++) {
+    const randomIndex = Math.floor(Math.random() * copiedList.length);
+    const selectedObject = copiedList.splice(randomIndex, 1)[0];
+    randomObjects.push(selectedObject);
+  }
+
+  return randomObjects;
+};
+
+  const [cardVoc, setCardVoc] = useState();
   const [isDelete, setIsDelete] = useState(false);
   const [deleteVoc, setDeleteVoc] = useState();
   const [isCreate, setIsCreate] = useState(false);
+
+useEffect(()=>{
+  async function renderCard(){
+    if (wordCtx) {
+    const selectedCard = getRandomObjects(wordCtx, 4);
+    setCardVoc(selectedCard);
+    }
+  }
+  renderCard();
+},[wordCtx])
 
   const createHandler = (e) => {
     e.preventDefault();
@@ -114,14 +159,33 @@ const CardPage = () => {
 
   const handleStartDelete = () => {
     // mutate({ id: params.id });
-    const newDummyVoc = dummyVoc.filter((element) => element.id !== deleteVoc);
-    setDummyVoc(newDummyVoc);
+    const newDummyVoc = cardVoc.filter((element) => element.id !== deleteVoc);
+    setCardVoc(newDummyVoc);
     setIsDelete(false);
   };
 
   const handleStopDelete = () => {
     setIsDelete(false);
   };
+
+  if(!cardVoc){
+    console.log("Now Loading")
+    return(
+      <Container>
+        <h1
+        style={{
+          paddingTop: "100px",
+          textAlign: "center",
+          letterSpacing: "2rem",
+        }}
+      >
+        &thinsp;單字卡
+      </h1>
+      
+      <Spin indicator={<LoadingOutlined style={{ fontSize: 100 }} spin />} />
+      </Container>
+    )
+  }
 
   return (
     <Container>
@@ -146,9 +210,9 @@ const CardPage = () => {
           prevArrow={<LeftOutlined />}
           nextArrow={<RightOutlined />}
         >
-          {dummyVoc.map((voc) => {
+          {cardVoc.map((voc) => {
             return (
-              <div key={voc.id}>
+              <div key={voc.w_id}>
                 <StyledCard
                   // cover={
                   //   <div
@@ -171,15 +235,15 @@ const CardPage = () => {
                         padding: "10px 0px",
                       }}
                     >
-                      {voc.title}
+                      {voc.w_word}
                     </h2>
                   }
                   bordered={false}
                 >
                   <h2>
-                    {voc.translation}({voc.part})
+                    {voc.w_chinese}({voc.w_part_of_speech})
                   </h2>
-                  <h2>{voc.explanation}</h2>
+                  <h2>{voc.w_meaning}</h2>
                   <hr style={{ backgroundColor: "#314543", margin: "32px" }} />
                   <div
                     style={{
