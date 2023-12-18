@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { Progress } from "antd";
 import OffCollection from "./Collection/OffCollect.png";
 import InCollection from "./Collection/InCollect.png";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import { WordData } from "../../store/WordDataContext";
 
 const Container = styled.div`
 display: grid;
-grid-template-columns: 1fr 3fr 3fr 6fr 5fr;
+grid-template-columns: 1fr 3fr 3fr 6fr 4fr;
   align-items: center;
   background-color: #e2e4dd;
   border-radius: 1rem;
@@ -33,6 +34,7 @@ const BarDiv = styled.div`
 `;
 
 const VocabularyCard = (props) => {
+ 
   const [isCollected, setIsCollected] = useState(props.collected);
 
   const clickHandler = (event) => {
@@ -67,9 +69,9 @@ const VocabularyCard = (props) => {
             flexDirection: "column",
           }}
         ></Progress>
-        <h2>{props.corr}%</h2>
+        <h2>{props.corr == null ? '0' : props.corr}%</h2>
       </BarDiv>
-      <h2>{props.lp}</h2>
+      <h2>{props.lp == null ? '未有測驗紀錄' : props.lp}</h2>
     </Container>
   );
 };

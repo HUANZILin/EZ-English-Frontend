@@ -69,7 +69,7 @@ const VocabularyListPage = () => {
       <FuncBar isSearching={NowSearchWord} isSorting={NowSorting} />
       <Smalltit>
         <h2>單字(詞性)</h2>
-        <h2 style={{ paddingLeft: "8rem" }}>正確率</h2>
+        <h2 style={{ paddingLeft: "8rem" }}>測驗正確率</h2>
         <h2>最後測驗時間</h2>
       </Smalltit>
       <Card>
@@ -78,8 +78,8 @@ const VocabularyListPage = () => {
             key={word.w_id}
             word={word.w_word}
             pos={word.w_part_of_speech}
-            // corr={word.Correct}
-            lp={word.created_at}
+            corr={word.average_score}
+            lp={word.latest_datetime}
             collected={word.collect}
           />
         ))}
