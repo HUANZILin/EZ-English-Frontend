@@ -78,7 +78,7 @@ const Nav = styled.nav`
 `;
 
 const MainNav = () => {
-  const [isLogging, setIsLogging] = useState(false);
+  const [isLogging, setIsLogging] = useState(true);
 
   return (
     <Nav>

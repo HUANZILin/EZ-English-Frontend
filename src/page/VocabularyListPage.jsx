@@ -2,10 +2,9 @@ import Title from "../components/Title";
 import styled from "styled-components";
 import FuncBar from "../components/FuncBar";
 import VocabularyCard from "../components/UI/VocabularyCard";
-import { useEffect,useState,useContext } from "react";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
+import { useEffect, useState, useContext } from "react";
 import { WordData } from "../store/WordDataContext";
-import { LoadingOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
 
 const Container = styled.div`
   display: flex;
@@ -30,25 +29,21 @@ const Smalltit = styled.div`
   width: 60rem;
 `;
 
-
 const VocabularyListPage = () => {
-
   const wordCtx = useContext(WordData);
   const [onPlaying, setOnPlaying] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setOnPlaying(wordCtx);
-    if(wordCtx.length > 0){
+    if (wordCtx.length > 0) {
       setIsLoading(false);
     }
-  },[wordCtx])
+  }, [wordCtx]);
 
   const NowSearchWord = (searchWord) => {
     setOnPlaying(
-      wordCtx.filter((word) =>
-        word.w_word.toLowerCase().includes(searchWord)
-      )
+      wordCtx.filter((word) => word.w_word.toLowerCase().includes(searchWord))
     );
   };
 
@@ -68,13 +63,20 @@ const VocabularyListPage = () => {
       setOnPlaying(sortedWords);
     }
   };
-  if(isLoading){
-    return(
-    <Container>
-      <Title title="單字列表" />
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
-    </Container>
-    )
+  if (isLoading) {
+    return (
+      <Container>
+        <Title title="單字列表" />
+        <>
+          <h2
+            style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+          >
+            Loading...
+          </h2>
+          <LoadingIndicator />
+        </>
+      </Container>
+    );
   }
 
   return (
@@ -87,18 +89,21 @@ const VocabularyListPage = () => {
         <h2>最後測驗時間</h2>
       </Smalltit>
       <Card>
-        {onPlaying.length == 0 ? <h3 style={{color : "yellow"}}>沒有搜尋到單字，請重新搜尋</h3> : onPlaying.map((word) => (
-          <VocabularyCard
-            key={word.w_id}
-            word={word.w_word}
-            pos={word.w_part_of_speech}
-            corr={word.average_score}
-            lp={word.latest_datetime}
-            collected={word.collect}
-            theID={word.w_id}
-          />
-        ))}
-        
+        {onPlaying.length == 0 ? (
+          <h3 style={{ color: "#314543" }}>沒有搜尋到單字，請重新搜尋</h3>
+        ) : (
+          onPlaying.map((word) => (
+            <VocabularyCard
+              key={word.w_id}
+              word={word.w_word}
+              pos={word.w_part_of_speech}
+              corr={word.average_score}
+              lp={word.latest_datetime}
+              collected={word.collect}
+              theID={word.w_id}
+            />
+          ))
+        )}
       </Card>
     </Container>
   );

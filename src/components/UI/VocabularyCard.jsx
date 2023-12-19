@@ -5,13 +5,13 @@ import InCollection from "./Collection/InCollect.png";
 import { useEffect, useState } from "react";
 
 const Container = styled.div`
-display: grid;
-grid-template-columns: 1fr 3fr 3fr 6fr 4fr;
+  display: grid;
+  grid-template-columns: 1fr 3fr 3fr 6fr 4fr;
   align-items: center;
   background-color: #e2e4dd;
   border-radius: 1rem;
   color: #314543;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   margin: 1rem;
 `;
 
@@ -33,76 +33,78 @@ const BarDiv = styled.div`
 `;
 
 const VocabularyCard = (props) => {
-  const url = 'https://jybluega.com/ez-backend/collection';
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
- 
+  const url = "https://jybluega.com/ez-backend/collection";
+  const token =
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A";
+
   const [isCollected, setIsCollected] = useState(props.collected);
-  
+
   useEffect(() => {
-    if(typeof(isCollected) == "string"){
+    if (typeof isCollected == "string") {
       const booleanValue = isCollected.toLowerCase() === "true";
       setIsCollected(booleanValue);
     }
-  },[isCollected])
+  }, [isCollected]);
 
   const handlePostRequest = async () => {
     const formData = new FormData();
     formData.set("w_id", props.theID);
     try {
-      const response = await fetch(url,  {
+      const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
-        method: 'POST',
-        body: formData
+        method: "POST",
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('POST request successful:', data);
+      console.log("POST request successful:", data);
     } catch (error) {
-      console.error('Error during POST request:', error);
+      console.error("Error during POST request:", error);
     }
   };
 
   const handleDeleteRequest = async () => {
     try {
       const c_id = await getWordData();
-      const response = await fetch(`https://jybluega.com/ez-backend/collection/${c_id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `https://jybluega.com/ez-backend/collection/${c_id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('DELETE request successful:', data);
+      console.log("DELETE request successful:", data);
     } catch (error) {
-      console.error('Error during DELETE request:', error);
+      console.error("Error during DELETE request:", error);
     }
   };
 
   const getWordData = async () => {
-      const url = `https://jybluega.com/ez-backend/wordList/${props.theID}`;
-      try {
-        const response = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-    
-        const resData = await response.json();
-        return resData.data.wordData[0].c_id;
-      } catch (error) {
-        console.log("The error occurred! :", error.message);
-        return null;
-      }
-      
+    const url = `https://jybluega.com/ez-backend/wordList/${props.theID}`;
+    try {
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const resData = await response.json();
+      return resData.data.wordData[0].c_id;
+    } catch (error) {
+      console.log("The error occurred! :", error.message);
+      return null;
+    }
   };
 
-
-  const clickHandler = async(event) => {
+  const clickHandler = async (event) => {
     event.preventDefault();
     if (isCollected) {
       setIsCollected(false);
@@ -117,7 +119,7 @@ const VocabularyCard = (props) => {
     <Container>
       <Button onClick={clickHandler}>
         <img
-          src= {isCollected ? InCollection : OffCollection}
+          src={isCollected ? InCollection : OffCollection}
           style={{ width: "30px", height: "30px" }}
           alt="Collection Status"
         />
@@ -137,9 +139,9 @@ const VocabularyCard = (props) => {
             flexDirection: "column",
           }}
         ></Progress>
-        <h2>{props.corr == null ? '0' : props.corr}%</h2>
+        <h2>{props.corr == null ? "0" : props.corr}%</h2>
       </BarDiv>
-      <h2>{props.lp == null ? '未有測驗紀錄' : props.lp}</h2>
+      <h2>{props.lp == null ? "未有測驗紀錄" : props.lp}</h2>
     </Container>
   );
 };
