@@ -124,7 +124,7 @@ const VocabularyCard = (props) => {
           alt="Collection Status"
         />
       </Button>
-      <h2 style={{ fontSize: "2rem", color: "#af7a1f" }}>{props.word}</h2>
+      <h2 style={{ color: "#af7a1f" }}>{props.word}</h2>
       <h2>({props.pos})</h2>
       <BarDiv>
         <Progress
@@ -141,7 +141,9 @@ const VocabularyCard = (props) => {
         ></Progress>
         <h2>{props.corr == null ? "0" : props.corr}%</h2>
       </BarDiv>
-      <h2>{props.lp == null ? "未有測驗紀錄" : props.lp}</h2>
+      <h2 style={{ fontSize: "1.3em" }}>
+        {props.lp == null ? "未有測驗紀錄" : props.lp}
+      </h2>
     </Container>
   );
 };

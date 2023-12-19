@@ -3,6 +3,7 @@ import styled from "styled-components";
 import FuncBar from "../components/FuncBar";
 import VocabularyCard from "../components/UI/VocabularyCard";
 import LoadingIndicator from "../components/UI/LoadingIndicator";
+import LoadButton from "../components/UI/LoadButton";
 import { useEffect, useState, useContext } from "react";
 import { WordData } from "../store/WordDataContext";
 
@@ -32,19 +33,25 @@ const Smalltit = styled.div`
 const VocabularyListPage = () => {
   const wordCtx = useContext(WordData);
   const [onPlaying, setOnPlaying] = useState([]);
+  const [loadMore, setLoadMore] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setOnPlaying(wordCtx);
+    setOnPlaying(wordCtx.slice(0, loadMore));
     if (wordCtx.length > 0) {
       setIsLoading(false);
     }
-  }, [wordCtx]);
+  }, [wordCtx, loadMore]);
 
   const NowSearchWord = (searchWord) => {
-    setOnPlaying(
-      wordCtx.filter((word) => word.w_word.toLowerCase().includes(searchWord))
-    );
+    if (searchWord) {
+      let searchResult = wordCtx.filter((word) =>
+        word.w_word.toLowerCase().includes(searchWord)
+      );
+      setOnPlaying(searchResult.slice(0, loadMore));
+    } else {
+      setOnPlaying(wordCtx.slice(0, loadMore));
+    }
   };
 
   const NowSorting = (isSorting) => {
@@ -79,6 +86,11 @@ const VocabularyListPage = () => {
     );
   }
 
+  const loadHandler = (e) => {
+    e.preventDefault();
+    setLoadMore((prevLoadMore) => prevLoadMore + 10);
+  };
+
   return (
     <Container>
       <Title title="單字列表" />
@@ -105,6 +117,7 @@ const VocabularyListPage = () => {
           ))
         )}
       </Card>
+      <LoadButton onClickHandler={loadHandler}>Load More</LoadButton>
     </Container>
   );
 };
