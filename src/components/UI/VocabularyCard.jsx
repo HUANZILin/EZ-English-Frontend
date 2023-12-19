@@ -140,11 +140,11 @@ const VocabularyCard = (props) => {
           }}
         ></Progress>
         <h2 style={{ fontSize: "1.3em" }}>
-          {props.corr == null ? "0" : props.corr}%
+          {props.corr == null ? "0" : props.corr.slice(0, 3)}%
         </h2>
       </BarDiv>
       <h2 style={{ fontSize: "1.3em" }}>
-        {props.lp == null ? "未有測驗紀錄" : props.lp}
+        {props.lp == null ? "未有測驗紀錄" : props.lp.slice(0, 10)}
       </h2>
     </Container>
   );
