@@ -5,9 +5,10 @@ import {
   CaretDownFilled,
 } from "@ant-design/icons";
 import styled from "styled-components";
-
+import { useEffect, useState } from "react";
 import Container from "../components/UI/Container";
 import CollectButton from "../components/UI/Collection/CollectButton";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
 
 const StyledDiv = styled.div`
   width: 40%;
@@ -67,37 +68,109 @@ const StyledButton = styled.button`
   margin-bottom: 40px;
 `;
 
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
 const CollectionPracticePage = () => {
-  const dummyVoc = [
-    {
-      id: 1,
-      title: "Apple",
-      translation: "蘋果",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 2,
-      title: "Banana",
-      translation: "香蕉",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 3,
-      title: "Orange",
-      translation: "橘子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 4,
-      title: "Pear",
-      translation: "梨子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-  ];
+  const [testWord,setTestWord] = useState();
+  const [userAnswers, setUserAnswers] = useState([]);
+
+  const getWordData = async () => {
+    const url = 'https://jybluega.com/ez-backend/quizcollect';
+    try {
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const resData = await response.json();
+      setTestWord(resData.data.wordsData);
+      const initialAnswers = resData.data.wordsData.map((word) => ({
+        id: word.w_id,
+        score: 1,
+        select: "收藏"
+      }));
+      setUserAnswers(initialAnswers);
+    } catch (error) {
+      console.log("The error occurred! :", error.message);
+      return null;
+    }
+  };
+
+  useEffect(()=> {
+    getWordData();
+  },[]);
+
+
+  if(!testWord){
+    return(
+      <Container>
+      <>
+          <h2
+            style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+          >
+            Loading...
+          </h2>
+          <LoadingIndicator />
+        </>
+      </Container>
+    )
+  }
+
+  
+
+  const handleAnswerChange = (wordId, score) => {
+    // 找到使用者答案陣列中單詞的索引
+    const index = userAnswers.findIndex((answer) => answer.id === wordId);
+    if(score == "陌生"){
+      score = 1;
+    }else if(score == "不確定"){
+      score = 2;
+    }else{
+      score = 3;
+    }
+
+    if (index !== -1) {
+      // 如果單詞已經存在於陣列中，則更新程度
+      setUserAnswers((prevAnswers) => [
+        ...prevAnswers.slice(0, index),
+        { id: wordId, score, select: "收藏" },
+        ...prevAnswers.slice(index + 1),
+      ]);
+    }
+  };
+  console.log(userAnswers);
+
+  const submitHandler = async() => {
+    const formData = new FormData();
+    userAnswers.forEach((item, index) => {
+      formData.append("w_id", item.id);
+      formData.append("score", item.score);
+      formData.append("select", item.select);
+    });
+    try{
+      const response = await fetch('https://jybluega.com/ez-backend/quizData',{
+        headers: { Authorization: `Bearer ${token}` },
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("POST request successful:", data);
+      refreshPage();
+    }
+    catch (error) {
+      console.log("The error occurred! :", error.message);
+    };
+  }
+
+  const refreshPage = () => {
+     window.alert("測驗已提交，即將跳轉到首頁");
+     setTimeout(()=> {
+      location.href = "/"
+     },500)
+  };
 
   return (
     <Container>
@@ -107,13 +180,13 @@ const CollectionPracticePage = () => {
           prevArrow={<LeftOutlined />}
           nextArrow={<RightOutlined />}
         >
-          {dummyVoc.map((voc) => {
+          {testWord.map((voc) => {
             return (
-              <div key={voc.id}>
+              <div key={voc.w_id}>
                 <StyledCard
                   title={
                     <h2 style={{ color: "#af7a1f", fontSize: "xx-large" }}>
-                      {voc.title}
+                      {voc.w_word}
                     </h2>
                   }
                   bordered={false}
@@ -121,7 +194,7 @@ const CollectionPracticePage = () => {
                   <Collapse
                     items={[
                       {
-                        key: voc.id,
+                        key: voc.w_id,
                         label: (
                           <div style={{ paddingBottom: "17px" }}>
                             <h2 style={{ marginBottom: "-5px" }}>查看解釋</h2>
@@ -131,9 +204,9 @@ const CollectionPracticePage = () => {
                         children: (
                           <>
                             <h2>
-                              {voc.translation}({voc.part})
+                              {voc.w_chinese}({voc.w_part_of_speech})
                             </h2>
-                            <p>{voc.explanation}</p>
+                            <p>{voc.w_meaning}</p>
                           </>
                         ),
                         showArrow: false,
@@ -149,12 +222,12 @@ const CollectionPracticePage = () => {
                       padding: "0px 32px",
                     }}
                   >
-                    <CollectButton initState={true} />
+                    <CollectButton initState={true} wordID={voc.w_id}/>
                     <StyledSegmented
                       block
                       options={["陌生", "不確定", "熟悉"]}
                       onChange={(e) => {
-                        console.log({ id: voc.id, degree: e });
+                        handleAnswerChange(voc.w_id,e);
                       }}
                     />
                   </div>
@@ -164,7 +237,7 @@ const CollectionPracticePage = () => {
           })}
         </Carousel>
       </StyledDiv>
-      <StyledButton>完成作答，送出</StyledButton>
+      <StyledButton onClick={submitHandler}>完成作答，送出</StyledButton>
     </Container>
   );
 };

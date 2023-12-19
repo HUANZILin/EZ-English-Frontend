@@ -253,7 +253,6 @@ useEffect(()=>{
                     }}
                   >
                     <CollectButton initState={false} wordID={voc.w_id}/>
-                    {console.log(voc.w_id)}
                     {/* <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={() => {
