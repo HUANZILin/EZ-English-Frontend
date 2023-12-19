@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./page/Layout/Root";
 import Practice from "./page/Layout/Practice";
 import HomePage from "./page/HomePage";
+import RemindLoginPage from "./page/RemindLoginPage";
 import MemberPage from "./page/MemberPage";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { index: true, element: <HomePage /> },
+      { path: "remindlogin", element: <RemindLoginPage /> },
       {
         path: "member",
         children: [{ index: true, element: <MemberPage /> }],
@@ -79,9 +81,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <WordDataProvider>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </WordDataProvider>
   );
 }

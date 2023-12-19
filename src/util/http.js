@@ -52,3 +52,23 @@ export async function deleteAccount({ id }) {
 
   return response.json();
 }
+
+export async function registerMember(userData) {
+  const response = await fetch(`https://jybluega.com/ez-backend/register`, {
+    method: "POST",
+    body: userData,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error("註冊時發生錯誤");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { status } = response.json();
+  return status;
+}

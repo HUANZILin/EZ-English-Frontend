@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -50,13 +52,26 @@ const StyledForm = styled.form`
 `;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+    if (formData) {
+      alert("登入成功！");
+      navigate("/");
+    }
+
+    // mutate(formData);
+  };
+
   return (
     <Container>
       <Title title="會員登入" />
-      <StyledForm>
-        <label for="email">帳號/Email</label>
-        <input id="email" type="email" name="email" required />
-        <label for="password">密碼</label>
+      <StyledForm id="loginForm" onSubmit={loginHandler}>
+        <label htmlFor="account">帳號/Email</label>
+        <input id="email" type="email" name="account" required />
+        <label htmlFor="password">密碼</label>
         <input
           id="password"
           type="password"
@@ -66,9 +81,7 @@ const LoginPage = () => {
           required
         />
 
-        <button id="submit" type="submit">
-          登入
-        </button>
+        <button type="submit">登入</button>
       </StyledForm>
       <div
         style={{

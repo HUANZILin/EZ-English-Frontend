@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
@@ -77,6 +78,8 @@ const Nav = styled.nav`
 `;
 
 const MainNav = () => {
+  const [isLogging, setIsLogging] = useState(false);
+
   return (
     <Nav>
       <div className="logo">
@@ -85,33 +88,59 @@ const MainNav = () => {
         </NavLink>
       </div>
       <div className="card_list">
-        <NavLink to={"vocabulary/list"}>單字列表</NavLink>
+        <NavLink to={isLogging ? "vocabulary/list" : "remindlogin"}>
+          單字列表
+        </NavLink>
         <div className="list">
-          <NavLink to={"vocabulary/card"} style={{ marginTop: "20px" }}>
+          <NavLink
+            to={isLogging ? "vocabulary/card" : "remindlogin"}
+            style={{ marginTop: "20px" }}
+          >
             單字卡
           </NavLink>
           <hr />
-          <NavLink to={"vocabulary/collection"}>收藏單字</NavLink>
+          <NavLink to={isLogging ? "vocabulary/collection" : "remindlogin"}>
+            收藏單字
+          </NavLink>
           <hr />
-          <NavLink to={"vocabulary/practice"}>單字練習</NavLink>
+          <NavLink to={isLogging ? "vocabulary/practice" : "remindlogin"}>
+            單字練習
+          </NavLink>
         </div>
       </div>
-      <NavLink to={"video"}>影片推薦</NavLink>
-      <NavLink to={"aicommunication"}>AI對話</NavLink>
+      <NavLink to={isLogging ? "video" : "remindlogin"}>影片推薦</NavLink>
+      <NavLink to={isLogging ? "aicommunication" : "remindlogin"}>
+        AI對話
+      </NavLink>
       <div className="card_list">
-        <NavLink to={"analysis"}>學習分析</NavLink>
+        <NavLink to={isLogging ? "analysis" : "remindlogin"}>學習分析</NavLink>
         <div className="list">
-          <NavLink to={"analysis/record"} style={{ marginTop: "20px" }}>
+          <NavLink
+            to={isLogging ? "analysis/record" : "remindlogin"}
+            style={{ marginTop: "20px" }}
+          >
             練習紀錄
           </NavLink>
         </div>
       </div>
-      <NavLink to={"member"} id="member" style={{ right: "140px" }}>
-        會員資料
-      </NavLink>
-      <NavLink to={"/"} id="member">
-        登出
-      </NavLink>
+      {isLogging ? (
+        <>
+          <NavLink
+            to={isLogging ? "member" : "remindlogin"}
+            id="member"
+            style={{ right: "140px" }}
+          >
+            會員資料
+          </NavLink>
+          <NavLink to={"/"} id="member">
+            登出
+          </NavLink>
+        </>
+      ) : (
+        <NavLink to={"login"} id="member">
+          登入
+        </NavLink>
+      )}
     </Nav>
   );
 };

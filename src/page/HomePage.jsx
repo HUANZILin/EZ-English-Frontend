@@ -1,4 +1,5 @@
 import { Col, Row } from "antd";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -34,6 +35,8 @@ const StyledSection = styled(Link)`
 `;
 
 const HomePage = () => {
+  const [isLogging, setIsLogging] = useState(false);
+
   return (
     <>
       <Row>
@@ -42,7 +45,7 @@ const HomePage = () => {
       <Row>
         <Col span={14}>
           <StyledSection
-            to={"vocabulary/card"}
+            to={isLogging ? "vocabulary/card" : "remindlogin"}
             backgroundColor={"#e2e4dd"}
             color={"#314543"}
           >
@@ -52,7 +55,10 @@ const HomePage = () => {
           </StyledSection>
         </Col>
         <Col span={10}>
-          <StyledSection to={"video"} backgroundColor={"#af7a1f"}>
+          <StyledSection
+            to={isLogging ? "video" : "remindlogin"}
+            backgroundColor={"#af7a1f"}
+          >
             影片推薦
             <br />
             <p>Recommended Videos</p>
@@ -61,14 +67,20 @@ const HomePage = () => {
       </Row>
       <Row>
         <Col span={10}>
-          <StyledSection to={"aicommunication"} backgroundColor={"#314543"}>
+          <StyledSection
+            to={isLogging ? "aicommunication" : "remindlogin"}
+            backgroundColor={"#314543"}
+          >
             AI對話
             <br />
             <p>AI Conversation</p>
           </StyledSection>
         </Col>
         <Col span={14}>
-          <StyledSection to={"analysis"} backgroundColor={"#58805e"}>
+          <StyledSection
+            to={isLogging ? "analysis" : "remindlogin"}
+            backgroundColor={"#58805e"}
+          >
             學習分析
             <br />
             <p>Learning-Data Analysis</p>

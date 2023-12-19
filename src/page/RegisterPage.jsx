@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient, registerMember } from "../util/http";
+
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
@@ -47,26 +51,60 @@ const StyledForm = styled.form`
 `;
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: registerMember,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["register"] });
+      navigate("/login");
+    },
+  });
+
+  const registerHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData(registerForm);
+    if (formData) {
+      alert("註冊成功！將導向登入頁。");
+      navigate("/login");
+    }
+
+    // mutate(formData);
+  };
+
   return (
     <Container>
       <Title title="會員註冊" />
-      <StyledForm action="">
+      <StyledForm id="registerForm" onSubmit={registerHandler}>
         <label htmlFor="account">帳號/Email</label>
-        <input type="email" placeholder="請輸入帳號(email)" required />
-        <label htmlFor="password">密碼</label>
-        <input id="password" type="text" placeholder="請輸入密碼" required />
-        <label htmlFor="passwordCheck">確認密碼</label>
         <input
-          id="passwordCheck"
-          type="text"
+          id="account"
+          name="account"
+          type="email"
+          placeholder="請輸入帳號(email)"
+          required
+        />
+        <label htmlFor="password">密碼</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          minlength="8"
+          maxlength="12"
+          placeholder="請輸入密碼"
+          required
+        />
+        <label htmlFor="repassword">確認密碼</label>
+        <input
+          id="repassword"
+          name="repassword"
+          type="password"
+          minlength="8"
+          maxlength="12"
           placeholder="請再次輸入密碼"
           required
         />
-        <button
-          onClick={(e) => {
-            console.log(e);
-          }}
-        >
+        <button type="submit" disabled={isPending}>
           註冊
         </button>
       </StyledForm>
