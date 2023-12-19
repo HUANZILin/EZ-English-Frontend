@@ -252,8 +252,9 @@ useEffect(()=>{
                       padding: "0px 32px",
                     }}
                   >
-                    <CollectButton initState={false} />
-                    <button
+                    <CollectButton initState={false} wordID={voc.w_id}/>
+                    {console.log(voc.w_id)}
+                    {/* <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={() => {
                         setIsDelete(true);
@@ -261,7 +262,7 @@ useEffect(()=>{
                       }}
                     >
                       刪除卡片
-                    </button>
+                    </button> */}
                   </div>
                 </StyledCard>
               </div>
