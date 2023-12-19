@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchVideo } from "../util/http";
+
 import { Card, Carousel, Alert } from "antd";
 import {
   LeftOutlined,
@@ -7,9 +11,13 @@ import {
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
+import ErrorBlock from "../components/UI/ErrorBlock";
 
 const StyledDiv = styled.div`
   width: 55%;
+  display: flex;
+  flex-direction: column;
   align-self: center;
   margin: 2rem 0px 50px 0px;
 
@@ -44,28 +52,108 @@ const StyledCard = styled(Card)`
 `;
 
 const VideoPage = () => {
-  const dummyVideo = [
+  let content;
+  const [videoList, setVideoList] = useState([
+    {
+      id: 0,
+      title: "data[0].snippet.title",
+      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
+    },
     {
       id: 1,
-      title: "Tim Urban: Inside the mind of a master procrastinator",
-      path: "https://www.youtube.com/embed/arj7oStGLkU?si=D4ZlWjbFCnXmlrS3",
+      title: "data[1].snippet.title",
+      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
     },
     {
       id: 2,
-      title: "How to speak so that people want to listen",
-      path: "https://www.youtube.com/embed/eIho2S0ZahI?si=Ew2lifsBRj_JjYPz",
+      title: "data[2].snippet.title",
+      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
     },
     {
       id: 3,
-      title: "Bill Gates: The next outbreak? We’re not ready",
-      path: "https://www.youtube.com/embed/6Af6b_wyiwI?si=Ly9NaiNkFIPZN3yP",
+      title: "data[3].snippet.title",
+      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
     },
-    {
-      id: 4,
-      title: "Tom Thum: The orchestra in my mouth",
-      path: "https://www.youtube.com/embed/DFjIi2hxxf0?si=8epXrTEmdwm90SWt",
-    },
-  ];
+  ]);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["videoData"],
+    queryFn: fetchVideo,
+  });
+
+  if (data) {
+    setVideoList([
+      {
+        id: data[0].id.videoId,
+        title: data[0].snippet.title,
+        path: `https://www.youtube.com/embed/${data[0].id.videoId}?`,
+      },
+      {
+        id: data[1].id.videoId,
+        title: data[1].snippet.title,
+        path: `https://www.youtube.com/embed/${data[1].id.videoId}?`,
+      },
+      {
+        id: data[2].id.videoId,
+        title: data[2].snippet.title,
+        path: `https://www.youtube.com/embed/${data[2].id.videoId}?`,
+      },
+      {
+        id: data[3].id.videoId,
+        title: data[3].snippet.title,
+        path: `https://www.youtube.com/embed/${data[3].id.videoId}?`,
+      },
+    ]);
+
+    content = (
+      <Carousel
+        arrows
+        prevArrow={<LeftOutlined />}
+        nextArrow={<RightOutlined />}
+      >
+        {videoList.map((video) => {
+          return (
+            <div key={video.id}>
+              <StyledCard title={<h2>{video.title}</h2>} bordered={false}>
+                <iframe
+                  width="620"
+                  height="360"
+                  src={video.path}
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </StyledCard>
+            </div>
+          );
+        })}
+      </Carousel>
+    );
+  }
+
+  if (isLoading) {
+    content = (
+      <>
+        <h2
+          style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+        >
+          Loading...
+        </h2>
+        <LoadingIndicator />
+      </>
+    );
+  }
+
+  if (isError) {
+    content = (
+      <ErrorBlock
+        title={"發生錯誤"}
+        message={"取得資料時發生錯誤，請確認網路連線或於片刻後重整頁面。"}
+        style={{ width: "65%" }}
+      />
+    );
+  }
 
   return (
     <Container>
@@ -104,29 +192,7 @@ const VideoPage = () => {
           showIcon
           closeIcon
         />
-        <Carousel
-          arrows
-          prevArrow={<LeftOutlined />}
-          nextArrow={<RightOutlined />}
-        >
-          {dummyVideo.map((video) => {
-            return (
-              <div key={video.id}>
-                <StyledCard title={<h2>{video.title}</h2>} bordered={false}>
-                  <iframe
-                    width="620"
-                    height="360"
-                    src={video.path}
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen
-                  ></iframe>
-                </StyledCard>
-              </div>
-            );
-          })}
-        </Carousel>
+        {content}
       </StyledDiv>
     </Container>
   );

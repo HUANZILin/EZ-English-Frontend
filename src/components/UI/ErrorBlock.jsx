@@ -7,7 +7,7 @@ const StyledDiv = styled.div`
   border-radius: 4px;
   color: #6d2134;
   display: flex;
-  width: 40%;
+  width: 35%;
   gap: 2rem;
   align-items: center;
   align-self: center;
@@ -36,9 +36,9 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default function ErrorBlock({ title, message }) {
+export default function ErrorBlock({ title, message, style }) {
   return (
-    <StyledDiv>
+    <StyledDiv style={style}>
       <div className="error-block-icon">!</div>
       <div>
         <h2>{title}</h2>
