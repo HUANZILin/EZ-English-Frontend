@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
@@ -75,10 +75,33 @@ const BigDiagram = styled.div`
 `;
 
 const AnalysisPage = () => {
+  const [diagramData, setDiagramData] = useState([]);
+
   const chart1Ref = useRef(null);
   const chart2Ref = useRef(null);
   const chart3Ref = useRef(null);
   const chart4Ref = useRef(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://jybluega.com/ez-backend/analysis", {
+        headers: {
+          Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A",
+        },
+      });
+
+      const data = await response.json();
+
+      setDiagramData(data.data);
+      console.log(data.data.modeWeek[1]["count(*)"]);
+    }
+    try {
+      fetchData();
+    } catch (error) {
+      console.log("The error occuered! :", error.message);
+    }
+  }, []);
 
   useEffect(() => {
     const chart1 = chart1Ref.current;
@@ -123,7 +146,10 @@ const AnalysisPage = () => {
     datasets: [
       {
         label: "點閱數",
-        data: [30, 10],
+        data: [
+          diagramData.modeWeek[1]["count(*)"],
+          diagramData.modeWeek[0]["count(*)"],
+        ],
         borderWidth: "0",
         backgroundColor: ["#314543", "#58805e"],
         hoverOffset: 4,
@@ -151,7 +177,10 @@ const AnalysisPage = () => {
     datasets: [
       {
         label: "點閱數",
-        data: [20, 10],
+        data: [
+          diagramData.modeMonth[1]["count(*)"],
+          diagramData.modeMonth[0]["count(*)"],
+        ],
         borderWidth: "0",
         backgroundColor: ["#314543", "#58805e"],
         hoverOffset: 4,
