@@ -104,17 +104,19 @@ const VocabularyListPage = () => {
         {onPlaying.length == 0 ? (
           <h3 style={{ color: "#314543" }}>沒有搜尋到單字，請重新搜尋</h3>
         ) : (
-          onPlaying.map((word) => (
-            <VocabularyCard
-              key={word.w_id}
-              word={word.w_word}
-              pos={word.w_part_of_speech}
-              corr={word.average_score}
-              lp={word.latest_datetime}
-              collected={word.collect}
-              theID={word.w_id}
-            />
-          ))
+          onPlaying.map((word) => {
+            return (
+              <VocabularyCard
+                key={word.w_id}
+                word={word.w_word}
+                pos={word.w_part_of_speech}
+                corr={word.average_score.slice(0, 3)}
+                lp={word.latest_datetime.slice(0, 10)}
+                collected={word.collect}
+                theID={word.w_id}
+              />
+            );
+          })
         )}
       </Card>
       <LoadButton onClickHandler={loadHandler}>Load More</LoadButton>

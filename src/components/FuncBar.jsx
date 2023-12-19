@@ -40,12 +40,12 @@ const FuncBar = (props) => {
         type="text"
         placeholder="請輸入要搜尋的單字"
         style={{
-          width: "30vw",
+          width: "40vw",
           borderRadius: "30px",
           color: "#314543",
           fontSize: "1.5rem",
           fontWeight: "bold",
-          textIndent: "10px",
+          textIndent: "30px",
           border: "none",
         }}
         onChange={changeHandler}

@@ -131,7 +131,7 @@ const VocabularyCard = (props) => {
           strokeColor="#58805e"
           percent={props.corr}
           trailColor="#314543"
-          size={[300, 20]}
+          size={[250, 20]}
           showInfo={false}
           style={{
             display: "flex",
@@ -139,7 +139,9 @@ const VocabularyCard = (props) => {
             flexDirection: "column",
           }}
         ></Progress>
-        <h2>{props.corr == null ? "0" : props.corr}%</h2>
+        <h2 style={{ fontSize: "1.3em" }}>
+          {props.corr == null ? "0" : props.corr}%
+        </h2>
       </BarDiv>
       <h2 style={{ fontSize: "1.3em" }}>
         {props.lp == null ? "未有測驗紀錄" : props.lp}
