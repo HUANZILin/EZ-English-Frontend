@@ -51,6 +51,7 @@ const StyledCard = styled(Card)`
 `;
 
 const VideoPage = () => {
+  const token = sessionStorage.getItem("memberToken");
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [videoData, setVideoData] = useState([]);
@@ -59,8 +60,7 @@ const VideoPage = () => {
     async function fetchData() {
       const response = await fetch("https://jybluega.com/ez-backend/video", {
         headers: {
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -124,8 +124,13 @@ const VideoPage = () => {
                 fontSize: "1rem",
               }}
             >
-              影片推薦根據使用者最新的<strong>AI對話紀錄</strong>
-              進行關鍵字擷取，並推薦最相關的TED演講影片，希望讓使用者透過感興趣的話題快樂學英文:)
+              <ul>
+                <li>
+                  根據使用者最新的<strong>AI對話紀錄</strong>
+                  進行關鍵字擷取，並推薦最相關的TED演講影片，希望讓使用者透過感興趣的話題快樂學英文:)
+                </li>
+                <li>如果還未進行過對話，則隨機推薦</li>
+              </ul>
             </p>
           }
           type="success"

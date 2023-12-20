@@ -1,35 +1,30 @@
 import { createContext, useState, useEffect } from "react";
 
 export const WordData = createContext({
-    wordList : []
+  wordList: [],
 });
 
-export default function WordDataProvider({children}){
-    const [wordData,setWordData] = useState([]);
+export default function WordDataProvider({ children }) {
+  const [wordData, setWordData] = useState([]);
 
-    useEffect(() => {
-        const url = 'https://jybluega.com/ez-backend/wordList';
-        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
-        async function fetchData(){
-          const response = await fetch(url, {
-            headers: { Authorization: `Bearer ${token}` }});
-          const resData =await response.json();
-          setWordData(resData.data.wordsData);
-        }
-        try{
-            fetchData();
-        }catch(error){
-            console.log("The error occuered! :",error.message);
-        }
-        
-    },[])
+  useEffect(() => {
+    const url = "https://jybluega.com/ez-backend/wordList";
+    const token = sessionStorage.getItem("memberToken");
+    async function fetchData() {
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const resData = await response.json();
+      setWordData(resData.data.wordsData);
+    }
+    try {
+      fetchData();
+    } catch (error) {
+      console.log("The error occurred! :", error.message);
+    }
+  }, []);
 
-
-    return(
-        <WordData.Provider value={ wordData }>
-            {children}
-        </WordData.Provider>
-    )
+  return <WordData.Provider value={wordData}>{children}</WordData.Provider>;
 }
 // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
 

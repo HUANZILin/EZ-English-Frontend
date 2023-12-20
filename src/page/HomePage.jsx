@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -35,7 +35,16 @@ const StyledSection = styled(Link)`
 `;
 
 const HomePage = () => {
+  const token = sessionStorage.getItem("memberToken");
   const [isLogging, setIsLogging] = useState(false);
+
+  useEffect(() => {
+    if (token === null) {
+      setIsLogging(false);
+    } else {
+      setIsLogging(true);
+    }
+  }, [isLogging]);
 
   return (
     <>

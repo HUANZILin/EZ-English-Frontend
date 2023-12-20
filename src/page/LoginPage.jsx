@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -54,6 +54,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [memberData, setMemberData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLogging, setIsLogging] = useState(false);
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -81,7 +82,7 @@ const LoginPage = () => {
       setIsLoading(false);
       sessionStorage.setItem("memberToken", data.data);
       alert("登入成功！");
-      navigate("/");
+      setIsLogging(true);
     };
     try {
       postData();
@@ -89,6 +90,12 @@ const LoginPage = () => {
       console.log("The error occurred! :", error.message);
     }
   }, [memberData]);
+
+  useEffect(() => {
+    if (isLogging) {
+      location.href = "/";
+    }
+  }, [isLogging]);
 
   return (
     <Container>

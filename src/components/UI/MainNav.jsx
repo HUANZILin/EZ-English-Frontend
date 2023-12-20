@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, redirect } from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
@@ -77,8 +77,16 @@ const Nav = styled.nav`
   }
 `;
 
-const MainNav = () => {
-  const [isLogging, setIsLogging] = useState(true);
+const MainNav = (props) => {
+  const [isLogging, setIsLogging] = useState(false);
+
+  useEffect(() => {
+    if (props.token === null) {
+      setIsLogging(false);
+    } else {
+      setIsLogging(true);
+    }
+  }, [isLogging]);
 
   return (
     <Nav>
@@ -132,7 +140,7 @@ const MainNav = () => {
           >
             會員資料
           </NavLink>
-          <NavLink to={"/"} id="member">
+          <NavLink onClick={props.onLogout} id="member">
             登出
           </NavLink>
         </>

@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Container from "../components/UI/Container";
+import Title from "../components/Title";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -9,7 +11,7 @@ import {
   LinearScale,
   PointElement,
   LineElement,
-  Title,
+  Title as ChartTitle,
   Tooltip,
   Legend,
 } from "chart.js";
@@ -75,7 +77,20 @@ const BigDiagram = styled.div`
 `;
 
 const AnalysisPage = () => {
-  const [diagramData, setDiagramData] = useState([]);
+  const token = sessionStorage.getItem("memberToken");
+  const [isLoading, setIsLoading] = useState(true);
+  const [diagramData, setDiagramData] = useState({
+    modeWeek: [
+      { p_select: "收藏", "count(*)": "1" },
+      { p_select: "收藏", "count(*)": "1" },
+    ],
+    modeMonth: [
+      { p_select: "收藏", "count(*)": "1" },
+      { p_select: "收藏", "count(*)": "1" },
+    ],
+  });
+
+  console.log(token);
 
   const chart1Ref = useRef(null);
   const chart2Ref = useRef(null);
@@ -86,20 +101,37 @@ const AnalysisPage = () => {
     async function fetchData() {
       const response = await fetch("https://jybluega.com/ez-backend/analysis", {
         headers: {
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A",
+          Authorization: `Bearer ${token}`,
         },
       });
 
       const data = await response.json();
 
-      setDiagramData(data.data);
-      console.log(data.data.modeWeek[1]["count(*)"]);
+      if (
+        data.data.modeMonth.length === 0 ||
+        data.data.modeWeek.length === 0 ||
+        data.data.countWeek.length === 0 ||
+        data.data.avgWeek.length === 0
+      ) {
+        setDiagramData({
+          modeWeek: [
+            { p_select: "收藏", "count(*)": "1" },
+            { p_select: "收藏", "count(*)": "1" },
+          ],
+          modeMonth: [
+            { p_select: "收藏", "count(*)": "1" },
+            { p_select: "收藏", "count(*)": "1" },
+          ],
+        });
+      } else {
+        setDiagramData(data.data);
+      }
+      setIsLoading(false);
     }
     try {
       fetchData();
     } catch (error) {
-      console.log("The error occuered! :", error.message);
+      console.log("The error occurred! :", error.message);
     }
   }, []);
 
@@ -126,6 +158,22 @@ const AnalysisPage = () => {
       //   chart4.destroy();
     }
   }, []);
+
+  if (isLoading) {
+    return (
+      <Container>
+        <Title title="學習分析" />
+        <>
+          <h2
+            style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+          >
+            Loading...
+          </h2>
+          <LoadingIndicator />
+        </>
+      </Container>
+    );
+  }
 
   const options1 = {
     plugins: {

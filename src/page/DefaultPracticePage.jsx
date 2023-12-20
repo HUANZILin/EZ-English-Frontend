@@ -1,4 +1,4 @@
-import { Card, Carousel, Segmented, Collapse,Alert} from "antd";
+import { Card, Carousel, Segmented, Collapse, Alert } from "antd";
 import {
   CaretDownFilled,
   LeftOutlined,
@@ -68,14 +68,13 @@ const StyledButton = styled.button`
   margin-bottom: 40px;
 `;
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
-
 const DefaultPracticePage = () => {
-  const [testWord,setTestWord] = useState();
+  const token = sessionStorage.getItem("memberToken");
+  const [testWord, setTestWord] = useState();
   const [userAnswers, setUserAnswers] = useState([]);
 
   const getWordData = async () => {
-    const url = 'https://jybluega.com/ez-backend/quizrandom';
+    const url = "https://jybluega.com/ez-backend/quizrandom";
     try {
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -86,7 +85,7 @@ const DefaultPracticePage = () => {
       const initialAnswers = resData.data.wordsData.map((word) => ({
         id: word.w_id,
         score: 1,
-        select: "隨機"
+        select: "隨機",
       }));
       setUserAnswers(initialAnswers);
     } catch (error) {
@@ -95,15 +94,14 @@ const DefaultPracticePage = () => {
     }
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     getWordData();
-  },[]);
+  }, []);
 
-
-  if(!testWord){
-    return(
+  if (!testWord) {
+    return (
       <Container>
-      <>
+        <>
           <h2
             style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
           >
@@ -112,19 +110,17 @@ const DefaultPracticePage = () => {
           <LoadingIndicator />
         </>
       </Container>
-    )
+    );
   }
-
-  
 
   const handleAnswerChange = (wordId, score) => {
     // 找到使用者答案陣列中單詞的索引
     const index = userAnswers.findIndex((answer) => answer.id === wordId);
-    if(score == "陌生"){
+    if (score == "陌生") {
       score = 1;
-    }else if(score == "不確定"){
+    } else if (score == "不確定") {
       score = 2;
-    }else{
+    } else {
       score = 3;
     }
 
@@ -139,19 +135,19 @@ const DefaultPracticePage = () => {
   };
   console.log(userAnswers);
 
-  const submitHandler = async() => {
+  const submitHandler = async () => {
     const formData = new FormData();
     userAnswers.forEach((item, index) => {
       formData.append("w_id", item.id);
       formData.append("score", item.score);
       formData.append("select", item.select);
     });
-    try{
-      const response = await fetch('https://jybluega.com/ez-backend/quizData',{
+    try {
+      const response = await fetch("https://jybluega.com/ez-backend/quizData", {
         headers: { Authorization: `Bearer ${token}` },
         method: "POST",
         body: formData,
-      })
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -160,17 +156,16 @@ const DefaultPracticePage = () => {
       const data = await response.json();
       console.log("POST request successful:", data);
       refreshPage();
-    }
-    catch (error) {
+    } catch (error) {
       console.log("The error occurred! :", error.message);
-    };
-  }
+    }
+  };
 
   const refreshPage = () => {
-     window.alert("測驗已提交，即將跳轉到首頁");
-     setTimeout(()=> {
-      location.href = "/"
-     },500)
+    window.alert("測驗已提交，即將跳轉到首頁");
+    setTimeout(() => {
+      location.href = "/";
+    }, 500);
   };
 
   return (
@@ -223,13 +218,11 @@ const DefaultPracticePage = () => {
                       padding: "0px 32px",
                     }}
                   >
-                    <CollectButton initState={false} wordID={voc.w_id}/>
+                    <CollectButton initState={false} wordID={voc.w_id} />
                     <StyledSegmented
                       block
                       options={["陌生", "不確定", "熟悉"]}
-                      onChange={(e) => 
-                        handleAnswerChange(voc.w_id,e)
-                      }
+                      onChange={(e) => handleAnswerChange(voc.w_id, e)}
                     />
                   </div>
                 </StyledCard>

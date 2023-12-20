@@ -28,12 +28,12 @@ const Card = styled.div`
 `;
 
 const CollectionWord = () => {
+  const token = sessionStorage.getItem("memberToken");
   const [theCollectedList, setTheCollectedList] = useState([]);
   const [nowLoading, setNowLoading] = useState(true);
+
   useEffect(() => {
     const url = "https://jybluega.com/ez-backend/collection";
-    const token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A";
     async function fetchData() {
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
@@ -79,7 +79,11 @@ const CollectionWord = () => {
       )}
       <Card>
         {theCollectedList.length == 0 ? (
-          <h3 style={{ color: "yellow" }}>Oops！你沒有收藏的單字</h3>
+          <Container>
+            <h3 style={{ alignSelf: "center", color: "#e2e4dd" }}>
+              Oops！你沒有收藏的單字
+            </h3>
+          </Container>
         ) : (
           theCollectedList.map((word) => (
             <VocabularyCard

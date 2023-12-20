@@ -68,24 +68,30 @@ const StyledButton = styled.button`
   margin-bottom: 40px;
 `;
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
 const CollectionPracticePage = () => {
-  const [testWord,setTestWord] = useState();
+  const token = sessionStorage.getItem("memberToken");
+  const [testWord, setTestWord] = useState();
   const [userAnswers, setUserAnswers] = useState([]);
 
   const getWordData = async () => {
-    const url = 'https://jybluega.com/ez-backend/quizcollect';
+    const url = "https://jybluega.com/ez-backend/quizcollect";
     try {
       const response = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const resData = await response.json();
-      setTestWord(resData.data.wordsData);
+
+      if (resData.messages.error === "查無收藏單字") {
+        setTestWord(null);
+      } else {
+        setTestWord(resData.data.wordsData);
+      }
+
       const initialAnswers = resData.data.wordsData.map((word) => ({
         id: word.w_id,
         score: 1,
-        select: "收藏"
+        select: "收藏",
       }));
       setUserAnswers(initialAnswers);
     } catch (error) {
@@ -94,15 +100,24 @@ const CollectionPracticePage = () => {
     }
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     getWordData();
-  },[]);
+  }, []);
 
-
-  if(!testWord){
-    return(
+  if (testWord === null) {
+    return (
       <Container>
-      <>
+        <h3 style={{ alignSelf: "center", color: "#e2e4dd" }}>
+          Oops！你沒有收藏的單字
+        </h3>
+      </Container>
+    );
+  }
+
+  if (!testWord) {
+    return (
+      <Container>
+        <>
           <h2
             style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
           >
@@ -111,19 +126,17 @@ const CollectionPracticePage = () => {
           <LoadingIndicator />
         </>
       </Container>
-    )
+    );
   }
-
-  
 
   const handleAnswerChange = (wordId, score) => {
     // 找到使用者答案陣列中單詞的索引
     const index = userAnswers.findIndex((answer) => answer.id === wordId);
-    if(score == "陌生"){
+    if (score == "陌生") {
       score = 1;
-    }else if(score == "不確定"){
+    } else if (score == "不確定") {
       score = 2;
-    }else{
+    } else {
       score = 3;
     }
 
@@ -138,19 +151,19 @@ const CollectionPracticePage = () => {
   };
   console.log(userAnswers);
 
-  const submitHandler = async() => {
+  const submitHandler = async () => {
     const formData = new FormData();
     userAnswers.forEach((item, index) => {
       formData.append("w_id", item.id);
       formData.append("score", item.score);
       formData.append("select", item.select);
     });
-    try{
-      const response = await fetch('https://jybluega.com/ez-backend/quizData',{
+    try {
+      const response = await fetch("https://jybluega.com/ez-backend/quizData", {
         headers: { Authorization: `Bearer ${token}` },
         method: "POST",
         body: formData,
-      })
+      });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -159,17 +172,16 @@ const CollectionPracticePage = () => {
       const data = await response.json();
       console.log("POST request successful:", data);
       refreshPage();
-    }
-    catch (error) {
+    } catch (error) {
       console.log("The error occurred! :", error.message);
-    };
-  }
+    }
+  };
 
   const refreshPage = () => {
-     window.alert("測驗已提交，即將跳轉到首頁");
-     setTimeout(()=> {
-      location.href = "/"
-     },500)
+    window.alert("測驗已提交，即將跳轉到首頁");
+    setTimeout(() => {
+      location.href = "/";
+    }, 500);
   };
 
   return (
@@ -222,12 +234,12 @@ const CollectionPracticePage = () => {
                       padding: "0px 32px",
                     }}
                   >
-                    <CollectButton initState={true} wordID={voc.w_id}/>
+                    <CollectButton initState={true} wordID={voc.w_id} />
                     <StyledSegmented
                       block
                       options={["陌生", "不確定", "熟悉"]}
                       onChange={(e) => {
-                        handleAnswerChange(voc.w_id,e);
+                        handleAnswerChange(voc.w_id, e);
                       }}
                     />
                   </div>
