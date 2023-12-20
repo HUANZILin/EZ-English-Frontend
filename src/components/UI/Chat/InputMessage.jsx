@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 const apiKey = import.meta.env.VITE_CHATGPT_API_KEY;
 
@@ -40,6 +40,7 @@ const StyledEnterOutlined = styled(EnterOutlined)`
 `;
 
 const InputMessage = (props) => {
+  const token = sessionStorage.getItem("memberToken");
   const [nowTexting, setNowTexting] = useState("");
 
   const appendMessage = (sender, content) => {
@@ -48,43 +49,65 @@ const InputMessage = (props) => {
 
   let botReply;
 
+  const postChat = async (formData) => {
+    const response = await fetch("https://jybluega.com/ez-backend/video", {
+      headers: { Authorization: `Bearer ${token}` },
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    console.log("POST request successful:", data);
+  };
+
+  const postChatGPT = async () => {
+    const response = await axios
+      .post(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You will receive a statement, and your task is to reply with both English and Traditional Chinese translation, each reply is up to 50 words.",
+            },
+            {
+              role: "user",
+              content: nowTexting,
+            },
+          ],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: apiKey,
+          },
+        }
+      )
+      .then(function (response) {
+        botReply = response.data.choices[0].message.content;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const submitHandler = async () => {
     if (nowTexting.trim() === "") return;
 
     appendMessage("User", nowTexting);
-    setNowTexting("");
 
     try {
-      const response = await axios
-        .post(
-          "https://api.openai.com/v1/chat/completions",
-          {
-            model: "gpt-3.5-turbo",
-            messages: [
-              {
-                role: "system",
-                content:
-                  "You will receive a statement, and your task is to reply with both English and Traditional Chinese translation, each reply is up to 50 words.",
-              },
-              {
-                role: "user",
-                content: nowTexting,
-              },
-            ],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: apiKey,
-            },
-          }
-        )
-        .then(function (response) {
-          botReply = response.data.choices[0].message.content;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      const formData = new FormData();
+      formData.append("chat", nowTexting);
+      await postChat(formData);
+      await postChatGPT(nowTexting);
+      setNowTexting("");
     } catch (error) {
       console.error("Error calling ChatGPT API:", error);
     }
