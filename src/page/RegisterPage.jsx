@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
-import { queryClient, registerMember } from "../util/http";
+import { useEffect, useState } from "react";
 
 import styled from "styled-components";
 
@@ -52,30 +51,49 @@ const StyledForm = styled.form`
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-
-  const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: registerMember,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["register"] });
-      navigate("/login");
-    },
-  });
+  const [userData, setUserData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const registerHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData(registerForm);
-    if (formData) {
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("account", e.target[0].value);
+    formData.append("password", e.target[1].value);
+    formData.append("repassword", e.target[2].value);
+
+    setUserData(formData);
+  };
+
+  useEffect(() => {
+    const postData = async () => {
+      const response = await fetch("https://jybluega.com/ez-backend/register", {
+        method: "POST",
+        body: userData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+      console.log("POST request successful:", data);
+      setIsLoading(false);
       alert("註冊成功！將導向登入頁。");
       navigate("/login");
+    };
+    try {
+      postData();
+    } catch (error) {
+      console.log("The error occurred! :", error.message);
     }
-
-    // mutate(formData);
-  };
+  }, [userData]);
 
   return (
     <Container>
       <Title title="會員註冊" />
-      <StyledForm id="registerForm" onSubmit={registerHandler}>
+      <StyledForm onSubmit={registerHandler}>
         <label htmlFor="account">帳號/Email</label>
         <input
           id="account"
@@ -89,8 +107,8 @@ const RegisterPage = () => {
           id="password"
           name="password"
           type="password"
-          minlength="8"
-          maxlength="12"
+          minLength="8"
+          maxLength="12"
           placeholder="請輸入密碼"
           required
         />
@@ -99,12 +117,12 @@ const RegisterPage = () => {
           id="repassword"
           name="repassword"
           type="password"
-          minlength="8"
-          maxlength="12"
+          minLength="8"
+          maxLength="12"
           placeholder="請再次輸入密碼"
           required
         />
-        <button type="submit" disabled={isPending}>
+        <button type="submit" disabled={isLoading}>
           註冊
         </button>
       </StyledForm>
