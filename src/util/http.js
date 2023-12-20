@@ -73,24 +73,3 @@ export async function registerMember(userData) {
   const { status } = response.json();
   return status;
 }
-
-export const fetchVideo = async () => {
-  const response = await fetch("https://jybluega.com/ez-backend/video", {
-    headers: {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A",
-    },
-  });
-
-  if (!response.ok) {
-    const error = new Error("取得影片資料時發生錯誤");
-    error.code = response.status;
-    error.info = await response.json();
-    throw error;
-  }
-
-  const data = await response.json();
-  console.log(data.data.videos.items[0]);
-
-  return data.data.videos.items;
-};

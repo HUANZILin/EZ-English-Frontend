@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { fetchVideo } from "../util/http";
+import { useEffect, useState } from "react";
 
 import { Card, Carousel, Alert } from "antd";
 import {
@@ -13,6 +11,7 @@ import styled from "styled-components";
 import Container from "../components/UI/Container";
 import LoadingIndicator from "../components/UI/LoadingIndicator";
 import ErrorBlock from "../components/UI/ErrorBlock";
+import Title from "../components/Title";
 
 const StyledDiv = styled.div`
   width: 55%;
@@ -52,121 +51,63 @@ const StyledCard = styled(Card)`
 `;
 
 const VideoPage = () => {
-  let content;
-  const [videoList, setVideoList] = useState([
-    {
-      id: 0,
-      title: "data[0].snippet.title",
-      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
-    },
-    {
-      id: 1,
-      title: "data[1].snippet.title",
-      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
-    },
-    {
-      id: 2,
-      title: "data[2].snippet.title",
-      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
-    },
-    {
-      id: 3,
-      title: "data[3].snippet.title",
-      path: `https://www.youtube.com/embed/8jPQjjsBbIc?}`,
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [videoData, setVideoData] = useState([]);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["videoData"],
-    queryFn: fetchVideo,
-  });
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://jybluega.com/ez-backend/video", {
+        headers: {
+          Authorization:
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A",
+        },
+      });
 
-  if (data) {
-    setVideoList([
-      {
-        id: data[0].id.videoId,
-        title: data[0].snippet.title,
-        path: `https://www.youtube.com/embed/${data[0].id.videoId}?`,
-      },
-      {
-        id: data[1].id.videoId,
-        title: data[1].snippet.title,
-        path: `https://www.youtube.com/embed/${data[1].id.videoId}?`,
-      },
-      {
-        id: data[2].id.videoId,
-        title: data[2].snippet.title,
-        path: `https://www.youtube.com/embed/${data[2].id.videoId}?`,
-      },
-      {
-        id: data[3].id.videoId,
-        title: data[3].snippet.title,
-        path: `https://www.youtube.com/embed/${data[3].id.videoId}?`,
-      },
-    ]);
+      const data = await response.json();
+      setVideoData(data.data.videos.items);
+      console.log(data.data.videos.items);
+    }
 
-    content = (
-      <Carousel
-        arrows
-        prevArrow={<LeftOutlined />}
-        nextArrow={<RightOutlined />}
-      >
-        {videoList.map((video) => {
-          return (
-            <div key={video.id}>
-              <StyledCard title={<h2>{video.title}</h2>} bordered={false}>
-                <iframe
-                  width="620"
-                  height="360"
-                  src={video.path}
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
-              </StyledCard>
-            </div>
-          );
-        })}
-      </Carousel>
-    );
-  }
+    try {
+      fetchData();
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      console.log("The error occurred! :", error.message);
+    }
+  }, []);
 
   if (isLoading) {
-    content = (
-      <>
+    return (
+      <Container>
+        <Title title="影片推薦" />
         <h2
           style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
         >
           Loading...
         </h2>
         <LoadingIndicator />
-      </>
+      </Container>
     );
   }
 
   if (isError) {
-    content = (
-      <ErrorBlock
-        title={"發生錯誤"}
-        message={"取得資料時發生錯誤，請確認網路連線或於片刻後重整頁面。"}
-        style={{ width: "65%" }}
-      />
+    return (
+      <Container>
+        <Title title="影片推薦" />
+        <ErrorBlock
+          title={"發生錯誤"}
+          message={"取得資料時發生錯誤，請確認網路連線或於片刻後重整頁面。"}
+          style={{ width: "65%" }}
+        />
+      </Container>
     );
   }
 
   return (
     <Container>
-      <h1
-        style={{
-          paddingTop: "100px",
-          textAlign: "center",
-          letterSpacing: "2rem",
-        }}
-      >
-        &thinsp;影片推薦
-      </h1>
-      <hr width="80%" />
+      <Title title="影片推薦" />
       <StyledDiv>
         <Alert
           message={
@@ -192,7 +133,32 @@ const VideoPage = () => {
           showIcon
           closeIcon
         />
-        {content}
+        <Carousel
+          arrows
+          prevArrow={<LeftOutlined />}
+          nextArrow={<RightOutlined />}
+        >
+          {videoData.map((video) => {
+            return (
+              <div key={video.id.videoId}>
+                <StyledCard
+                  title={<h2>{video.snippet.title}</h2>}
+                  bordered={false}
+                >
+                  <iframe
+                    width="620"
+                    height="360"
+                    src={`https://www.youtube.com/embed/${video.id.videoId}?`}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </StyledCard>
+              </div>
+            );
+          })}
+        </Carousel>
       </StyledDiv>
     </Container>
   );
