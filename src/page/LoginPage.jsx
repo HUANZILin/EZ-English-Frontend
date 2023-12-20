@@ -1,10 +1,9 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { Alert } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import Container from "../components/UI/Container";
 import Title from "../components/Title";
 
@@ -53,22 +52,48 @@ const StyledForm = styled.form`
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [memberData, setMemberData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData(loginForm);
-    if (formData) {
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("account", e.target[0].value);
+    formData.append("password", e.target[1].value);
+
+    setMemberData(formData);
+  };
+
+  useEffect(() => {
+    const postData = async () => {
+      const response = await fetch("https://jybluega.com/ez-backend/login", {
+        method: "POST",
+        body: memberData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+      setIsLoading(false);
+      sessionStorage.setItem("memberToken", data.data);
       alert("登入成功！");
       navigate("/");
+    };
+    try {
+      postData();
+    } catch (error) {
+      console.log("The error occurred! :", error.message);
     }
-
-    // mutate(formData);
-  };
+  }, [memberData]);
 
   return (
     <Container>
       <Title title="會員登入" />
-      <StyledForm id="loginForm" onSubmit={loginHandler}>
+      <StyledForm onSubmit={loginHandler}>
         <label htmlFor="account">帳號/Email</label>
         <input id="email" type="email" name="account" required />
         <label htmlFor="password">密碼</label>
@@ -76,12 +101,14 @@ const LoginPage = () => {
           id="password"
           type="password"
           name="password"
-          minlength="8"
-          maxlength="12"
+          minLength="8"
+          maxLength="12"
           required
         />
 
-        <button type="submit">登入</button>
+        <button type="submit" disabled={isLoading}>
+          登入
+        </button>
       </StyledForm>
       <div
         style={{
