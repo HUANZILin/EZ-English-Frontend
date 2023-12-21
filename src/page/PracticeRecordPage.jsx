@@ -1,7 +1,9 @@
+import { useEffect, useContext, useState } from "react";
+import { RecordData } from "../store/RecordDataContext";
+
 import styled from "styled-components";
 import Container from "../components/UI/Container";
 import Record from "../components/UI/Record";
-import LoadButton from "../components/UI/LoadButton";
 
 const Card = styled.div`
   display: flex;
@@ -20,36 +22,17 @@ const Smalltit = styled.div`
 `;
 
 const PracticeRecordPage = () => {
-  const DUMMY_Record = [
-    {
-      id: "T0",
-      practiceTime: "2023.04.19",
-      type: "隨機",
-      Correct: "67",
-      Vocabulary: ["Apple", "Work", "Bee", "Banana"],
-    },
-    {
-      id: "T1",
-      practiceTime: "2023.05.19",
-      type: "收藏",
-      Correct: "80",
-      Vocabulary: ["Apple", "Work", "Bee", "Banana"],
-    },
-    {
-      id: "T2",
-      practiceTime: "2023.04.18",
-      type: "隨機",
-      Correct: "44",
-      Vocabulary: ["Apple", "Work", "Bee", "Banana"],
-    },
-    {
-      id: "T3",
-      practiceTime: "2023.07.18",
-      type: "收藏",
-      Correct: "48",
-      Vocabulary: ["Apple", "Work", "Bee", "Banana"],
-    },
-  ];
+  const DUMMY_Record = {
+    [2023 - 12 - 19]: [{ w_word: "Apple", p_select: "隨機", p_score: "1" }],
+  };
+
+  const recordCtx = useContext(RecordData);
+  const [recordData, setRecordData] = useState(DUMMY_Record);
+
+  useEffect(() => {
+    setRecordData(recordCtx);
+    // console.log(recordData);
+  }, [recordCtx]);
 
   return (
     <Container>
@@ -69,17 +52,10 @@ const PracticeRecordPage = () => {
         <h2 style={{ paddingRight: "10rem" }}>正確率</h2>
       </Smalltit>
       <Card>
-        {DUMMY_Record.map((record) => (
-          <Record
-            key={record.id}
-            type={record.type}
-            word={record.Vocabulary}
-            corr={record.Correct}
-            time={record.practiceTime}
-          />
+        {Object.keys(recordData).map((key) => (
+          <Record key={key} time={key} data={recordData[key]} />
         ))}
       </Card>
-      <LoadButton>Load More</LoadButton>
     </Container>
   );
 };

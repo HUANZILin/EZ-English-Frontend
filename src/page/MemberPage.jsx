@@ -81,9 +81,9 @@ const MemberPage = () => {
   const [isDelete, setIsDelete] = useState(false);
 
   const memberData = {
-    id: "#1234",
+    id: "12",
     account: "abc@gmail.com",
-    password: "123abc",
+    password: "12345",
   };
 
   const editHandler = (e) => {

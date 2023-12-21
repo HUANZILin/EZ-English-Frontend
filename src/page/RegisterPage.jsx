@@ -107,7 +107,7 @@ const RegisterPage = () => {
           id="password"
           name="password"
           type="password"
-          minLength="8"
+          minLength="5"
           maxLength="12"
           placeholder="請輸入密碼"
           required
@@ -117,7 +117,7 @@ const RegisterPage = () => {
           id="repassword"
           name="repassword"
           type="password"
-          minLength="8"
+          minLength="5"
           maxLength="12"
           placeholder="請再次輸入密碼"
           required

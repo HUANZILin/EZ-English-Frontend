@@ -108,7 +108,7 @@ const LoginPage = () => {
           id="password"
           type="password"
           name="password"
-          minLength="8"
+          minLength="5"
           maxLength="12"
           required
         />

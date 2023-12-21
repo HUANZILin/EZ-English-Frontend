@@ -255,7 +255,7 @@ const AnalysisPage = () => {
     datasets: [
       {
         label: "單字量",
-        data: [65, 54, 41, 39, 27, 47, 53],
+        data: [60, 50, 40, 30, 20, 40, 50],
         fill: false,
         borderColor: "#314543",
         pointBackgroundColor: "#314543",
@@ -283,7 +283,7 @@ const AnalysisPage = () => {
     datasets: [
       {
         label: "正確率",
-        data: [5, 3, 4, 3, 1, 2, 4],
+        data: [100, 67, 33, 67, 33, 100, 33],
         fill: false,
         borderColor: "#314543",
         pointBackgroundColor: "#314543",

@@ -1,8 +1,12 @@
-import { useEffect, useState,useContext} from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { Card, Carousel } from "antd";
-import { LeftOutlined, RightOutlined,LoadingOutlined } from "@ant-design/icons";
-import { Spin } from 'antd';
+import {
+  LeftOutlined,
+  RightOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import { Spin } from "antd";
 import styled from "styled-components";
 import { WordData } from "../store/WordDataContext";
 
@@ -107,50 +111,50 @@ const Dummy_List = [
 
 const CardPage = () => {
   const wordCtx = useContext(WordData);
-//   const getCollectionData = async () => {
-//     const url = `https://jybluega.com/ez-backend/collection`;
-//     const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
-//     try {
-//       const response = await fetch(url, {
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
-  
-//       const resData = await response.json();
-//       return resData.data.wordsData;
-//     } catch (error) {
-//       console.log("The error occurred! :", error.message);
-//       return null;
-//     }
-    
-// };
+  //   const getCollectionData = async () => {
+  //     const url = `https://jybluega.com/ez-backend/collection`;
+  //     const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A';
+  //     try {
+  //       const response = await fetch(url, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       });
 
-const getRandomObjects = (list, count) => {
-  const copiedList = list.slice();
-  const randomObjects = [];
+  //       const resData = await response.json();
+  //       return resData.data.wordsData;
+  //     } catch (error) {
+  //       console.log("The error occurred! :", error.message);
+  //       return null;
+  //     }
 
-  for (let i = 0; i < count && copiedList.length > 0; i++) {
-    const randomIndex = Math.floor(Math.random() * copiedList.length);
-    const selectedObject = copiedList.splice(randomIndex, 1)[0];
-    randomObjects.push(selectedObject);
-  }
+  // };
 
-  return randomObjects;
-};
+  const getRandomObjects = (list, count) => {
+    const copiedList = list.slice();
+    const randomObjects = [];
+
+    for (let i = 0; i < count && copiedList.length > 0; i++) {
+      const randomIndex = Math.floor(Math.random() * copiedList.length);
+      const selectedObject = copiedList.splice(randomIndex, 1)[0];
+      randomObjects.push(selectedObject);
+    }
+
+    return randomObjects;
+  };
 
   const [cardVoc, setCardVoc] = useState();
   const [isDelete, setIsDelete] = useState(false);
   const [deleteVoc, setDeleteVoc] = useState();
   const [isCreate, setIsCreate] = useState(false);
 
-useEffect(()=>{
-  async function renderCard(){
-    if (wordCtx) {
-    const selectedCard = getRandomObjects(wordCtx, 4);
-    setCardVoc(selectedCard);
+  useEffect(() => {
+    async function renderCard() {
+      if (wordCtx) {
+        const selectedCard = getRandomObjects(wordCtx, 4);
+        setCardVoc(selectedCard);
+      }
     }
-  }
-  renderCard();
-},[wordCtx])
+    renderCard();
+  }, [wordCtx]);
 
   const createHandler = (e) => {
     e.preventDefault();
@@ -168,23 +172,23 @@ useEffect(()=>{
     setIsDelete(false);
   };
 
-  if(!cardVoc){
-    console.log("Now Loading")
-    return(
+  if (!cardVoc) {
+    console.log("Now Loading");
+    return (
       <Container>
         <h1
-        style={{
-          paddingTop: "100px",
-          textAlign: "center",
-          letterSpacing: "2rem",
-        }}
-      >
-        &thinsp;單字卡
-      </h1>
-      
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 100 }} spin />} />
+          style={{
+            paddingTop: "100px",
+            textAlign: "center",
+            letterSpacing: "2rem",
+          }}
+        >
+          &thinsp;單字卡
+        </h1>
+
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 100 }} spin />} />
       </Container>
-    )
+    );
   }
 
   return (
@@ -214,19 +218,6 @@ useEffect(()=>{
             return (
               <div key={voc.w_id}>
                 <StyledCard
-                  // cover={
-                  //   <div
-                  //     style={{
-                  //       height: "300px",
-                  //       backgroundImage:
-                  //         "url(" +
-                  //         "https://th.bing.com/th/id/OIP.6yHdb5-e5s7VQKjdsBjBNgHaHd?pid=ImgDet&rs=1" +
-                  //         ")",
-                  //       backgroundSize: "cover",
-                  //       backgroundPosition: "center",
-                  //     }}
-                  //   ></div>
-                  // }
                   title={
                     <h2
                       style={{
@@ -252,7 +243,7 @@ useEffect(()=>{
                       padding: "0px 32px",
                     }}
                   >
-                    <CollectButton initState={false} wordID={voc.w_id}/>
+                    <CollectButton initState={false} wordID={voc.w_id} />
                     {/* <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={() => {
@@ -274,7 +265,7 @@ useEffect(()=>{
           handleStopCreate={() => {
             setIsCreate(false);
           }}
-          handleCreateCard={setDummyVoc}
+          handleCreateCard={setCard}
         />
       )}
       {isDelete && (

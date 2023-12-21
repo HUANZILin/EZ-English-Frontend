@@ -34,8 +34,7 @@ const BarDiv = styled.div`
 
 const VocabularyCard = (props) => {
   const url = "https://jybluega.com/ez-backend/collection";
-  const token =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtX2lkIjoiNCIsIm1fYWNjb3VudCI6InRlc3QifQ.1TMkD1UIvZDPAdv64e8wLYp4F7rkBYgrYre9yQ8s33A";
+  const token = sessionStorage.getItem("memberToken");
 
   const [isCollected, setIsCollected] = useState(props.collected);
 

@@ -21,6 +21,7 @@ import AI from "./page/Layout/AI";
 import AICommunication from "./page/AICommunication";
 import AICommunicationGrammar from "./page/AICommunicationGrammar";
 import WordDataProvider from "./store/WordDataContext";
+import RecordDataProvider from "./store/RecordDataContext";
 
 const router = createBrowserRouter([
   {
@@ -81,9 +82,11 @@ const router = createBrowserRouter([
 function App() {
   return (
     <WordDataProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <RecordDataProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </RecordDataProvider>
     </WordDataProvider>
   );
 }

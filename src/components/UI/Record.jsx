@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Collapse, Progress } from "antd";
+import { useEffect, useState } from "react";
 
 const Container = styled(Collapse)`
   display: flex;
@@ -49,21 +50,30 @@ const BarDiv = styled.div`
 `;
 
 const Record = (props) => {
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    props.data.map((word) => {
+      setScore((prevScore) => prevScore + parseInt(word.p_score));
+    });
+    console.log(props.data.length);
+  }, [props.data]);
+
   return (
     <Container
       collapsible="header"
-      defaultActiveKey={props.id}
+      defaultActiveKey={props.time}
       items={[
         {
-          key: props.id,
+          key: props.time,
           label: (
             <>
-              <h2>{props.time}</h2>
-              <h2>{props.type}</h2>
+              <h2>{props.time.slice(0, 10)}</h2>
+              <h2>{props.data[0].p_select}</h2>
               <BarDiv>
                 <Progress
                   strokeColor="#58805e"
-                  percent={props.corr}
+                  percent={(score / props.data.length) * 33}
                   trailColor="#314543"
                   size={[300, 20]}
                   showInfo={false}
@@ -73,14 +83,14 @@ const Record = (props) => {
                     flexDirection: "column",
                   }}
                 ></Progress>
-                <h2>{props.corr}%</h2>
+                <h2>{`${(score / props.data.length) * 33}`.slice(0, 3)}%</h2>
               </BarDiv>
             </>
           ),
           children: (
             <ol>
-              {props.word.map((word) => (
-                <li key={Math.random()}>{word}</li>
+              {props.data.map((word) => (
+                <li key={word.w_id}>{word.w_word}</li>
               ))}
             </ol>
           ),
