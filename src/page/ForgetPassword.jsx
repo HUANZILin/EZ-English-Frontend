@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Container from "../components/UI/Container";
 import Title from "../components/Title";
+import { useState } from "react";
 
 const StyledForm = styled.form`
   display: flex;
@@ -47,15 +48,58 @@ const StyledForm = styled.form`
 `;
 
 const ForgetPassword = () => {
+  const [inputValue, setInputValue] = useState("");
+  const [sendMail, setSendMail] = useState(false);
+
+  if (sendMail) {
+    return (
+      <Container>
+        <Title title="取得密碼" />
+        <StyledForm action="">
+          <label htmlFor="account">驗證碼</label>
+          <input
+            type="email"
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+            placeholder="請輸入您信箱收到的驗證碼"
+            required
+          />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              alert("臨時密碼已發送至您的信箱。");
+              location.href = "/login";
+            }}
+          >
+            寄送驗證信
+          </button>
+        </StyledForm>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Title title="忘記密碼" />
       <StyledForm action="">
         <label htmlFor="account">帳號/Email</label>
-        <input type="email" placeholder="請輸入您的帳號(email)" />
+        <input
+          type="email"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          placeholder="請輸入您的帳號(email)"
+          required
+        />
         <button
           onClick={(e) => {
-            console.log(e);
+            e.preventDefault();
+            setInputValue("");
+            alert("驗證碼已發送至您的信箱。");
+            setSendMail(true);
           }}
         >
           寄送驗證信
