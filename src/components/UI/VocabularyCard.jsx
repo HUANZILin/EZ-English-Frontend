@@ -129,7 +129,7 @@ const VocabularyCard = (props) => {
       <BarDiv>
         <Progress
           strokeColor="#58805e"
-          percent={props.corr}
+          percent={props.corr * 33.3}
           trailColor="#314543"
           size={[250, 20]}
           showInfo={false}
@@ -140,7 +140,7 @@ const VocabularyCard = (props) => {
           }}
         ></Progress>
         <h2 style={{ fontSize: "1.3em" }}>
-          {props.corr == null ? "0" : props.corr.slice(0, 3)}%
+          {props.corr == null ? "0" : `${props.corr * 33}`.slice(0, 3)}%
         </h2>
       </BarDiv>
       <h2 style={{ fontSize: "1.3em" }}>
