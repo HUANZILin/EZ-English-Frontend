@@ -1,9 +1,10 @@
+import { useContext, useState } from "react";
+import { WordData } from "../../store/WordDataContext";
+
 import styled from "styled-components";
 import Modal from "./Modal";
-
 import { Input, List, Alert } from "antd";
 let { Search } = Input;
-import { useState } from "react";
 
 Search = styled(Search)`
   padding-bottom: 10px;
@@ -56,37 +57,8 @@ const StyledAlert = styled(Alert)`
 `;
 
 export const NewCardModal = ({ handleStopCreate, handleCreateCard }) => {
-  const DUMMY_WORD = [
-    {
-      id: 1,
-      title: "Apple",
-      translation: "蘋果",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 2,
-      title: "Banana",
-      translation: "香蕉",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 3,
-      title: "Orange",
-      translation: "橘子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-    {
-      id: 4,
-      title: "Pear",
-      translation: "梨子",
-      part: "noun.",
-      explanation: "A kind of fruit.",
-    },
-  ];
-
+  const wordCtx = useContext(WordData);
+  const [loadMore, setLoadMore] = useState(10);
   const [searched, setSearched] = useState(false);
   const [searchWord, setSearchWord] = useState("");
   const [foundWords, setFoundWords] = useState([]);
@@ -99,10 +71,11 @@ export const NewCardModal = ({ handleStopCreate, handleCreateCard }) => {
 
   const onSearch = () => {
     setSearched(true);
-    const results = DUMMY_WORD.filter((word) =>
-      word.title.toLowerCase().includes(searchWord.toLowerCase())
+    let searchResult = wordCtx.filter((word) =>
+      word.w_word.toLowerCase().includes(searchWord.toLowerCase())
     );
-    setFoundWords(results);
+    setFoundWords(searchResult.slice(0, loadMore));
+    console.log(foundWords);
   };
 
   const handleWordSelect = (word) => {
@@ -112,7 +85,7 @@ export const NewCardModal = ({ handleStopCreate, handleCreateCard }) => {
   const handleStartCreate = () => {
     if (Object.keys(selectedWord).length !== 0) {
       setOnCreate(true);
-      handleCreateCard([...DUMMY_WORD, selectedWord]);
+      handleCreateCard(selectedWord);
     }
   };
 
@@ -134,16 +107,16 @@ export const NewCardModal = ({ handleStopCreate, handleCreateCard }) => {
           itemLayout="horizontal"
           dataSource={foundWords}
           renderItem={(item) => (
-            <List.Item key={item.id}>
+            <List.Item key={item.w_id}>
               <List.Item.Meta
                 avatar={
-                  <label key={item.id}>
+                  <label key={item.w_id}>
                     <input
                       type="radio"
                       name="objectRadio"
-                      value={item.id}
+                      value={item.w_id}
                       checked={
-                        selectedWord && selectedWord.title === item.title
+                        selectedWord && selectedWord.w_word === item.w_word
                       }
                       onChange={() => handleWordSelect(item)}
                       disabled={onCreate}
@@ -152,10 +125,10 @@ export const NewCardModal = ({ handleStopCreate, handleCreateCard }) => {
                 }
                 title={
                   <p style={{ color: "#314543", fontWeight: "bold" }}>
-                    {item.title} ({item.part})
+                    {item.w_word} ({item.w_part_of_speech})
                   </p>
                 }
-                description={item.explanation}
+                description={item.w_meaning}
                 style={{ alignItems: "center" }}
               />
             </List.Item>

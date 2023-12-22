@@ -1,19 +1,16 @@
 import { useEffect, useState, useContext } from "react";
 
 import { Card, Carousel } from "antd";
-import {
-  LeftOutlined,
-  RightOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
-import { Spin } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { WordData } from "../store/WordDataContext";
 
 import Container from "../components/UI/Container";
+import Title from "../components/Title";
 import Modal from "../components/UI/Modal";
 import { NewCardModal } from "../components/UI/NewCardModal";
 import CollectButton from "../components/UI/Collection/CollectButton";
+import LoadingIndicator from "../components/UI/LoadingIndicator";
 
 const StyledButton = styled.button`
   background-color: #e2e4dd;
@@ -78,37 +75,6 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const Dummy_List = [
-  {
-    id: 1,
-    title: "Apple",
-    translation: "蘋果",
-    part: "noun.",
-    explanation: "A kind of fruit.",
-  },
-  {
-    id: 2,
-    title: "Banana",
-    translation: "香蕉",
-    part: "noun.",
-    explanation: "A kind of fruit.",
-  },
-  {
-    id: 3,
-    title: "Orange",
-    translation: "橘子",
-    part: "noun.",
-    explanation: "A kind of fruit.",
-  },
-  {
-    id: 4,
-    title: "Pear",
-    translation: "梨子",
-    part: "noun.",
-    explanation: "A kind of fruit.",
-  },
-];
-
 const CardPage = () => {
   const wordCtx = useContext(WordData);
   //   const getCollectionData = async () => {
@@ -151,6 +117,7 @@ const CardPage = () => {
       if (wordCtx) {
         const selectedCard = getRandomObjects(wordCtx, 4);
         setCardVoc(selectedCard);
+        console.log(selectedCard);
       }
     }
     renderCard();
@@ -161,9 +128,12 @@ const CardPage = () => {
     setIsCreate(true);
   };
 
+  const newCardHandler = (item) => {
+    setCardVoc([...cardVoc, item]);
+  };
+
   const handleStartDelete = () => {
-    // mutate({ id: params.id });
-    const newDummyVoc = cardVoc.filter((element) => element.id !== deleteVoc);
+    const newDummyVoc = cardVoc.filter((element) => element.w_id !== deleteVoc);
     setCardVoc(newDummyVoc);
     setIsDelete(false);
   };
@@ -173,20 +143,17 @@ const CardPage = () => {
   };
 
   if (!cardVoc) {
-    console.log("Now Loading");
     return (
       <Container>
-        <h1
-          style={{
-            paddingTop: "100px",
-            textAlign: "center",
-            letterSpacing: "2rem",
-          }}
-        >
-          &thinsp;單字卡
-        </h1>
-
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 100 }} spin />} />
+        <Title title="單字卡" />
+        <>
+          <h2
+            style={{ fontSize: "28px", alignSelf: "center", marginTop: "2rem" }}
+          >
+            Loading...
+          </h2>
+          <LoadingIndicator />
+        </>
       </Container>
     );
   }
@@ -244,15 +211,15 @@ const CardPage = () => {
                     }}
                   >
                     <CollectButton initState={false} wordID={voc.w_id} />
-                    {/* <button
+                    <button
                       style={{ backgroundColor: "#6D2134", color: "#e2e4dd" }}
                       onClick={() => {
                         setIsDelete(true);
-                        setDeleteVoc(voc.id);
+                        setDeleteVoc(voc.w_id);
                       }}
                     >
                       刪除卡片
-                    </button> */}
+                    </button>
                   </div>
                 </StyledCard>
               </div>
@@ -265,7 +232,7 @@ const CardPage = () => {
           handleStopCreate={() => {
             setIsCreate(false);
           }}
-          handleCreateCard={setCard}
+          handleCreateCard={newCardHandler}
         />
       )}
       {isDelete && (

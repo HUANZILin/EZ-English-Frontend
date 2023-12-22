@@ -73,27 +73,30 @@ const AlertButton = styled.button`
 `;
 
 const MemberPage = () => {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["memberData"],
-    queryFn: fetchMember,
-  });
-  const [isEdit, setIsEdit] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
-
   const memberData = {
     id: "12",
     account: "abc@gmail.com",
     password: "12345",
   };
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["memberData"],
+    queryFn: fetchMember,
+  });
+  const [newPassword, setNewPassword] = useState(memberData.password);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
 
   const editHandler = (e) => {
     e.preventDefault();
     setIsEdit(true);
+    setNewPassword("");
   };
 
   const saveHandler = (e) => {
     e.preventDefault();
     setIsEdit(false);
+    setNewPassword(e.target.value);
+    alert("修改成功！");
   };
 
   const deleteHandler = (e) => {
@@ -144,7 +147,7 @@ const MemberPage = () => {
         {isEdit ? (
           <input id="password" type="text" />
         ) : (
-          <input type="text" placeholder={data} disabled />
+          <input type="text" placeholder={newPassword} disabled />
         )}
         <div>
           {!isEdit && <button onClick={editHandler}>修改密碼</button>}

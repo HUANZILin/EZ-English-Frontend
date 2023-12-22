@@ -31,7 +31,7 @@ const PracticeRecordPage = () => {
 
   useEffect(() => {
     setRecordData(recordCtx);
-    // console.log(recordData);
+    console.log(recordData);
   }, [recordCtx]);
 
   return (

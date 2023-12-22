@@ -81,16 +81,14 @@ const AnalysisPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [diagramData, setDiagramData] = useState({
     modeWeek: [
-      { p_select: "收藏", "count(*)": "1" },
-      { p_select: "收藏", "count(*)": "1" },
+      { p_select: "收藏", ["count(*)"]: "1" },
+      { p_select: "收藏", ["count(*)"]: "1" },
     ],
     modeMonth: [
-      { p_select: "收藏", "count(*)": "1" },
-      { p_select: "收藏", "count(*)": "1" },
+      { p_select: "收藏", ["count(*)"]: "1" },
+      { p_select: "收藏", ["count(*)"]: "1" },
     ],
   });
-
-  console.log(token);
 
   const chart1Ref = useRef(null);
   const chart2Ref = useRef(null);
@@ -108,19 +106,19 @@ const AnalysisPage = () => {
       const data = await response.json();
 
       if (
-        data.data.modeMonth.length === 0 ||
-        data.data.modeWeek.length === 0 ||
+        data.data.modeMonth.length < 2 ||
+        data.data.modeWeek.length < 2 ||
         data.data.countWeek.length === 0 ||
         data.data.avgWeek.length === 0
       ) {
         setDiagramData({
           modeWeek: [
-            { p_select: "收藏", "count(*)": "1" },
-            { p_select: "收藏", "count(*)": "1" },
+            { p_select: "收藏", ["count(*)"]: "1" },
+            { p_select: "收藏", ["count(*)"]: "1" },
           ],
           modeMonth: [
-            { p_select: "收藏", "count(*)": "1" },
-            { p_select: "收藏", "count(*)": "1" },
+            { p_select: "收藏", ["count(*)"]: "1" },
+            { p_select: "收藏", ["count(*)"]: "1" },
           ],
         });
       } else {
