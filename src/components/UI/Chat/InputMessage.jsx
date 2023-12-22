@@ -100,14 +100,14 @@ const InputMessage = (props) => {
   const submitHandler = async () => {
     if (nowTexting.trim() === "") return;
 
+    const msg = nowTexting;
     appendMessage("User", nowTexting);
-
+    setNowTexting("");
     try {
       const formData = new FormData();
-      formData.append("chat", nowTexting);
+      formData.append("chat", msg);
       await postChat(formData);
-      await postChatGPT(nowTexting);
-      setNowTexting("");
+      await postChatGPT(msg);
     } catch (error) {
       console.error("Error calling ChatGPT API:", error);
     }

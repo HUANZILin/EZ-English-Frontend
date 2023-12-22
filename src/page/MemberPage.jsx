@@ -75,8 +75,8 @@ const AlertButton = styled.button`
 const MemberPage = () => {
   const memberData = {
     id: "12",
-    account: "abc@gmail.com",
-    password: "12345",
+    account: "testuser1216@gmail.com",
+    password: "testuser1216",
   };
   const { data, isLoading, isError } = useQuery({
     queryKey: ["memberData"],

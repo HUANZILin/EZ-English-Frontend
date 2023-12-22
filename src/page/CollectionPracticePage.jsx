@@ -81,8 +81,9 @@ const CollectionPracticePage = () => {
       });
 
       const resData = await response.json();
+      console.log(resData);
 
-      if (resData.messages.error === "查無收藏單字") {
+      if (resData.msg.error === "查無收藏單字") {
         setTestWord(null);
       } else {
         setTestWord(resData.data.wordsData);
@@ -153,30 +154,36 @@ const CollectionPracticePage = () => {
 
   const submitHandler = async () => {
     const formData = new FormData();
-    userAnswers.forEach((item, index) => {
-      formData.append("w_id", item.id);
-      formData.append("score", item.score);
-      formData.append("select", item.select);
-    });
     try {
-      const response = await fetch("https://jybluega.com/ez-backend/quizData", {
-        headers: { Authorization: `Bearer ${token}` },
-        method: "POST",
-        body: formData,
+      userAnswers.forEach(async (item, index) => {
+        formData.append("w_id", item.id);
+        formData.append("score", item.score);
+        formData.append("select", item.select);
+
+        const response = await fetch(
+          "https://jybluega.com/ez-backend/quizData",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        console.log("POST request successful:", data);
+        formData.delete("w_id");
+        formData.delete("score");
+        formData.delete("select");
       });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log("POST request successful:", data);
       refreshPage();
     } catch (error) {
       console.log("The error occurred! :", error.message);
     }
   };
-
   const refreshPage = () => {
     window.alert("測驗已提交，即將跳轉到首頁");
     setTimeout(() => {
