@@ -15,6 +15,16 @@ export default function RecordDataProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` },
       });
       const resData = await response.json();
+
+      if (!response.ok) {
+        setRecordData({
+          [2023 - 12 - 19]: [
+            { w_word: "Apple", p_select: "隨機", p_score: "1" },
+          ],
+        });
+        throw Error("Something went wrong!");
+      }
+
       const filteredData = resData.data.wordsData.filter(
         (item) => item.w_id !== null
       );

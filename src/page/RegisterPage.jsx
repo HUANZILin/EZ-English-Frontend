@@ -73,11 +73,14 @@ const RegisterPage = () => {
         body: userData,
       });
 
+      const data = await response.json();
       if (!response.ok) {
+        if (data.status === 403) {
+          alert(data.messages.error);
+        }
         throw new Error("Something went wrong!");
       }
 
-      const data = await response.json();
       console.log("POST request successful:", data);
       setIsLoading(false);
       alert("註冊成功！將導向登入頁。");

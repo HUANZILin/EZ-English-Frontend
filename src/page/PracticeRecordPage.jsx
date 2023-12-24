@@ -3,6 +3,7 @@ import { RecordData } from "../store/RecordDataContext";
 
 import styled from "styled-components";
 import Container from "../components/UI/Container";
+import Title from "../components/Title";
 import Record from "../components/UI/Record";
 
 const Card = styled.div`
@@ -31,31 +32,29 @@ const PracticeRecordPage = () => {
 
   useEffect(() => {
     setRecordData(recordCtx);
-    console.log(recordData);
   }, [recordCtx]);
 
   return (
     <Container>
-      <h1
-        style={{
-          paddingTop: "100px",
-          textAlign: "center",
-          letterSpacing: "2rem",
-        }}
-      >
-        &thinsp;練習紀錄
-      </h1>
-      <hr width="80%" />
-      <Smalltit>
-        <h2 style={{ paddingLeft: "2.5rem" }}>測驗時間</h2>
-        <h2 style={{ paddingRight: "6rem" }}>測驗類型</h2>
-        <h2 style={{ paddingRight: "10rem" }}>正確率</h2>
-      </Smalltit>
-      <Card>
-        {Object.keys(recordData).map((key) => (
-          <Record key={key} time={key} data={recordData[key]} />
-        ))}
-      </Card>
+      <Title title={"練習紀錄"} />
+      {recordData[1992] ? (
+        <Container>
+          <h2 style={{ alignSelf: "center", color: "#e2e4dd" }}>無練習紀錄</h2>
+        </Container>
+      ) : (
+        <>
+          <Smalltit>
+            <h2 style={{ paddingLeft: "2.5rem" }}>測驗時間</h2>
+            <h2 style={{ paddingRight: "6rem" }}>測驗類型</h2>
+            <h2 style={{ paddingRight: "10rem" }}>正確率</h2>
+          </Smalltit>
+          <Card>
+            {Object.keys(recordData).map((key) => (
+              <Record key={key} time={key} data={recordData[key]} />
+            ))}
+          </Card>
+        </>
+      )}
     </Container>
   );
 };

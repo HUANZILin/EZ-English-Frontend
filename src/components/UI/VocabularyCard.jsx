@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr 3fr 6fr 4fr;
+  grid-template-columns: 1fr 5fr 3fr 8fr 3fr;
   align-items: center;
+  justify-items: center;
   background-color: #e2e4dd;
   border-radius: 1rem;
   color: #314543;
@@ -139,7 +140,7 @@ const VocabularyCard = (props) => {
           }}
         ></Progress>
         <h2 style={{ fontSize: "1.3em" }}>
-          {props.corr == null ? "0" : `${props.corr * 33}`.slice(0, 3)}%
+          {props.corr == null ? "0" : `${props.corr * 33}`.slice(0, 4)}%
         </h2>
       </BarDiv>
       <h2 style={{ fontSize: "1.3em" }}>

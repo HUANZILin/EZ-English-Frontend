@@ -52,7 +52,7 @@ const StyledForm = styled.form`
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [memberData, setMemberData] = useState([]);
+  const [memberData, setMemberData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isLogging, setIsLogging] = useState(false);
 
@@ -68,6 +68,7 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
+    if (!memberData) return;
     const postData = async () => {
       const response = await fetch("https://jybluega.com/ez-backend/login", {
         method: "POST",
@@ -75,6 +76,7 @@ const LoginPage = () => {
       });
 
       if (!response.ok) {
+        alert("帳號或密碼錯誤！");
         throw new Error("Something went wrong!");
       }
 

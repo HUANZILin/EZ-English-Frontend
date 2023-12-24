@@ -6,6 +6,7 @@ import Modal from "../components/UI/Modal";
 import Container from "../components/UI/Container";
 import ErrorBlock from "../components/UI/ErrorBlock";
 import LoadingIndicator from "../components/UI/LoadingIndicator";
+import Title from "../components/Title";
 
 const StyledForm = styled.form`
   display: flex;
@@ -142,7 +143,7 @@ const MemberPage = () => {
         <label htmlFor="userId">UID</label>
         <input type="text" placeholder={memberData.id} disabled />
         <label htmlFor="account">帳號/Email</label>
-        <input type="email" placeholder={memberData.account} disabled />
+        <input type="email" placeholder={data} disabled />
         <label htmlFor="password">密碼</label>
         {isEdit ? (
           <input id="password" type="text" />
@@ -170,16 +171,7 @@ const MemberPage = () => {
 
   return (
     <Container>
-      <h1
-        style={{
-          paddingTop: "100px",
-          textAlign: "center",
-          letterSpacing: "2rem",
-        }}
-      >
-        &thinsp;會員資料
-      </h1>
-      <hr width="80%" />
+      <Title title={"會員資料"} />
       {isDelete && (
         <Modal>
           <h2>確定要刪除嗎?</h2>

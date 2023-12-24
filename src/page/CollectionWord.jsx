@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const Smalltit = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
   width: 60rem;
 `;
@@ -72,17 +72,17 @@ const CollectionWord = () => {
         ""
       ) : (
         <Smalltit>
-          <h2>單字(詞性)</h2>
-          <h2 style={{ paddingLeft: "8rem" }}>正確率</h2>
-          <h2>最後測驗時間</h2>
+          <h2 style={{ paddingLeft: "10rem" }}>單字(詞性)</h2>
+          <h2 style={{ paddingLeft: "6rem" }}>正確率</h2>
+          <h2 style={{ paddingRight: "2rem" }}>最後測驗時間</h2>
         </Smalltit>
       )}
       <Card>
         {theCollectedList.length == 0 ? (
           <Container>
-            <h3 style={{ alignSelf: "center", color: "#e2e4dd" }}>
+            <h2 style={{ alignSelf: "center", color: "#e2e4dd" }}>
               Oops！你沒有收藏的單字
-            </h3>
+            </h2>
           </Container>
         ) : (
           theCollectedList.map((word) => (
@@ -92,6 +92,7 @@ const CollectionWord = () => {
               word={word.w_word}
               pos={word.w_part_of_speech}
               lp={word.latest_datetime}
+              corr={word.average_score}
               collected={word.collect}
               theID={word.w_id}
             />

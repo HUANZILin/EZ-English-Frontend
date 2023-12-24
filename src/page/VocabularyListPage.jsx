@@ -25,7 +25,7 @@ const Card = styled.div`
 
 const Smalltit = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: row;
   width: 60rem;
 `;
@@ -34,6 +34,7 @@ const VocabularyListPage = () => {
   const wordCtx = useContext(WordData);
   const [onPlaying, setOnPlaying] = useState([]);
   const [loadMore, setLoadMore] = useState(10);
+  const [noMoreResult, setNoMoreResult] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -48,7 +49,14 @@ const VocabularyListPage = () => {
       let searchResult = wordCtx.filter((word) =>
         word.w_word.toLowerCase().includes(searchWord)
       );
-      setOnPlaying(searchResult.slice(0, loadMore));
+      console.log(searchResult.length);
+      if (searchResult.length <= loadMore) {
+        setNoMoreResult(true);
+        setOnPlaying(searchResult);
+      } else {
+        setNoMoreResult(false);
+        setOnPlaying(searchResult.slice(0, loadMore));
+      }
     } else {
       setOnPlaying(wordCtx.slice(0, loadMore));
     }
@@ -96,15 +104,15 @@ const VocabularyListPage = () => {
       <Title title="單字列表" />
       <FuncBar isSearching={NowSearchWord} isSorting={NowSorting} />
       <Smalltit>
-        <h2>單字(詞性)</h2>
-        <h2 style={{ paddingLeft: "8rem" }}>測驗正確率</h2>
-        <h2>最後測驗時間</h2>
+        <h2 style={{ paddingLeft: "10rem" }}>單字(詞性)</h2>
+        <h2 style={{ paddingLeft: "6rem" }}>正確率</h2>
+        <h2 style={{ paddingRight: "2rem" }}>最後測驗時間</h2>
       </Smalltit>
-      <Card>
-        {onPlaying.length == 0 ? (
-          <h3 style={{ color: "#314543" }}>沒有搜尋到單字，請重新搜尋</h3>
-        ) : (
-          onPlaying.map((word) => (
+      {onPlaying.length == 0 ? (
+        <h2 style={{ color: "#e2e4dd" }}>沒有搜尋到單字，請重新搜尋</h2>
+      ) : (
+        <Card>
+          {onPlaying.map((word) => (
             <VocabularyCard
               key={word.w_id}
               word={word.w_word}
@@ -114,10 +122,14 @@ const VocabularyListPage = () => {
               collected={word.collect}
               theID={word.w_id}
             />
-          ))
-        )}
-      </Card>
-      <LoadButton onClickHandler={loadHandler}>Load More</LoadButton>
+          ))}
+          {noMoreResult ? (
+            <></>
+          ) : (
+            <LoadButton onClickHandler={loadHandler}>Load More</LoadButton>
+          )}
+        </Card>
+      )}
     </Container>
   );
 };

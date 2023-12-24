@@ -83,11 +83,14 @@ const CollectionPracticePage = () => {
       const resData = await response.json();
       console.log(resData);
 
-      if (resData.msg.error === "查無收藏單字") {
-        setTestWord(null);
-      } else {
-        setTestWord(resData.data.wordsData);
+      if (!response.ok) {
+        if (resData.messages.error === "查無收藏單字") {
+          setTestWord(null);
+        }
+        throw Error(`Error occurred! ${resData.messages.error}`);
       }
+
+      setTestWord(resData.data.wordsData);
 
       const initialAnswers = resData.data.wordsData.map((word) => ({
         id: word.w_id,
@@ -108,9 +111,9 @@ const CollectionPracticePage = () => {
   if (testWord === null) {
     return (
       <Container>
-        <h3 style={{ alignSelf: "center", color: "#e2e4dd" }}>
+        <h2 style={{ alignSelf: "center", color: "#e2e4dd" }}>
           Oops！你沒有收藏的單字
-        </h3>
+        </h2>
       </Container>
     );
   }
@@ -156,9 +159,9 @@ const CollectionPracticePage = () => {
     const formData = new FormData();
     try {
       userAnswers.forEach(async (item, index) => {
-        formData.append("w_id", item.id);
-        formData.append("score", item.score);
-        formData.append("select", item.select);
+        formData.set("w_id", item.id);
+        formData.set("score", item.score);
+        formData.set("select", item.select);
 
         const response = await fetch(
           "https://jybluega.com/ez-backend/quizData",
@@ -175,9 +178,6 @@ const CollectionPracticePage = () => {
 
         const data = await response.json();
         console.log("POST request successful:", data);
-        formData.delete("w_id");
-        formData.delete("score");
-        formData.delete("select");
       });
       refreshPage();
     } catch (error) {

@@ -53,50 +53,51 @@ const Record = (props) => {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
+    setScore((prevScore) => (prevScore = 0));
     props.data.map((word) => {
       setScore((prevScore) => prevScore + parseInt(word.p_score));
     });
-    console.log(props.data.length);
   }, [props.data]);
 
   return (
-    <Container
-      collapsible="header"
-      defaultActiveKey={props.time}
-      items={[
-        {
-          key: props.time,
-          label: (
-            <>
-              <h2>{props.time.slice(0, 10)}</h2>
-              <h2>{props.data[0].p_select}</h2>
-              <BarDiv>
-                <Progress
-                  strokeColor="#58805e"
-                  percent={(score / props.data.length) * 33}
-                  trailColor="#314543"
-                  size={[300, 20]}
-                  showInfo={false}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                ></Progress>
-                <h2>{`${(score / props.data.length) * 33}`.slice(0, 3)}%</h2>
-              </BarDiv>
-            </>
-          ),
-          children: (
-            <ol>
-              {props.data.map((word) => (
-                <li key={word.w_id}>{word.w_word}</li>
-              ))}
-            </ol>
-          ),
-        },
-      ]}
-    />
+    <>
+      <Container
+        collapsible="header"
+        items={[
+          {
+            key: props.time,
+            label: (
+              <>
+                <h2>{props.time.slice(0, 10)}</h2>
+                <h2>{props.data[0].p_select}</h2>
+                <BarDiv>
+                  <Progress
+                    strokeColor="#58805e"
+                    percent={(score / props.data.length) * 33}
+                    trailColor="#314543"
+                    size={[300, 20]}
+                    showInfo={false}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
+                  ></Progress>
+                  <h2>{`${(score / props.data.length) * 33}`.slice(0, 4)}%</h2>
+                </BarDiv>
+              </>
+            ),
+            children: (
+              <ol>
+                {props.data.map((word) => (
+                  <li key={word.w_id}>{word.w_word}</li>
+                ))}
+              </ol>
+            ),
+          },
+        ]}
+      />
+    </>
   );
 };
 

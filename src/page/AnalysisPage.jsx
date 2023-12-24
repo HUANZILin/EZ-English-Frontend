@@ -79,6 +79,7 @@ const BigDiagram = styled.div`
 const AnalysisPage = () => {
   const token = sessionStorage.getItem("memberToken");
   const [isLoading, setIsLoading] = useState(true);
+  const [noData, setNoData] = useState(true);
   const [diagramData, setDiagramData] = useState({
     modeWeek: [
       { p_select: "收藏", ["count(*)"]: "1" },
@@ -107,10 +108,11 @@ const AnalysisPage = () => {
 
       if (
         data.data.modeMonth.length < 2 ||
-        data.data.modeWeek.length < 2 ||
+        data.data.modeWeek.length === 0 ||
         data.data.countWeek.length === 0 ||
         data.data.avgWeek.length === 0
       ) {
+        setNoData(true);
         setDiagramData({
           modeWeek: [
             { p_select: "收藏", ["count(*)"]: "1" },
@@ -122,6 +124,7 @@ const AnalysisPage = () => {
           ],
         });
       } else {
+        setNoData(false);
         setDiagramData(data.data);
       }
       setIsLoading(false);
@@ -292,46 +295,45 @@ const AnalysisPage = () => {
 
   return (
     <Container>
-      <h1
-        style={{
-          paddingTop: "100px",
-          textAlign: "center",
-          letterSpacing: "2rem",
-        }}
-      >
-        &thinsp;學習分析
-      </h1>
-      <hr width="80%" />
-      <ChartContainer>
-        <TopicSection>
-          <div>
-            <h2>本週模式偏好</h2>
-            <SmallDiagram>
-              <Doughnut ref={chart1Ref} options={options1} data={data1} />
-            </SmallDiagram>
-          </div>
-          <div>
-            <h2>本月模式偏好</h2>
-            <SmallDiagram>
-              <Doughnut ref={chart2Ref} options={options2} data={data2} />
-            </SmallDiagram>
-          </div>
-        </TopicSection>
-        <AmountSection>
-          <div>
-            <h2>每週學習量(不分模式)</h2>
-            <BigDiagram>
-              <Line ref={chart3Ref} options={options3} data={data3} />
-            </BigDiagram>
-          </div>
-          <div>
-            <h2>每週正確率(不分模式)</h2>
-            <BigDiagram>
-              <Line ref={chart4Ref} options={options4} data={data4} />
-            </BigDiagram>
-          </div>
-        </AmountSection>
-      </ChartContainer>
+      <Title title={"學習分析"} />
+      {noData ? (
+        <Container>
+          <h2 style={{ alignSelf: "center", color: "#e2e4dd" }}>
+            無練習紀錄或記錄較少，無法分析
+          </h2>
+        </Container>
+      ) : (
+        <ChartContainer>
+          <TopicSection>
+            <div>
+              <h2>本週模式偏好</h2>
+              <SmallDiagram>
+                <Doughnut ref={chart1Ref} options={options1} data={data1} />
+              </SmallDiagram>
+            </div>
+            <div>
+              <h2>本月模式偏好</h2>
+              <SmallDiagram>
+                <Doughnut ref={chart2Ref} options={options2} data={data2} />
+              </SmallDiagram>
+            </div>
+          </TopicSection>
+          <AmountSection>
+            <div>
+              <h2>每週學習量(不分模式)</h2>
+              <BigDiagram>
+                <Line ref={chart3Ref} options={options3} data={data3} />
+              </BigDiagram>
+            </div>
+            <div>
+              <h2>每週正確率(不分模式)</h2>
+              <BigDiagram>
+                <Line ref={chart4Ref} options={options4} data={data4} />
+              </BigDiagram>
+            </div>
+          </AmountSection>
+        </ChartContainer>
+      )}
     </Container>
   );
 };
